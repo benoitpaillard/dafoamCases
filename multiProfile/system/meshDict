@@ -1,0 +1,126 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                |
+| \\      /  F ield         | cfMesh: A library for mesh generation          |
+|  \\    /   O peration     |                                                |
+|   \\  /    A nd           | Author: Franjo Juretic                         |
+|    \\/     M anipulation  | E-mail: franjo.juretic@c-fields.com            |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      meshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+maxCellSize     1;
+
+surfaceFile     "box.stl";
+
+localRefinement
+{
+    "(main|slat|flap)"
+    {
+        cellSize 0.01;
+        refinementThickness 0.05;
+    }
+}
+
+objectRefinements
+{
+//        ref1
+//    {
+//        type        cone;
+//        cellSize    0.02;
+//        p0          (-0.5 -0.3 -10);
+//        radius0     0.1;
+//        p1          (-0.5 -0.3 10);
+//        radius1     0.1;
+//    }
+//    ref2
+//    {
+//        type        cone;
+//        cellSize    0.02;
+//        p0          (0 0 -10);
+//        radius0     0.2;
+//        p1          (0 0 10);
+//        radius1     0.2;
+//    }
+//    
+//        ref3
+//    {
+//        type        cone;
+//        cellSize    0.02;
+//        p0          (1 0 -10);
+//        radius0     0.2;
+//        p1          (1 0 10);
+//        radius1     0.2;
+//    }
+//        ref4
+//    {
+//        type        cone;
+//        cellSize    0.02;
+//        p0          (1.45 -0.3 -10);
+//        radius0     0.1;
+//        p1          (1.45 -0.3 10);
+//        radius1     0.1;
+//    }
+           wake
+    {
+        type        box;
+        cellSize    0.05;
+        centre          (1 0 0);
+        lengthX		3;
+                lengthY		0.5;
+                        lengthZ		10;
+    }
+}
+
+boundaryLayers
+{
+    nLayers 0;
+
+    patchBoundaryLayers
+    {
+"(main|slat|flap)"
+{
+nLayers 5;
+
+    thicknessRatio 1.2;
+
+    maxFirstLayerThickness 0.01;
+}
+    }
+        optimiseLayer 1;
+}
+
+renameBoundary
+{
+    newPatchNames
+    {
+        "(main|slat|flap)"
+        {
+            type    wall;
+            newName wing;
+        }
+                bottomEmptyFaces
+        {
+            type    symmetry;
+            newName symmetry1;
+        }
+                        topEmptyFaces
+        {
+            type    symmetry;
+            newName symmetry2;
+        }
+                        "(x.*|y.*)"
+        {
+            type    patch;
+            newName inout;
+        }
+    }
+}
+// ************************************************************************* //

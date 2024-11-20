@@ -72,9 +72,9 @@ objectRefinements
     {
         type        box;
         cellSize    0.05;
-        centre          (1 0 0);
-        lengthX		3;
-                lengthY		0.5;
+        centre          (1 -0.05 0);
+        lengthX		3.5;
+                lengthY		0.75;
                         lengthZ		10;
     }
 }

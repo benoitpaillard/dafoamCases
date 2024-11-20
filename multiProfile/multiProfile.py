@@ -5,7 +5,7 @@ doc=FreeCAD.newDocument()
 
 if os.path.exists('profile'):os.remove('profile')
 
-os.system('xfoil << EOF\n naca2412\n gdes \n tgap 0.005\n0.3\n \npcop\n psav profile \n quit \n EOF')#before tgap 0.015
+os.system('xfoil << EOF\n naca6412\n gdes \n tgap 0.0005\n0.3\n \npcop\n psav profile \n quit \n EOF')#before tgap 0.015
 profile=numpy.loadtxt('profile')
 
 profileWire=Part.makePolygon([Base.Vector(*x) for x in profile])
@@ -14,8 +14,8 @@ Part.show(profileWire,'profileWire')
 profileExtrude=profileWire.extrude(Base.Vector(0,0,1))
 Part.show(profileExtrude,'profileExtrude')
 
-slatWire=profileWire.copy().rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),15).scale(0.5).translate(Base.Vector(-0.5,-0.1,0))
-flapWire=profileWire.copy().rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),-15).scale(0.5).translate(Base.Vector(1.,-0.05,0))
+slatWire=profileWire.copy().rotate(Base.Vector(1,0,0),Base.Vector(0,0,1),25).scale(0.5).translate(Base.Vector(-0.52,0.06,0))
+flapWire=profileWire.copy().rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),-25).scale(0.5).translate(Base.Vector(1.02,-0.05,0))
 
 Part.show(slatWire,'slatWire')
 Part.show(flapWire,'flapWire')
@@ -39,7 +39,6 @@ os.system('cat profileExtrude.stl slatExtrude.stl flapExtrude.stl > mep.stl')
 os.system('surfaceGenerateBoundingBox mep.stl box.stl 10 10 10 10 0 0')
 
 os.system('head -n -32 box.stl > temp.stl && mv temp.stl box.stl')
-#### REMOVE ZMin and ZMax FROM STL FILE
 
 os.system('cartesian2DMesh')
 os.system('checkMesh')

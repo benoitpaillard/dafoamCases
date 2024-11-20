@@ -1,0 +1,4 @@
+processor*
+__pycache__
+*.bin
+*.info

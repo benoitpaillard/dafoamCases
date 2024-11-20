@@ -32,8 +32,8 @@ args = parser.parse_args()
 U0 = 10.0
 p0 = 0.0
 nuTilda0 = 4.5e-5
-CL_target = 1.5
-aoa0 = 10.0
+CL_target = 2.
+aoa0 = 15.0
 A0 = 1*(1+0.5+0.5)
 # rho is used for normalizing CD and CL
 rho0 = 1.0
@@ -42,7 +42,7 @@ rho0 = 1.0
 daOptions = {
     "designSurfaces": ["wing"],
     "solverName": "DASimpleFoam",
-    "primalMinResTol": 1.0e-6,
+    "primalMinResTol": 1.0e-3,
 #    "printInterval":10,
 #    "writeMinorIterations":True,
     "primalBC": {
@@ -86,7 +86,7 @@ daOptions = {
         "aoa": {"designVarType": "AOA", "patches": ["inout"], "flowAxis": "x", "normalAxis": "y"},
         "shape": {"designVarType": "FFD"},
     },
-"checkMeshThreshold": {"maxAspectRatio": 5000.0, "maxNonOrth": 75.0, "maxSkewness": 8.0},
+"checkMeshThreshold": {"maxAspectRatio": 6000.0, "maxNonOrth": 75.0, "maxSkewness": 8.0},
 }
 
 # Mesh deformation setup
@@ -188,8 +188,8 @@ class Top(Multipoint):
         self.connect("shape", "geometry.shape")
 
         # define the design variables to the top level
-        self.add_design_var("shape", lower=-1.0, upper=1.0, scaler=1.0)
-        self.add_design_var("aoa", lower=0.0, upper=10.0, scaler=1.0)
+        self.add_design_var("shape", lower=-.1, upper=.1, scaler=1.0)
+        self.add_design_var("aoa", lower=0.0, upper=15.0, scaler=1.0)
 
         # add objective and constraints to the top level
         self.add_objective("cruise.aero_post.CD", scaler=1.0)

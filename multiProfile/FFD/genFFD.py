@@ -73,18 +73,18 @@ def returnBlockPoints(corners,nx,ny,nz):
 ################ FFD ##############
 nBlocks = 1
 
-nx = [5]
+nx = [10]
 ny = [2]
 nz = [2]
 
 corners = np.zeros([nBlocks,8,3])
 
-corners[0,0,:] = [-0.55,-.25,0]
-corners[0,1,:] = [-0.55,-.25,1]
+corners[0,0,:] = [-0.55,-.35,0]
+corners[0,1,:] = [-0.55,-.35,1]
 corners[0,2,:] = [-0.55,.15,0]
 corners[0,3,:] = [-0.55,.15,1]
-corners[0,4,:] = [ 1.55,-.25,0]
-corners[0,5,:] = [ 1.55,-.25,1]
+corners[0,4,:] = [ 1.55,-.35,0]
+corners[0,5,:] = [ 1.55,-.35,1]
 corners[0,6,:] = [ 1.55,.15,0]
 corners[0,7,:] = [ 1.55,.15,1]
 

@@ -24,8 +24,10 @@ localRefinement
 {
     "(main|slat|flap)"
     {
-        cellSize 0.01;
-        refinementThickness 0.05;
+//        cellSize 0.01;
+//        refinementThickness 0.05;
+                cellSize 0.005;
+        refinementThickness 0.07;
     }
 }
 
@@ -101,10 +103,20 @@ renameBoundary
 {
     newPatchNames
     {
-        "(main|slat|flap)"
+        main
         {
             type    wall;
-            newName wing;
+            newName main;
+        }
+        slat
+        {
+            type    wall;
+            newName slat;
+        }
+        flap
+        {
+            type    wall;
+            newName flap;
         }
                 bottomEmptyFaces
         {

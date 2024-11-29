@@ -21,7 +21,7 @@ internalField   uniform 0;
 
 boundaryField
 {
-    "(wing.*)"
+"(main|flap|slat)"
     {
         type            zeroGradient;
     }

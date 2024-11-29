@@ -21,7 +21,7 @@ internalField uniform (10 0 0);
 
 boundaryField
 {
-    "(wing.*)"
+"(main|flap|slat)"
     {
         type            fixedValue;
         value           uniform (0 0 0);

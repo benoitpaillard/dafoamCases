@@ -30,23 +30,24 @@ args = parser.parse_args()
 # =============================================================================
 # Input Parameters
 # =============================================================================
-U0 = 20.0
+U0 = 10.0
 p0 = 0.0
 nuTilda0 = 4.5e-5#nu*4.349*(turbl)**0.25
 CL_target = 2.5
-aoa0 = 10
-A0 = 1*(1+0.5+0.5)
+aoa0 = 0
+#A0 = 1*(1+0.5+0.5)
+A0 = .1*(1+1)
 # rho is used for normalizing CD and CL
 rho0 = 1.0
 
 # Input parameters for DAFoam
 daOptions = {
 #"writeDeformedFFDs": True,
-    "designSurfaces": ["main","slat","flap"],
+    "designSurfaces": ["main","flap"],
     "solverName": "DASimpleFoam",
     "primalMinResTol": 1.0e-4,
 #    "printInterval":10,
-    "writeMinorIterations":True,
+#    "writeMinorIterations":True,
     "primalBC": {
         "U0": {"variable": "U", "patches": ["inout"], "value": [U0, 0.0, 0.0]},
         "p0": {"variable": "p", "patches": ["inout"], "value": [p0]},
@@ -58,7 +59,7 @@ daOptions = {
             "part1": {
                 "type": "force",
                 "source": "patchToFace",
-                "patches": ["main","flap","slat"],
+                "patches": ["main","flap"],
                 "directionMode": "parallelToFlow",
                 "alphaName": "aoa",
                 "scale": 1.0 / (0.5 * U0 * U0 * A0 * rho0),
@@ -69,7 +70,7 @@ daOptions = {
             "part1": {
                 "type": "force",
                 "source": "patchToFace",
-                "patches": ["main","flap","slat"],
+                "patches": ["main","flap"],
                 "directionMode": "normalToFlow",
                 "alphaName": "aoa",
                 "scale": 1.0 / (0.5 * U0 * U0 * A0 * rho0),
@@ -82,7 +83,9 @@ daOptions = {
 #"gmresRelTol": 1e-4,
      "pcFillLevel": 1, 
 #          "pcFillLevel": 2, 
-     "jacMatReOrdering": "rcm"},
+     "jacMatReOrdering": "rcm",
+     "gmresMaxIters": 2000, "gmresRestart": 2000
+     },
     "normalizeStates": {
         "U": U0,
         "p": U0 * U0 / 2.0,
@@ -92,14 +95,12 @@ daOptions = {
     "designVar": {
         "aoa": {"designVarType": "AOA", "patches": ["inout"], "flowAxis": "x", "normalAxis": "y"},
         "shapeMain": {"designVarType": "FFD"},
-        "shapeSlat": {"designVarType": "FFD"},
+##        "shapeSlat": {"designVarType": "FFD"},
         "shapeFlap": {"designVarType": "FFD"},
-        "translateslat": {"designVarType": "FFD"},
         "translateflap": {"designVarType": "FFD"},
-        "twistslat": {"designVarType": "FFD"},
         "twistflap": {"designVarType": "FFD"},
     },
-"checkMeshThreshold": {"maxAspectRatio": 100000.0, "maxNonOrth": 75.0, "maxSkewness": 8.0},
+"checkMeshThreshold": {"maxAspectRatio": 500000.0, "maxNonOrth": 89.9, "maxSkewness": 8.0},
 }
 
 # Mesh deformation setup
@@ -107,7 +108,7 @@ meshOptions = {
     "gridFile": os.getcwd(),
     "fileType": "OpenFOAM",
     # point and normal for the symmetry plane
-    "symmetryPlanes": [[[0, 0, 0], [0, 0, 1]], [[0, 0, 1], [0, 0, 1]]],
+    "symmetryPlanes": [[[0, 0, 0], [0, 0, .1]], [[0, 0, .1], [0, 0, .1]]],
 }
 
 # Top class to setup the optimization problem
@@ -171,48 +172,15 @@ class Top(Multipoint):
         self.connect("aoa", "cruise.aoa")
         
         # Create reference axis for the twist variables
-#        xSlat = [0.0169, 0.0169]
-#        ySlat = [0.0034, 0.0034]
-#        zSlat = [0.0, 0.1]
-        teListSlat = np.loadtxt('TEconsSlat')
-        teListSlat = np.vstack((teListSlat,teListSlat))
-        xSlat = teListSlat[:,0]
-        ySlat = teListSlat[:,1]
-        zSlat = [0, 1]
-        cSlat = Curve(x=xSlat, y=ySlat, z=zSlat, k=2)
-        # Note here we set raySize=5 to avoid the warning when having highly skewed FFDs
-        # "ray might not have been longenough to intersect the nearest curve."
-        self.geometry.nom_addRefAxis(name="slatAxis", curve=cSlat, axis="z", volumes=[1], raySize=5)
-        
-        def translateslat(val, geo):
-            C = geo.extractCoef("slatAxis")
-            dx = val[0]
-            dy = val[1]
-            for i in range(len(C)):
-                C[i, 0] = C[i, 0] + dx
-            for i in range(len(C)):
-                C[i, 1] = C[i, 1] + dy
-            geo.restoreCoef(C, "slatAxis")
-        
-        # add the global shape variable
-        self.geometry.nom_addGlobalDV(dvName="translateslat", value=np.zeros(2), func=translateslat)
-        
-        self.dvs.add_output("translateslat", val=np.zeros(2))
-        self.connect("translateslat", "geometry.translateslat")
-        
-        # Create reference axis for the twist variables
-#        xSlat = [0.0169, 0.0169]
-#        ySlat = [0.0034, 0.0034]
-#        zSlat = [0.0, 0.1]
         leListFlap = np.loadtxt('LEconsFlap')
         leListFlap = np.vstack((leListFlap,leListFlap))
         xFlap = leListFlap[:,0]
         yFlap = leListFlap[:,1]
-        zFlap = [0, 1]
+        zFlap = [0, .1]
         cFlap = Curve(x=xFlap, y=yFlap, z=zFlap, k=2)
         # Note here we set raySize=5 to avoid the warning when having highly skewed FFDs
         # "ray might not have been longenough to intersect the nearest curve."
-        self.geometry.nom_addRefAxis(name="flapAxis", curve=cFlap, axis="z", volumes=[2], raySize=5)
+        self.geometry.nom_addRefAxis(name="flapAxis", curve=cFlap, axis="z", volumes=[1], raySize=5)
         
         def translateflap(val, geo):
             C = geo.extractCoef("flapAxis")
@@ -230,21 +198,14 @@ class Top(Multipoint):
         self.dvs.add_output("translateflap", val=np.zeros(2))
         self.connect("translateflap", "geometry.translateflap")
         
-        def twistslat(val, geo):
-            for i in range(2):
-                geo.rot_z["slatAxis"].coef[i] = -val[0]
-
         def twistflap(val, geo):
             for i in range(2):
                 geo.rot_z["flapAxis"].coef[i] = -val[0]
         
-        self.geometry.nom_addGlobalDV(dvName="twistslat", value=[0.0], func=twistslat)
         self.geometry.nom_addGlobalDV(dvName="twistflap", value=[0.0], func=twistflap)
         
-        self.dvs.add_output("twistslat", val=np.array([0.0]))
         self.dvs.add_output("twistflap", val=np.array([0.0]))
         
-        self.connect("twistslat", "geometry.twistslat")
         self.connect("twistflap", "geometry.twistflap")
         
         ############### MAIN
@@ -264,57 +225,25 @@ class Top(Multipoint):
                 indSetBMain.append(ptsMain[i, j, 1])
         self.geometry.nom_addLinearConstraintsShape("linearconMain", indSetAMain, indSetBMain, factorA=1.0, factorB=-1.0)
 ###         setup the volume and thickness constraints
-#        leListMain = [[1e-2, 0.0, 1e-4], [1e-2, 0.0, 1 - 1e-4]]
-#        teListMain = [[0.98, 2e-3, 1e-4], [0.98, 2e-3, 1 - 1e-4]]
+#        leListMain = [[1e-2, 0.0, 1e-4], [1e-2, 0.0, .1 - 1e-4]]
+#        teListMain = [[0.98, 2e-3, 1e-4], [0.98, 2e-3, .1 - 1e-4]]
         leListMain = np.loadtxt('LEconsMain')
         leListMain = np.vstack((leListMain,leListMain))
         leListMain[0,-1]=1e-4
-        leListMain[1,-1]=1-1e-4
+        leListMain[1,-1]=.1-1e-4
         teListMain = np.loadtxt('TEconsMain')
         teListMain = np.vstack((teListMain,teListMain))
         teListMain[0,-1]=1e-4
-        teListMain[1,-1]=1-1e-4
+        teListMain[1,-1]=.1-1e-4
         print(leListMain)
         self.geometry.nom_addThicknessConstraints2D("thickconMain", leListMain, teListMain, nSpan=2, nChord=10)
         # add the design variables to the dvs component's output
         self.dvs.add_output("shapeMain", val=np.array([0] * nShapesMain))
         # manually connect the dvs output to the geometry and cruise
         self.connect("shapeMain", "geometry.shapeMain")
-#        ############### SLAT
+        ############### flap
         # select the FFD points to move
-        ptsSlat = self.geometry.DVGeo.getLocalIndex(1)
-        indexListSlat = ptsSlat[:, :, :].flatten()
-        PSSlat = geo_utils.PointSelect("list", indexListSlat)
-        nShapesSlat = self.geometry.nom_addLocalDV(dvName="shapeSlat", pointSelect=PSSlat)
-        # setup the symmetry constraint to link the y displacement between k=0 and k=1
-        nFFDs_xSlat = ptsSlat.shape[0]
-        nFFDs_ySlat = ptsSlat.shape[1]
-        indSetASlat = []
-        indSetBSlat = []
-        for i in range(nFFDs_xSlat):
-            for j in range(nFFDs_ySlat):
-                indSetASlat.append(ptsSlat[i, j, 0])
-                indSetBSlat.append(ptsSlat[i, j, 1])
-        self.geometry.nom_addLinearConstraintsShape("linearconSlat", indSetASlat, indSetBSlat, factorA=1.0, factorB=-1.0)
-        ###         setup the volume and thickness constraints
-#        leListSlat = [[-.47, -.15, 1e-4], [-.47, -.15, 1 - 1e-4]]
-#        teListSlat = [[-.03, .057, 1e-4], [-.03, .057, 1 - 1e-4]]
-        leListSlat = np.loadtxt('LEconsSlat')
-        leListSlat = np.vstack((leListSlat,leListSlat))
-        leListSlat[0,-1]=1e-4
-        leListSlat[1,-1]=1-1e-4
-        teListSlat = np.loadtxt('TEconsSlat')
-        teListSlat = np.vstack((teListSlat,teListSlat))
-        teListSlat[0,-1]=1e-4
-        teListSlat[1,-1]=1-1e-4
-        self.geometry.nom_addThicknessConstraints2D("thickconSlat", leListSlat, teListSlat, nSpan=2, nChord=10)
-        # add the design variables to the dvs component's output
-        self.dvs.add_output("shapeSlat", val=np.array([0] * nShapesSlat))
-        # manually connect the dvs output to the geometry and cruise
-        self.connect("shapeSlat", "geometry.shapeSlat")
-        ############### MAIN
-        # select the FFD points to move
-        ptsFlap = self.geometry.DVGeo.getLocalIndex(2)
+        ptsFlap = self.geometry.DVGeo.getLocalIndex(1)
         indexListFlap = ptsFlap[:, :, :].flatten()
         PSFlap = geo_utils.PointSelect("list", indexListFlap)
         nShapesFlap = self.geometry.nom_addLocalDV(dvName="shapeFlap", pointSelect=PSFlap)
@@ -329,16 +258,16 @@ class Top(Multipoint):
                 indSetBFlap.append(ptsFlap[i, j, 1])
         self.geometry.nom_addLinearConstraintsShape("linearconFlap", indSetAFlap, indSetBFlap, factorA=1.0, factorB=-1.0)
 ###         setup the volume and thickness constraints
-#        leListFlap = [[1e-3, 0.0, 1e-4], [1e-3, 0.0, 1 - 1e-4]]
-#        teListFlap = [[0.99, 0.0, 1e-4], [0.99, 0.0, 1 - 1e-4]]
+#        leListFlap = [[1e-3, 0.0, 1e-4], [1e-3, 0.0, .1 - 1e-4]]
+#        teListFlap = [[0.99, 0.0, 1e-4], [0.99, 0.0, .1 - 1e-4]]
         leListFlap = np.loadtxt('LEconsFlap')
         leListFlap = np.vstack((leListFlap,leListFlap))
         leListFlap[0,-1]=1e-4
-        leListFlap[1,-1]=1-1e-4
+        leListFlap[1,-1]=.1-1e-4
         teListFlap = np.loadtxt('TEconsFlap')
         teListFlap = np.vstack((teListFlap,teListFlap))
         teListFlap[0,-1]=1e-4
-        teListFlap[1,-1]=1-1e-4
+        teListFlap[1,-1]=.1-1e-4
         self.geometry.nom_addThicknessConstraints2D("thickconFlap", leListFlap, teListFlap, nSpan=2, nChord=10)
 #        # add the LE/TE constraints
 #        self.geometry.nom_add_LETEConstraint("lecon", volID=0, faceID="iLow", topID="k")
@@ -348,29 +277,29 @@ class Top(Multipoint):
         # manually connect the dvs output to the geometry and cruise
         self.connect("shapeFlap", "geometry.shapeFlap")
 
+########################
+
         # define the design variables to the top level
-#        self.add_design_var("shapeMain", lower=-.1, upper=.1, scaler=1.0)
+        self.add_design_var("shapeMain", lower=-.1, upper=.1, scaler=1.0)
 #        self.add_design_var("shapeSlat", lower=-.1, upper=.1, scaler=1.0)
-#        self.add_design_var("shapeFlap", lower=-.1, upper=.1, scaler=1.0)
-        self.add_design_var("aoa", lower=0.0, upper=30.0, scaler=1.0)
-        self.add_design_var("translateslat", lower=[-0.01, -0.01], upper=[0.01, 0.01], scaler=1.0)
-        self.add_design_var("translateflap", lower=[-0.01, -0.01], upper=[0.01, 0.01], scaler=1.0)
-        self.add_design_var("twistslat", lower=-10.0, upper=10.0, scaler=1.0)
+        self.add_design_var("shapeFlap", lower=-.1, upper=.1, scaler=1.0)
+#        self.add_design_var("aoa", lower=-5, upper=5, scaler=1.0)
+        self.add_design_var("translateflap", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
         self.add_design_var("twistflap", lower=-10.0, upper=10.0, scaler=1.0)
         
         # add objective and constraints to the top level
         self.add_objective("cruise.aero_post.CL", scaler=-1.0)
 #        self.add_objective("cruise.aero_post.CD", scaler=1.0)
 #        self.add_constraint("cruise.aero_post.CL", equals=CL_target, scaler=1.0)
-#        self.add_constraint("geometry.thickconMain", lower=0.5, upper=1.2, scaler=1.0)
-#        self.add_constraint("geometry.thickconSlat", lower=0.5, upper=1.2, scaler=1.0)
-#        self.add_constraint("geometry.thickconFlap", lower=0.5, upper=1.2, scaler=1.0)
-#        self.add_constraint("geometry.volcon", lower=1.0, scaler=1.0)
-#        self.add_constraint("geometry.tecon", equals=0.0, scaler=1.0, linear=True)
-#        self.add_constraint("geometry.lecon", equals=0.0, scaler=1.0, linear=True)
-#        self.add_constraint("geometry.linearconMain", equals=0.0, scaler=1.0, linear=True)
-#        self.add_constraint("geometry.linearconSlat", equals=0.0, scaler=1.0, linear=True)
-#        self.add_constraint("geometry.linearconFlap", equals=0.0, scaler=1.0, linear=True)
+        self.add_constraint("geometry.thickconMain", lower=1, upper=1, scaler=1.0)
+##        self.add_constraint("geometry.thickconSlat", lower=0.5, upper=1.2, scaler=1.0)
+        self.add_constraint("geometry.thickconFlap", lower=1, upper=1, scaler=1.0)
+##        self.add_constraint("geometry.volcon", lower=1.0, scaler=1.0)
+##        self.add_constraint("geometry.tecon", equals=0.0, scaler=1.0, linear=True)
+##        self.add_constraint("geometry.lecon", equals=0.0, scaler=1.0, linear=True)
+        self.add_constraint("geometry.linearconMain", equals=0.0, scaler=1.0, linear=True)
+##        self.add_constraint("geometry.linearconSlat", equals=0.0, scaler=1.0, linear=True)
+        self.add_constraint("geometry.linearconFlap", equals=0.0, scaler=1.0, linear=True)
 
 
 # OpenMDAO setup
@@ -386,23 +315,23 @@ optFuncs = OptFuncs(daOptions, prob)
 prob.driver = om.pyOptSparseDriver()
 prob.driver.options["optimizer"] = args.optimizer
 # options for optimizers
-if args.optimizer == "SNOPT":
-    prob.driver.opt_settings = {
-        "Major feasibility tolerance": 1.0e-5,
-        "Major optimality tolerance": 1.0e-5,
-        "Minor feasibility tolerance": 1.0e-5,
-        "Verify level": -1,
-        "Function precision": 1.0e-5,
-        "Major iterations limit": 100,
-        "Nonderivative linesearch": None,
-        "Print file": "opt_SNOPT_print.txt",
-        "Summary file": "opt_SNOPT_summary.txt",
-    }
-elif args.optimizer == "IPOPT":
+#if args.optimizer == "SNOPT":
+#    prob.driver.opt_settings = {
+#        "Major feasibility tolerance": 1.0e-5,
+#        "Major optimality tolerance": 1.0e-5,
+#        "Minor feasibility tolerance": 1.0e-5,
+#        "Verify level": -1,
+#        "Function precision": 1.0e-5,
+#        "Major iterations limit": 3,
+#        "Nonderivative linesearch": None,
+#        "Print file": "opt_SNOPT_print.txt",
+#        "Summary file": "opt_SNOPT_summary.txt",
+#    }
+if args.optimizer == "IPOPT":
     prob.driver.opt_settings = {
         "tol": 1.0e-5,
         "constr_viol_tol": 1.0e-5,
-        "max_iter": 100,
+        "max_iter": 3,
         "print_level": 5,
         "output_file": "opt_IPOPT.txt",
         "mu_strategy": "adaptive",
@@ -411,12 +340,12 @@ elif args.optimizer == "IPOPT":
         "alpha_for_y": "full",
         "recalc_y": "yes",
     }
-elif args.optimizer == "SLSQP":
-    prob.driver.opt_settings = {
-        "ACC": 1.0e-5,
-        "MAXIT": 100,
-        "IFILE": "opt_SLSQP.txt",
-    }
+#elif args.optimizer == "SLSQP":
+#    prob.driver.opt_settings = {
+#        "ACC": 1.0e-5,
+#        "MAXIT": 100,
+#        "IFILE": "opt_SLSQP.txt",
+#    }
 else:
     print("optimizer arg not valid!")
     exit(1)
@@ -431,6 +360,7 @@ if args.task == "opt":
     # run the optimization
     prob.run_driver()
     prob.model.geometry.DVGeo.writeTecplot("deformedFFD.dat")
+    prob.model.geometry.DVGeo.writePlot3d("deformedFFD.xyz")
     # write the optimal design variable values to disk
     OptDesignVars = {var: val.tolist() for var, val in prob.model.geometry.DVGeo.getValues().items()}
     with open('OptDesignVars.json', 'w') as f:

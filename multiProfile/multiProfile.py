@@ -11,7 +11,9 @@ profile=list(numpy.loadtxt('profile'))
 profileWire=Part.makePolygon([Base.Vector(*x) for x in profile+[profile[0]]])
 Part.show(profileWire,'profileWire')
 
-os.system('xfoil << EOF\n naca9303\n gdes \n tgap 0.005\n0.3\n \nppar\nn 20\nt 1\n \n \n psav box \n quit \n EOF')
+nPointFFD=20
+
+os.system('xfoil << EOF\n naca9303\n gdes \n tgap 0.005\n0.3\n \nppar\nn '+str(2*nPointFFD)+'\nt 1\n \n \n psav box \n quit \n EOF')
 box=numpy.loadtxt('box')
 
 box[int(len(box)/2)-1]=[0,0.005]
@@ -119,7 +121,7 @@ numpy.savetxt('FFD/flap.xyz',numpy.hstack([boxCoords,boxCoords2]))
 #os.system('cat FFD/main.xyz FFD/slat.xyz FFD/flap.xyz > FFD/wing.xyz')
 #os.system("sed -i '1i3\\n5 2 2 5 2 2 5 2 2' FFD/wing.xyz")
 os.system('cat FFD/main.xyz FFD/flap.xyz > FFD/wing.xyz')
-os.system("sed -i '1i2\\n10 2 2 10 2 2' FFD/wing.xyz")
+os.system("sed -i '1i2\\n"+str(nPointFFD)+" 2 2 "+str(nPointFFD)+" 2 2' FFD/wing.xyz")
 
 os.system("docker run -it --rm -u dafoamuser --mount \"type=bind,src=$(pwd),target=/home/dafoamuser/mount\" -w /home/dafoamuser/mount dafoam/opt-packages:v3.1.2 bash -c '/home/dafoamuser/dafoam/packages/miniconda3/bin/dafoam_plot3d2tecplot.py FFD/wing.xyz deformedFFD.dat'")
 

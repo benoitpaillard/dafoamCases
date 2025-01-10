@@ -24,34 +24,128 @@ localRefinement
 {
     "(main|slat|flap)"
     {
-//        cellSize 0.01;
-//        refinementThickness 0.05;
-                cellSize 0.005;
-        refinementThickness 0.07;
+        cellSize 0.01;
+        refinementThickness 0.03;
+//                cellSize 0.005;
+//        refinementThickness 0.07;
     }
 }
 
+refFine		0.0005;
+widthFine	0.01;
+
+refNormal		0.005;
+widthNormal		0.04;
+
 objectRefinements
 {
-//        ref1
+//        LESlat
 //    {
 //        type        cone;
-//        cellSize    0.02;
-//        p0          (-0.5 -0.3 -10);
-//        radius0     0.1;
-//        p1          (-0.5 -0.3 10);
-//        radius1     0.1;
+//        cellSize    0.002;
+//        p0 (-0.44936206679760843 -0.21849999999999997 0.0);
+//        radius0     0.05;
+//        p1 (-0.44936206679760843 -0.21849999999999997 0.0);
+//        radius1     0.05;
 //    }
-//    ref2
+//    TESlat
 //    {
 //        type        cone;
-//        cellSize    0.02;
-//        p0          (0 0 -10);
-//        radius0     0.2;
-//        p1          (0 0 10);
-//        radius1     0.2;
+//        cellSize    0.002;
+//        p0 (-0.059650635094611 0.006499999999999987 0.0);
+//        radius0     0.05;
+//        p1 (-0.059650635094611 0.006499999999999987 0.0);
+//        radius1     0.05;
 //    }
-//    
+            LEMainFine
+    {
+        type        cone;
+        cellSize    $refFine;
+        
+        p0 (0.0013203999999999998 -0.0399263 0.0);
+        radius0     $widthFine;
+        
+        p1 (0.0013203999999999998 -0.0399263 1);
+        radius1     $widthFine;
+    }
+    TEMainFine
+    {
+        type        cone;
+        cellSize    $refFine;
+        
+        p0 (0.99907075 -0.010970200000000001 0.0);
+        radius0     $widthFine;
+        
+        p1 (0.99907075 -0.010970200000000001 1);
+        radius1     $widthFine;
+    }
+            LEMain
+    {
+        type        cone;
+        cellSize    $refNormal;
+        
+        p0 (0.0013203999999999998 -0.0399263 0.0);
+        radius0     $widthNormal;
+        
+        p1 (0.0013203999999999998 -0.0399263 1);
+        radius1     $widthNormal;
+    }
+    TEMain
+    {
+        type        cone;
+        cellSize    $refNormal;
+        
+        p0 (0.99907075 -0.010970200000000001 0.0);
+        radius0     0.03;
+        
+        p1 (0.99907075 -0.010970200000000001 1);
+        radius1     0.03;
+    }
+            LEFlapFine
+    {
+        type        cone;
+        cellSize    $refFine;
+        
+        p0 (1.00298375 -0.09937420000000001 0.0);
+        radius0     $widthFine;
+        
+        p1 (1.00298375 -0.09937420000000001 1);
+        radius1     $widthFine;
+    }
+        TEFlapFine
+    {
+        type        cone;
+        cellSize    $refFine;
+        
+        p0 (1.8666062499999998 -0.6422384 0.0);
+        radius0     $widthFine;
+        
+        p1 (1.8666062499999998 -0.6422384 1);
+        radius1     $widthFine;
+    }
+            LEFlap
+    {
+        type        cone;
+        cellSize    $refNormal;
+        
+        p0 (1.00298375 -0.09937420000000001 0.0);
+        radius0     $widthNormal;
+        
+        p1 (1.00298375 -0.09937420000000001 1);
+        radius1     $widthNormal;
+    }
+    TEFlap
+    {
+        type        cone;
+        cellSize    $refNormal;
+        
+        p0 (1.8666062499999998 -0.6422384 0.0);
+        radius0     0.03;
+        
+        p1 (1.8666062499999998 -0.6422384 1);
+        radius1     0.03;
+    }
+    
 //        ref3
 //    {
 //        type        cone;
@@ -74,9 +168,9 @@ objectRefinements
     {
         type        box;
         cellSize    0.05;
-        centre          (1 -0.05 0);
+        centre          (1 -0.3 0);
         lengthX		3.5;
-                lengthY		0.75;
+                lengthY		1.3;
                         lengthZ		10;
     }
 }
@@ -90,9 +184,7 @@ boundaryLayers
 "(main|slat|flap)"
 {
 nLayers 5;
-
     thicknessRatio 1.2;
-
     maxFirstLayerThickness 0.01;
 }
     }

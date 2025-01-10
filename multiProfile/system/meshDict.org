@@ -25,7 +25,7 @@ localRefinement
     "(main|slat|flap)"
     {
         cellSize 0.01;
-        refinementThickness 0.05;
+        refinementThickness 0.03;
 //                cellSize 0.005;
 //        refinementThickness 0.07;
     }

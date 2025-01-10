@@ -236,7 +236,7 @@ class Top(Multipoint):
         teListMain[0,-1]=1e-4
         teListMain[1,-1]=.1-1e-4
         print(leListMain)
-        self.geometry.nom_addThicknessConstraints2D("thickconMain", leListMain, teListMain, nSpan=2, nChord=10)
+        self.geometry.nom_addThicknessConstraints2D("thickconMain", leListMain, teListMain, nSpan=2, nChord=20)
         # add the design variables to the dvs component's output
         self.dvs.add_output("shapeMain", val=np.array([0] * nShapesMain))
         # manually connect the dvs output to the geometry and cruise
@@ -268,7 +268,7 @@ class Top(Multipoint):
         teListFlap = np.vstack((teListFlap,teListFlap))
         teListFlap[0,-1]=1e-4
         teListFlap[1,-1]=.1-1e-4
-        self.geometry.nom_addThicknessConstraints2D("thickconFlap", leListFlap, teListFlap, nSpan=2, nChord=10)
+        self.geometry.nom_addThicknessConstraints2D("thickconFlap", leListFlap, teListFlap, nSpan=2, nChord=20)
 #        # add the LE/TE constraints
 #        self.geometry.nom_add_LETEConstraint("lecon", volID=0, faceID="iLow", topID="k")
 #        self.geometry.nom_add_LETEConstraint("tecon", volID=0, faceID="iHigh", topID="k")
@@ -290,7 +290,7 @@ class Top(Multipoint):
         # add objective and constraints to the top level
         self.add_objective("cruise.aero_post.CL", scaler=-1.0)
 #        self.add_objective("cruise.aero_post.CD", scaler=1.0)
-#        self.add_constraint("cruise.aero_post.CL", equals=CL_target, scaler=1.0)
+#        self.add_constraint("cruise.aero_post.CL", equals=CL_target, scaler=3.0)
         self.add_constraint("geometry.thickconMain", lower=1, upper=1, scaler=1.0)
 ##        self.add_constraint("geometry.thickconSlat", lower=0.5, upper=1.2, scaler=1.0)
         self.add_constraint("geometry.thickconFlap", lower=1, upper=1, scaler=1.0)
@@ -331,7 +331,7 @@ if args.optimizer == "IPOPT":
     prob.driver.opt_settings = {
         "tol": 1.0e-5,
         "constr_viol_tol": 1.0e-5,
-        "max_iter": 3,
+        "max_iter": 10,# for cl opt 3
         "print_level": 5,
         "output_file": "opt_IPOPT.txt",
         "mu_strategy": "adaptive",

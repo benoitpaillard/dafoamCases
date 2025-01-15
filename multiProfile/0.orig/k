@@ -21,7 +21,7 @@ internalField   uniform 0.015;
 
 boundaryField
 {
-"(main|flap|slat)"
+"(profile.*)"
     {
         type            kqRWallFunction;
         value           $internalField;

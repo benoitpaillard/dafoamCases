@@ -21,7 +21,7 @@ internalField uniform (10 0 0);
 
 boundaryField
 {
-"(main|flap|slat)"
+"(profile.*)"
     {
         type            fixedValue;
         value           uniform (0 0 0);

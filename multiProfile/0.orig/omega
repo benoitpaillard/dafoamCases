@@ -21,7 +21,7 @@ internalField   uniform 100;
 
 boundaryField
 {
-"(main|flap|slat)"
+"(profile.*)"
     {
         type            omegaWallFunction;
         value           $internalField;

@@ -21,7 +21,7 @@ internalField uniform 0.14;
 
 boundaryField
 {
-"(main|flap|slat)"
+"(profile.*)"
     {
         type            epsilonWallFunction;
         value           $internalField;

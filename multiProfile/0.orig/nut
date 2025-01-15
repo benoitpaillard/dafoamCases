@@ -21,7 +21,7 @@ internalField   uniform 4.5E-5;
 
 boundaryField
 {
-"(main|flap|slat)"
+"(profile.*)"
     {
         type            nutUSpaldingWallFunction;
         value           $internalField;

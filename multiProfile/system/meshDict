@@ -24,33 +24,40 @@ localRefinement
 {
     "(profile.*)"
     {
-        cellSize 0.03;
-/*                cellSize 0.01;*/
-/*        refinementThickness 0.03;*/
+//        cellSize 0.2;
+                cellSize 0.05;
+        refinementThickness 0.6;
     }
 }
 
-refFine		0.05;
-widthFine	0.01;
-refNormal		0.005;
-widthNormal		0.02;
+surfaceMeshRefinement
+{
+    hull
+    {
+        surfaceFile "mep.stl";
+//        cellSize 0.05;
+                cellSize 0.01;
+        refinementThickness 0.2;
+    }
+}
 
-/*refFine		0.0005;*/
-/*widthFine	0.01;*/
-/*refNormal		0.005;*/
-/*widthNormal		0.04;*/
+//refFine		0.002;
+refFine		0.001;
+widthFine	0.012;
+
+//refNormal		0.01;
+refNormal		0.005;
+widthNormal		0.05;
 
 objectRefinements
-{
-        
+{   
            wake
     {
         type        box;
-/*        cellSize    0.05;*/
-                cellSize    0.1;
-        centre          (1 -0.5 0);
-        lengthX		3.5;
-                lengthY		1.5;
+        cellSize    0.25;
+        centre          (2 -0.25 0);
+        lengthX		6;
+                lengthY		2.5;
                         lengthZ		10;
     }
     LEProfile0Fine
@@ -64,9 +71,9 @@ objectRefinements
     
         radius1 $widthFine;
     
-        p0 (0.0013203999999999998 0.0007823499999999999 0.0);
+        p0 (0.0015871500000000014 -0.06479182500000001 0.0);
     
-        p1 (0.0013203999999999998 0.0007823499999999999 1);
+        p1 (0.0015871500000000014 -0.06479182500000001 1);
     }
     LEProfile0Normal
     {
@@ -79,9 +86,9 @@ objectRefinements
     
         radius1 $widthNormal;
     
-        p0 (0.0013203999999999998 0.0007823499999999999 0.0);
+        p0 (0.0015871500000000014 -0.06479182500000001 0.0);
     
-        p1 (0.0013203999999999998 0.0007823499999999999 1);
+        p1 (0.0015871500000000014 -0.06479182500000001 1);
     }
     TEProfile0Fine
     {
@@ -94,9 +101,9 @@ objectRefinements
     
         radius1 $widthFine;
     
-        p0 (0.99907075 0.00023719999999999994 0.0);
+        p0 (0.99841285 -0.06479182500000001 0.0);
     
-        p1 (0.99907075 0.00023719999999999994 1);
+        p1 (0.99841285 -0.06479182500000001 1);
     }
     TEProfile0Normal
     {
@@ -109,9 +116,9 @@ objectRefinements
     
         radius1 $widthNormal;
     
-        p0 (0.99907075 0.00023719999999999994 0.0);
+        p0 (0.99841285 -0.06479182500000001 0.0);
     
-        p1 (0.99907075 0.00023719999999999994 1);
+        p1 (0.99841285 -0.06479182500000001 1);
     }
     LEProfile1Fine
     {
@@ -124,9 +131,9 @@ objectRefinements
     
         radius1 $widthFine;
     
-        p0 (1.06231545 -0.27584224999999996 0.0);
+        p0 (0.93897665 -0.24012765 0.0);
     
-        p1 (1.06231545 -0.27584224999999996 1);
+        p1 (0.93897665 -0.24012765 1);
     }
     LEProfile1Normal
     {
@@ -139,9 +146,9 @@ objectRefinements
     
         radius1 $widthNormal;
     
-        p0 (1.06231545 -0.27584224999999996 0.0);
+        p0 (0.93897665 -0.24012765 0.0);
     
-        p1 (1.06231545 -0.27584224999999996 1);
+        p1 (0.93897665 -0.24012765 1);
     }
     TEProfile1Fine
     {
@@ -154,9 +161,9 @@ objectRefinements
     
         radius1 $widthFine;
     
-        p0 (2.05172995 -0.40454795 0.0);
+        p0 (1.730934 -0.933092275 0.0);
     
-        p1 (2.05172995 -0.40454795 1);
+        p1 (1.730934 -0.933092275 1);
     }
     TEProfile1Normal
     {
@@ -169,129 +176,9 @@ objectRefinements
     
         radius1 $widthNormal;
     
-        p0 (2.05172995 -0.40454795 0.0);
+        p0 (1.730934 -0.933092275 0.0);
     
-        p1 (2.05172995 -0.40454795 1);
-    }
-    LEProfile2Fine
-    {
-    
-        type cone;
-    
-        cellSize $refFine;
-    
-        radius0 $widthFine;
-    
-        radius1 $widthFine;
-    
-        p0 (1.9743382500000002 -0.5280756499999999 0.0);
-    
-        p1 (1.9743382500000002 -0.5280756499999999 1);
-    }
-    LEProfile2Normal
-    {
-    
-        type cone;
-    
-        cellSize $refNormal;
-    
-        radius0 $widthNormal;
-    
-        radius1 $widthNormal;
-    
-        p0 (1.9743382500000002 -0.5280756499999999 0.0);
-    
-        p1 (1.9743382500000002 -0.5280756499999999 1);
-    }
-    TEProfile2Fine
-    {
-    
-        type cone;
-    
-        cellSize $refFine;
-    
-        radius0 $widthFine;
-    
-        radius1 $widthFine;
-    
-        p0 (2.8542789500000003 -0.99840565 0.0);
-    
-        p1 (2.8542789500000003 -0.99840565 1);
-    }
-    TEProfile2Normal
-    {
-    
-        type cone;
-    
-        cellSize $refNormal;
-    
-        radius0 $widthNormal;
-    
-        radius1 $widthNormal;
-    
-        p0 (2.8542789500000003 -0.99840565 0.0);
-    
-        p1 (2.8542789500000003 -0.99840565 1);
-    }
-    LEProfile3Fine
-    {
-    
-        type cone;
-    
-        cellSize $refFine;
-    
-        radius0 $widthFine;
-    
-        radius1 $widthFine;
-    
-        p0 (2.7862565000000004 -1.0588158 0.0);
-    
-        p1 (2.7862565000000004 -1.0588158 1);
-    }
-    LEProfile3Normal
-    {
-    
-        type cone;
-    
-        cellSize $refNormal;
-    
-        radius0 $widthNormal;
-    
-        radius1 $widthNormal;
-    
-        p0 (2.7862565000000004 -1.0588158 0.0);
-    
-        p1 (2.7862565000000004 -1.0588158 1);
-    }
-    TEProfile3Fine
-    {
-    
-        type cone;
-    
-        cellSize $refFine;
-    
-        radius0 $widthFine;
-    
-        radius1 $widthFine;
-    
-        p0 (3.45196625 -1.80200985 0.0);
-    
-        p1 (3.45196625 -1.80200985 1);
-    }
-    TEProfile3Normal
-    {
-    
-        type cone;
-    
-        cellSize $refNormal;
-    
-        radius0 $widthNormal;
-    
-        radius1 $widthNormal;
-    
-        p0 (3.45196625 -1.80200985 0.0);
-    
-        p1 (3.45196625 -1.80200985 1);
+        p1 (1.730934 -0.933092275 1);
     }
 }
 
@@ -303,9 +190,9 @@ boundaryLayers
     {
     "(profile.*)"
 {
-nLayers 5;
+nLayers 6;
     thicknessRatio 1.2;
-    maxFirstLayerThickness 0.01;
+    //maxFirstLayerThickness 0.01;
 }
     }
         optimiseLayer 1;
@@ -345,22 +232,6 @@ renameBoundary
             type wall;
         
             newName profile1;
-        }
-    
-        profile2
-        {
-        
-            type wall;
-        
-            newName profile2;
-        }
-    
-        profile3
-        {
-        
-            type wall;
-        
-            newName profile3;
         }
     }
 }

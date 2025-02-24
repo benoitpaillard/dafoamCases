@@ -24,33 +24,40 @@ localRefinement
 {
     "(profile.*)"
     {
-        cellSize 0.03;
-/*                cellSize 0.01;*/
-/*        refinementThickness 0.03;*/
+//        cellSize 0.2;
+                cellSize 0.05;
+        refinementThickness 0.6;
     }
 }
 
-refFine		0.05;
-widthFine	0.01;
-refNormal		0.005;
-widthNormal		0.02;
+surfaceMeshRefinement
+{
+    hull
+    {
+        surfaceFile "mep.stl";
+//        cellSize 0.05;
+                cellSize 0.01;
+        refinementThickness 0.2;
+    }
+}
 
-/*refFine		0.0005;*/
-/*widthFine	0.01;*/
-/*refNormal		0.005;*/
-/*widthNormal		0.04;*/
+//refFine		0.002;
+refFine		0.001;
+widthFine	0.012;
+
+//refNormal		0.01;
+refNormal		0.005;
+widthNormal		0.05;
 
 objectRefinements
-{
-        
+{   
            wake
     {
         type        box;
-/*        cellSize    0.05;*/
-                cellSize    0.1;
-        centre          (1 -0.5 0);
-        lengthX		3.5;
-                lengthY		1.5;
+        cellSize    0.25;
+        centre          (2 -0.25 0);
+        lengthX		6;
+                lengthY		2.5;
                         lengthZ		10;
     }
 }
@@ -63,9 +70,9 @@ boundaryLayers
     {
     "(profile.*)"
 {
-nLayers 5;
+nLayers 6;
     thicknessRatio 1.2;
-    maxFirstLayerThickness 0.01;
+    //maxFirstLayerThickness 0.01;
 }
     }
         optimiseLayer 1;

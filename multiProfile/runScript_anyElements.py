@@ -96,15 +96,15 @@ daOptions = {
     },
     "designVar": {
         "aoa": {"designVarType": "AOA", "patches": ["inout"], "flowAxis": "x", "normalAxis": "y"},
-#        "shapeMain": {"designVarType": "FFD"},
-#        "shapeFlap": {"designVarType": "FFD"},
     },
-"checkMeshThreshold": {"maxAspectRatio": 500000.0, "maxNonOrth": 89.9, "maxSkewness": 8.0},
+"checkMeshThreshold": {"maxAspectRatio": 500000.0, "maxNonOrth": 89.9, "maxSkewness": 30.0},
 }
 
-for ii in range(len(profiles))[1:]:
-    daOptions['designVar']["translate"+str(ii)]= {"designVarType": "FFD"}
-    daOptions['designVar']["twist"+str(ii)]= {"designVarType": "FFD"}
+for ii in range(len(profiles)):
+    if ii==1:
+        daOptions['designVar']["translate"+str(ii)]= {"designVarType": "FFD"}
+        daOptions['designVar']["twist"+str(ii)]= {"designVarType": "FFD"}
+    daOptions['designVar']["shape"+str(ii)]= {"designVarType": "FFD"}
 
 # Mesh deformation setup
 meshOptions = {
@@ -175,7 +175,7 @@ class Top(Multipoint):
         self.connect("aoa", "cruise.aoa")
         
         # Create reference axis for the twist variables
-        for ii in range(len(profiles))[1:]:
+        for ii in range(len(profiles)):
             leListFlap = np.loadtxt('LEconsProfile'+str(ii))
             leListFlap = np.vstack((leListFlap,leListFlap))
             xFlap = leListFlap[:,0]
@@ -213,96 +213,99 @@ class Top(Multipoint):
 
             self.connect("twist"+str(ii), "geometry.twist"+str(ii))
         
-        ############### MAIN
-#        # select the FFD points to move
-#        ptsMain = self.geometry.DVGeo.getLocalIndex(0)
-#        indexListMain = ptsMain[:, :, :].flatten()
-#        PSMain = geo_utils.PointSelect("list", indexListMain)
-#        nShapesMain = self.geometry.nom_addLocalDV(dvName="shapeMain", pointSelect=PSMain)
-#        # setup the symmetry constraint to link the y displacement between k=0 and k=1
-#        nFFDs_xMain = ptsMain.shape[0]
-#        nFFDs_yMain = ptsMain.shape[1]
-#        indSetAMain = []
-#        indSetBMain = []
-#        for i in range(nFFDs_xMain):
-#            for j in range(nFFDs_yMain):
-#                indSetAMain.append(ptsMain[i, j, 0])
-#                indSetBMain.append(ptsMain[i, j, 1])
-#        self.geometry.nom_addLinearConstraintsShape("linearconMain", indSetAMain, indSetBMain, factorA=1.0, factorB=-1.0)
-####         setup the volume and thickness constraints
-##        leListMain = [[1e-2, 0.0, 1e-4], [1e-2, 0.0, .1 - 1e-4]]
-##        teListMain = [[0.98, 2e-3, 1e-4], [0.98, 2e-3, .1 - 1e-4]]
-#        leListMain = np.loadtxt('LEconsProfile0')
-#        leListMain = np.vstack((leListMain,leListMain))
-#        leListMain[0,-1]=1e-4
-#        leListMain[1,-1]=.1-1e-4
-#        teListMain = np.loadtxt('TEconsProfile0')
-#        teListMain = np.vstack((teListMain,teListMain))
-#        teListMain[0,-1]=1e-4
-#        teListMain[1,-1]=.1-1e-4
-#        print(leListMain)
-#        self.geometry.nom_addThicknessConstraints2D("thickconMain", leListMain, teListMain, nSpan=2, nChord=20)
-#        # add the design variables to the dvs component's output
-#        self.dvs.add_output("shapeMain", val=np.array([0] * nShapesMain))
-#        # manually connect the dvs output to the geometry and cruise
-#        self.connect("shapeMain", "geometry.shapeMain")
-#        ############### flap
-#        # select the FFD points to move
-#        ptsFlap = self.geometry.DVGeo.getLocalIndex(1)
-#        indexListFlap = ptsFlap[:, :, :].flatten()
-#        PSFlap = geo_utils.PointSelect("list", indexListFlap)
-#        nShapesFlap = self.geometry.nom_addLocalDV(dvName="shapeFlap", pointSelect=PSFlap)
-#        # setup the symmetry constraint to link the y displacement between k=0 and k=1
-#        nFFDs_xFlap = ptsFlap.shape[0]
-#        nFFDs_yFlap = ptsFlap.shape[1]
-#        indSetAFlap = []
-#        indSetBFlap = []
-#        for i in range(nFFDs_xFlap):
-#            for j in range(nFFDs_yFlap):
-#                indSetAFlap.append(ptsFlap[i, j, 0])
-#                indSetBFlap.append(ptsFlap[i, j, 1])
-#        self.geometry.nom_addLinearConstraintsShape("linearconFlap", indSetAFlap, indSetBFlap, factorA=1.0, factorB=-1.0)
-####         setup the volume and thickness constraints
-##        leListFlap = [[1e-3, 0.0, 1e-4], [1e-3, 0.0, .1 - 1e-4]]
-##        teListFlap = [[0.99, 0.0, 1e-4], [0.99, 0.0, .1 - 1e-4]]
-#        leListFlap = np.loadtxt('LEconsProfile1')
-#        leListFlap = np.vstack((leListFlap,leListFlap))
-#        leListFlap[0,-1]=1e-4
-#        leListFlap[1,-1]=.1-1e-4
-#        teListFlap = np.loadtxt('TEconsProfile1')
-#        teListFlap = np.vstack((teListFlap,teListFlap))
-#        teListFlap[0,-1]=1e-4
-#        teListFlap[1,-1]=.1-1e-4
-#        self.geometry.nom_addThicknessConstraints2D("thickconFlap", leListFlap, teListFlap, nSpan=2, nChord=20)
-##        # add the LE/TE constraints
-##        self.geometry.nom_add_LETEConstraint("lecon", volID=0, faceID="iLow", topID="k")
-##        self.geometry.nom_add_LETEConstraint("tecon", volID=0, faceID="iHigh", topID="k")
-#        # add the design variables to the dvs component's output
-#        self.dvs.add_output("shapeFlap", val=np.array([0] * nShapesFlap))
-#        # manually connect the dvs output to the geometry and cruise
-#        self.connect("shapeFlap", "geometry.shapeFlap")
+        pts=[]
+        nShapes=[]
+        indSetA = []
+        indSetB = []
+        indSetA2 = []
+        indSetB2 = []
+        indSetA3 = []
+        indSetB3 = []
+        indSetA4 = []
+        indSetB4 = []
+        leList=[]
+        teList=[]
+        for ii in range(len(profiles)):
+            # select the FFD points to move
+            pts.append(self.geometry.DVGeo.getLocalIndex(ii))
+            if ii==0:
+                nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='y', pointSelect=geo_utils.PointSelect("list", pts[ii][:, :, :].flatten())))
+            elif ii==1:
+                nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='y', pointSelect=geo_utils.PointSelect("list", pts[ii][:-1, :, :].flatten())))
+            else:
+                nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='x', pointSelect=geo_utils.PointSelect("list", pts[ii][:, :, :].flatten())))
+            #            # add the design variables to the dvs component's output
+            self.dvs.add_output("shape"+str(ii), val=np.array([0] * nShapes[ii]))
+            # manually connect the dvs output to the geometry and cruise
+            self.connect("shape"+str(ii), "geometry.shape"+str(ii))
+            # setup the symmetry constraint to link the y displacement between k=0 and k=1
+            indSetA.append([])
+            indSetB.append([])
+            if ii==0:
+                for i in range(pts[ii].shape[0]):
+                    for j in range(pts[ii].shape[1]):
+                        indSetA[ii].append(pts[ii][i, j, 0])
+                        indSetB[ii].append(pts[ii][i, j, 1])
+                self.geometry.nom_addLinearConstraintsShape("linearcon"+str(ii), indSetA[ii], indSetB[ii], factorA=1.0, factorB=-1.0)
+            else:
+                for i in range(pts[ii].shape[0]-1):
+                    for j in range(pts[ii].shape[1]):
+                        indSetA[ii].append(pts[ii][i, j, 0])
+                        indSetB[ii].append(pts[ii][i, j, 1])
+                self.geometry.nom_addLinearConstraintsShape("linearcon"+str(ii), indSetA[ii], indSetB[ii], factorA=1.0, factorB=-1.0)
+            # setup the symmetry constraint to link the y displacement between j=0 and j=1 (constant thickness)
+            indSetA2.append([])
+            indSetB2.append([])
+            if ii==0:
+                for i in range(pts[ii].shape[0]):
+                    indSetA2[ii].append(pts[ii][i, 0, 0])
+                    indSetB2[ii].append(pts[ii][i, 1, 0])
+                self.geometry.nom_addLinearConstraintsShape("linearcon2"+str(ii), indSetA2[ii], indSetB2[ii], factorA=1.0, factorB=-1.0)
+            else:
+                for i in range(pts[ii].shape[0]-1):
+                    indSetA2[ii].append(pts[ii][i, 0, 0])
+                    indSetB2[ii].append(pts[ii][i, 1, 0])
+                self.geometry.nom_addLinearConstraintsShape("linearcon2"+str(ii), indSetA2[ii], indSetB2[ii], factorA=1.0, factorB=-1.0)
+        # setup the symmetry for forward foil
+        indSetA3.append([])
+        indSetB3.append([])
+        for i in range(int(pts[0].shape[0]/2)):
+            for j in range(pts[0].shape[1]):
+                indSetA3[0].append(pts[0][i, j, 0])
+                indSetB3[0].append(pts[0][-i-1, j, 0])
+        self.geometry.nom_addLinearConstraintsShape("linearcon3"+str(0), indSetA3[0], indSetB3[0], factorA=1.0, factorB=-1.0)
+    ###         setup the thickness constraints
+#            leList.append(np.loadtxt('LEconsProfile'+str(ii)))
+#            leList[ii] = np.vstack((leList[ii],leList[ii]))
+#            leList[ii][0,-1]=1e-4
+#            leList[ii][1,-1]=.1-1e-4
+#            teList.append(np.loadtxt('TEconsProfile'+str(ii)))
+#            teList[ii] = np.vstack((teList[ii],teList[ii]))
+#            teList[ii][0,-1]=1e-4
+#            teList[ii][1,-1]=.1-1e-4
+#            self.geometry.nom_addThicknessConstraints2D("thickcon"+str(ii), leList[ii], teList[ii], nSpan=2, nChord=10)
+#                            ###         setup the volume constraints
+#            self.geometry.nom_addVolumeConstraint("volcon"+str(ii), leList[ii], teList[ii], nSpan=2, nChord=10)
 
 ########################
 
         # define the design variables to the top level
-#        self.add_design_var("shapeMain", lower=-.1, upper=.1, scaler=1.0)
-#        self.add_design_var("shapeFlap", lower=-.1, upper=.1, scaler=1.0)
         self.add_design_var("aoa", lower=-5, upper=5, scaler=1.0)
-        for ii in range(len(profiles))[1:]:
-            self.add_design_var("translate"+str(ii), lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
-            self.add_design_var("twist"+str(ii), lower=-10.0, upper=10.0, scaler=1.0)
+        for ii in range(len(profiles)):
+            self.add_design_var("shape"+str(ii), lower=-.01, upper=.01, scaler=3.0)
+#            self.add_constraint("geometry.thickcon"+str(ii), lower=1, upper=1, scaler=1.0)
+            self.add_constraint("geometry.linearcon"+str(ii), equals=0.0, scaler=1.0, linear=True)
+            self.add_constraint("geometry.linearcon2"+str(ii), equals=0.0, scaler=1.0, linear=True)
+        
+        self.add_design_var("translate1", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
+        self.add_design_var("twist1", lower=-1.0, upper=1.0, scaler=1.0)
+        self.add_constraint("geometry.linearcon30", equals=0.0, scaler=1.0, linear=True)
+#            self.add_constraint("geometry.volcon"+str(ii), lower=1.0, scaler=1.0)
         
         # add objective and constraints to the top level
         self.add_objective("cruise.aero_post.CL", scaler=-1.0)
 #        self.add_objective("cruise.aero_post.CD", scaler=1.0)
 #        self.add_constraint("cruise.aero_post.CL", equals=CL_target, scaler=3.0)
-#        self.add_constraint("geometry.thickconMain", lower=1, upper=1, scaler=1.0)
-#        self.add_constraint("geometry.thickconFlap", lower=1, upper=1, scaler=1.0)
-###        self.add_constraint("geometry.volcon", lower=1.0, scaler=1.0)
-###        self.add_constraint("geometry.tecon", equals=0.0, scaler=1.0, linear=True)
-###        self.add_constraint("geometry.lecon", equals=0.0, scaler=1.0, linear=True)
-#        self.add_constraint("geometry.linearconMain", equals=0.0, scaler=1.0, linear=True)
-#        self.add_constraint("geometry.linearconFlap", equals=0.0, scaler=1.0, linear=True)
 
 
 # OpenMDAO setup

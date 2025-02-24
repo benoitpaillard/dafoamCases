@@ -20,22 +20,24 @@ List of user-set options:
 This is Ipopt version 3.13.5, running with linear solver mumps.
 NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
 
-Number of nonzeros in equality constraint Jacobian...:        0
-Number of nonzeros in inequality constraint Jacobian.:       10
+Number of nonzeros in equality constraint Jacobian...:     2855
+Number of nonzeros in inequality constraint Jacobian.:        0
 Number of nonzeros in Lagrangian Hessian.............:        0
 
-Total number of variables............................:       10
+Total number of variables............................:       80
                      variables with only lower bounds:        0
-                variables with lower and upper bounds:       10
+                variables with lower and upper bounds:       80
                      variables with only upper bounds:        0
-Total number of equality constraints.................:        0
-Total number of inequality constraints...............:        1
+Total number of equality constraints.................:       67
+Total number of inequality constraints...............:        0
         inequality constraints with only lower bounds:        0
    inequality constraints with lower and upper bounds:        0
         inequality constraints with only upper bounds:        0
 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -2.3064078e+00 0.00e+00 5.17e-01   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -2.3096599e+00 0.00e+00 1.52e-01  -1.5 1.26e-02    -  9.92e-01 1.00e+00f  1
-   2 -2.3175985e+00 0.00e+00 2.79e-01  -2.4 1.08e-02    -  1.00e+00 1.00e+00f  1
-   3 -2.3180187e+00 0.00e+00 7.01e-02  -3.3 7.81e-03    -  1.00e+00 1.00e+00f  1
+   0 -3.9024021e+00 0.00e+00 6.19e-01   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1 -3.9429690e+00 1.30e-18 6.02e-01  -2.2 3.56e-02    -  9.84e-01 1.00e+00F  1
+   2 -3.9481858e+00 1.27e-10 5.12e-01  -2.4 1.07e-01    -  9.96e-01 1.25e-01f  4
+   3 -3.9519283e+00 1.56e-10 8.24e-01  -2.9 8.05e-02    -  1.00e+00 6.25e-02f  5
+Warning: SOC step rejected due to evaluation error
+   4 -3.9524295e+00 1.52e-10 3.90e-01  -2.9 1.64e-01    -  1.00e+00 7.81e-03f  8

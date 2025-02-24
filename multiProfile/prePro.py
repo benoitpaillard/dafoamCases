@@ -20,31 +20,6 @@ with case.file('system/meshDict') as f:
 		f['objectRefinements']['TEProfile'+str(ii)+'Normal']={'type':'cone','cellSize':'$refNormal','radius0':'$widthNormal','radius1':'$widthNormal','p0':TEcons,'p1':[TEcons[0],TEcons[1],1]}
 		f['renameBoundary']['newPatchNames']['profile'+str(ii)]={'type':'wall','newName':'profile'+str(ii)}
 	
-	
-#	
-#	
-#	LEconsMain=numpy.loadtxt('LEconsMain')
-#	f['objectRefinements']['LEMainFine']['p0']=LEconsMain
-#	f['objectRefinements']['LEMainFine']['p1']=[LEconsMain[0],LEconsMain[1],1]
-#	f['objectRefinements']['LEMain']['p0']=LEconsMain
-#	f['objectRefinements']['LEMain']['p1']=[LEconsMain[0],LEconsMain[1],1]
-#	TEconsMain=numpy.loadtxt('TEconsMain')
-#	f['objectRefinements']['TEMainFine']['p0']=TEconsMain
-#	f['objectRefinements']['TEMainFine']['p1']=[TEconsMain[0],TEconsMain[1],1]
-#	f['objectRefinements']['TEMain']['p0']=TEconsMain
-#	f['objectRefinements']['TEMain']['p1']=[TEconsMain[0],TEconsMain[1],1]
-#	LEconsFlap=numpy.loadtxt('LEconsFlap')
-#	f['objectRefinements']['LEFlapFine']['p0']=LEconsFlap
-#	f['objectRefinements']['LEFlapFine']['p1']=[LEconsFlap[0],LEconsFlap[1],1]
-#	f['objectRefinements']['LEFlap']['p0']=LEconsFlap
-#	f['objectRefinements']['LEFlap']['p1']=[LEconsFlap[0],LEconsFlap[1],1]
-#	TEconsFlap=numpy.loadtxt('TEconsFlap')
-#	f['objectRefinements']['TEFlapFine']['p0']=TEconsFlap
-#	f['objectRefinements']['TEFlapFine']['p1']=[TEconsFlap[0],TEconsFlap[1],1]
-#	f['objectRefinements']['TEFlap']['p0']=TEconsFlap
-#	f['objectRefinements']['TEFlap']['p1']=[TEconsFlap[0],TEconsFlap[1],1]
-
-
 os.system('export OMP_NUM_THREADS=2 && cartesian2DMesh')
 
 os.system('renumberMesh -overwrite')

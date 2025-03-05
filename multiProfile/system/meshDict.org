@@ -70,7 +70,7 @@ boundaryLayers
     {
     "(profile.*)"
 {
-nLayers 6;
+nLayers 5;
     thicknessRatio 1.2;
     //maxFirstLayerThickness 0.01;
 }

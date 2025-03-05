@@ -35,9 +35,4 @@ Total number of inequality constraints...............:        0
         inequality constraints with only upper bounds:        0
 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -3.9024021e+00 0.00e+00 6.19e-01   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1 -3.9429690e+00 1.30e-18 6.02e-01  -2.2 3.56e-02    -  9.84e-01 1.00e+00F  1
-   2 -3.9481858e+00 1.27e-10 5.12e-01  -2.4 1.07e-01    -  9.96e-01 1.25e-01f  4
-   3 -3.9519283e+00 1.56e-10 8.24e-01  -2.9 8.05e-02    -  1.00e+00 6.25e-02f  5
-Warning: SOC step rejected due to evaluation error
-   4 -3.9524295e+00 1.52e-10 3.90e-01  -2.9 1.64e-01    -  1.00e+00 7.81e-03f  8
+   0 -3.2783026e+00 0.00e+00 2.20e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0

@@ -1,12 +1,18 @@
-App.newDocument()
 import os
 import Mesh,Part,Draft
 from FreeCAD import Base
+App.newDocument()
 
-meshDTC=Mesh.Mesh("/home/jony/dafoamCases/multiProfile/DTC-scaled.stl")
+topScale=1
+height=10.
 
-shapeDTC = Part.Shape()
-shapeDTC.makeShapeFromMesh(meshDTC.Topology, 0.1,False)
+os.system('surfaceCheck mep.stl')
+os.system('surfaceConvert mep_0.obj profile1.stl')
+os.system('surfaceConvert mep_1.obj profile0.stl')
+
+#meshDTC=Mesh.Mesh("/home/jony/dafoamCases/multiProfile/DTC-scaled.stl")
+#shapeDTC = Part.Shape()
+#shapeDTC.makeShapeFromMesh(meshDTC.Topology, 0.1,False)
 
 mesh1=Mesh.Mesh(u"/home/jony/dafoamCases/multiProfile/profile0.stl")
 
@@ -26,8 +32,8 @@ Part.show(face1)
 
 wire1_top = Draft.make_clone(FreeCAD.ActiveDocument.getObject("wire1"))
 
-wire1_top.Scale=Base.Vector(.4,.4,1)
-wire1_top.Placement.Base=Base.Vector(0,0,3)
+wire1_top.Scale=Base.Vector(topScale,topScale,1)
+wire1_top.Placement.Base=Base.Vector(0,0,height)
 wire1_top.recompute()
 
 sail1=Part.makeRuledSurface(wire1,wire1_top.Shape)
@@ -49,8 +55,8 @@ edges2=[x for x in shape2.Edges if x.CenterOfGravity.z<0.01]
 ### FURLER OPPOSITE SIDE
 oppEdge=[x for x in edges2 if x.CenterOfGravity.x==min([x.CenterOfGravity.x for x in edges2])][0]
 oppEdge_top=oppEdge.copy()
-oppEdge_top.scale(.4,Base.Vector(0,0,0))
-oppEdge_top.translate(Base.Vector(0,0,3))
+oppEdge_top.scale(topScale,Base.Vector(0,0,0))
+oppEdge_top.translate(Base.Vector(0,0,height))
 oppPoint=oppEdge.CenterOfGravity
 oppPoint.scale(-1,1,1)
 oppPoint_top=oppEdge_top.CenterOfGravity
@@ -69,13 +75,13 @@ face2=Part.makeFace([wire2],'Part::FaceMakerSimple')
 Part.show(face2)
 
 wire2_top=wire2.copy()
-wire2_top.scale(.4,Base.Vector(0,0,0))
+wire2_top.scale(topScale,Base.Vector(0,0,0))
 #Part.show(wire2_top,'wire2_top')
 
 #wire2_top = Draft.make_clone(FreeCAD.ActiveDocument.getObject("wire2"))
 #wire2_top.Scale=Base.Vector(.9,.9,1)
 
-wire2_top.Placement.Base=Base.Vector(0,0,3)
+wire2_top.Placement.Base=Base.Vector(0,0,height)
 #wire2_top.recompute()
 
 sail2=Part.makeRuledSurface(wire2,wire2_top)
@@ -85,9 +91,11 @@ Part.show(sail2)
 face2_top=Part.makeFace([wire2_top],'Part::FaceMakerSimple')
 Part.show(face2_top)
 
-sail=Part.makeCompound([sail1,sail2,face1,face1_top,face2,face2_top,furler])
-sail.scale(.5)
+sail=Part.makeCompound([sail1,sail2,face1,face1_top,face2,face2_top])
+#sail.scale(.5)
 
 Part.show(sail)
 
 sail.exportStl('patch0.stl')
+
+#exit()

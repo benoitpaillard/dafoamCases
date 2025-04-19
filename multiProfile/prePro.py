@@ -20,7 +20,7 @@ with case.file('system/meshDict') as f:
 		f['objectRefinements']['TEProfile'+str(ii)+'Normal']={'type':'cone','cellSize':'$refNormal','radius0':'$widthNormal','radius1':'$widthNormal','p0':TEcons,'p1':[TEcons[0],TEcons[1],1]}
 		f['renameBoundary']['newPatchNames']['profile'+str(ii)]={'type':'wall','newName':'profile'+str(ii)}
 	
-os.system('export OMP_NUM_THREADS=2 && cartesian2DMesh')
+os.system('export OMP_NUM_THREADS=4 && cartesian2DMesh')
 
 os.system('renumberMesh -overwrite')
 

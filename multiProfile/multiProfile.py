@@ -7,16 +7,16 @@ if os.path.exists('profile'):os.remove('profile')
 
 if os.path.exists('box'):os.remove('box')
 
-#rotations=[0,-35]
-#translations=[[0,0],[1.02,-.08]]
+rotations=[0,-35]
+translations=[[0,0],[1.02,-.08]]
 #rotations=[0,-15,-30]
 #translations=[[0,0],[1,-.1],[1.95,-.5]]
 #rotations=[5,-10,-20,-30]
 #translations=[[0,0],[1,-.15],[1.95,-.5],[2.95,-1]]
 
 ##wing sail
-rotations=[0,-15]
-translations=[[0,0],[1.02,-.08]]
+#rotations=[0,-15]
+#translations=[[0,0],[1.02,-.08]]
 
 ### Generating circle
 #circleIntra=0.5*numpy.array([[numpy.cos(t)+1,numpy.sin(t)] for t in numpy.linspace(0,0.7*numpy.pi,100)])
@@ -30,7 +30,7 @@ translations=[[0,0],[1.02,-.08]]
 ##Generating profile
 if os.path.exists('profile0'):os.remove('profile0')
 
-os.system('xfoil << EOF\n naca9501\n gdes \ntset\n\n0.3\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
+os.system('xfoil << EOF\n naca9509\n gdes \ntset\n\n0.3\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 
 ##wing sail
@@ -81,7 +81,7 @@ nPointFFD=10
 if os.path.exists('box0'):os.remove('box0')
 
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
-os.system('xfoil << EOF\n naca9503\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
+os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
 
 ##wing sail
 #os.system('xfoil << EOF\n naca0015\n gdes \n tgap 0.015\n0.3\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')

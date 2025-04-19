@@ -6,7 +6,7 @@ os.system('rm -rf results;mkdir results')
 
 for ii in range(50):
 
-	os.system("docker run -it --rm -u dafoamuser --mount \"type=bind,src=$(pwd),target=/home/dafoamuser/mount\" -w /home/dafoamuser/mount dafoam/opt-packages:v3.1.2 bash -c '. /home/dafoamuser/dafoam/OpenFOAM/OpenFOAM-v1812/etc/bashrc && . /home/dafoamuser/dafoam/loadDAFoam.sh && mpirun -np 4 /home/dafoamuser/dafoam/packages/miniconda3/bin/python runScript_anyElements.py 2>&1 | tee logOpt"+str(ii)+".txt'")
+	os.system("docker run -it --rm -u dafoamuser --mount \"type=bind,src=$(pwd),target=/home/dafoamuser/mount\" -w /home/dafoamuser/mount dafoam/opt-packages:v3.1.2 bash -c '. /home/dafoamuser/dafoam/OpenFOAM/OpenFOAM-v1812/etc/bashrc && . /home/dafoamuser/dafoam/loadDAFoam.sh && mpirun -np 12 /home/dafoamuser/dafoam/packages/miniconda3/bin/python runScript_anyElements.py 2>&1 | tee logOpt"+str(ii)+".txt'")
 
 	os.system('reconstructPar')
 

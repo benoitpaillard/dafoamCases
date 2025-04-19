@@ -7,16 +7,16 @@ if os.path.exists('profile'):os.remove('profile')
 
 if os.path.exists('box'):os.remove('box')
 
-#rotations=[0,-35]
-#translations=[[0,0],[1.02,-.08]]
+rotations=[0,-35]
+translations=[[0,0],[1.02,-.08]]
 #rotations=[0,-15,-30]
 #translations=[[0,0],[1,-.1],[1.95,-.5]]
 #rotations=[5,-10,-20,-30]
 #translations=[[0,0],[1,-.15],[1.95,-.5],[2.95,-1]]
 
 ##wing sail
-rotations=[0,-15]
-translations=[[0,0],[1.02,-.08]]
+#rotations=[0,-15]
+#translations=[[0,0],[1.02,-.08]]
 
 ### Generating circle
 #circleIntra=0.5*numpy.array([[numpy.cos(t)+1,numpy.sin(t)] for t in numpy.linspace(0,0.7*numpy.pi,100)])

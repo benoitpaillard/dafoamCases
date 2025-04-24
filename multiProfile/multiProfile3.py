@@ -15,9 +15,9 @@ if os.path.exists('box'):os.remove('box')
 #translations=[[0,0],[1,-.15],[1.95,-.5],[2.95,-1]]
 
 ##wing sail
-rotations=[40,0,-15]
-translations=[[-.15,-.05],[0,0],[1.02,-.08]]
-scales=[.1,1,1]
+rotations=[70,0,-25]
+translations=[[-.04,-.065],[0,0],[1.02,-.08]]
+scales=[.15,1,1]
 
 ### Generating circle
 #circleIntra=0.5*numpy.array([[numpy.cos(t)+1,numpy.sin(t)] for t in numpy.linspace(0,0.7*numpy.pi,100)])
@@ -31,7 +31,7 @@ scales=[.1,1,1]
 ##Generating profile
 if os.path.exists('profile1'):os.remove('profile1')
 
-os.system('xfoil << EOF\n naca9509\n gdes \ntset\n\n0.3\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile1 \n quit \n EOF')#before tgap 0.015
+os.system('xfoil << EOF\n naca9509\n gdes \ntset\n\n0.15\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile1 \n quit \n EOF')#before tgap 0.015
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\npcop\n psav profile1 \n quit \n EOF')#before tgap 0.015
 
 ##wing sail
@@ -51,7 +51,7 @@ profile1=numpy.roll(profile1,int(len(profile1)*0.25),axis=0)
 #show()
 
 if os.path.exists('profile0'):os.remove('profile0')
-os.system('xfoil << EOF\n naca9412\n gdes \ntset\n\n0.15\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
+os.system('xfoil << EOF\n naca9312\n gdes \ntset\n\n0.25\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 
 if os.path.exists('profile2'):os.remove('profile2')
 os.system('xfoil << EOF\n naca9401\n gdes \ntset\n\n0.15\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile2 \n quit \n EOF')#before tgap 0.015
@@ -84,7 +84,7 @@ nPointFFD=10
 if os.path.exists('box1'):os.remove('box1')
 
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box1 \n quit \n EOF')
-os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box1 \n quit \n EOF')
+os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.15\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box1 \n quit \n EOF')
 
 ##wing sail
 #os.system('xfoil << EOF\n naca0015\n gdes \n tgap 0.015\n0.3\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box1 \n quit \n EOF')
@@ -105,7 +105,7 @@ box1=numpy.roll(box1,int(nPointFFD*0.5),axis=0)
 #show()
 
 if os.path.exists('box0'):os.remove('box0')
-os.system('xfoil << EOF\n naca9415\n gdes \ntset\n\n0.15\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
+os.system('xfoil << EOF\n naca9315\n gdes \ntset\n\n0.25\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
 
 if os.path.exists('box2'):os.remove('box2')
 os.system('xfoil << EOF\n naca9403\n gdes \ntset\n\n0.15\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box2 \n quit \n EOF')
@@ -121,12 +121,12 @@ boxes=[numpy.loadtxt('box0'),box1,numpy.loadtxt('box2')]
 #boxes[0][int(len(boxes[0])/2)]=[0.01,-0.01]
 
 ## for airfoils
-boxes[0][int(len(boxes[0])/2)-1]=[0,0.005]
-boxes[0][int(len(boxes[0])/2)]=[0,-0.005]
-boxes[1][int(len(boxes[1])/2)-1]=[0,0.005]
-boxes[1][int(len(boxes[1])/2)]=[0,-0.005]
-boxes[2][int(len(boxes[1])/2)-1]=[0,0.005]
-boxes[2][int(len(boxes[1])/2)]=[0,-0.005]
+boxes[0][int(len(boxes[0])/2)-1]=[-.01,0.05]
+boxes[0][int(len(boxes[0])/2)]=[-.01,-0.05]
+boxes[1][int(len(boxes[1])/2)-1]=[-.01,0.025]
+boxes[1][int(len(boxes[1])/2)]=[-.01,-0.025]
+boxes[2][int(len(boxes[1])/2)-1]=[-.01,0.01]
+boxes[2][int(len(boxes[1])/2)]=[-.01,-0.01]
 
 boxWires=[Part.makePolygon([Base.Vector(*x) for x in box]) for box in boxes]
 

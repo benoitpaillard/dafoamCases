@@ -35,10 +35,10 @@ profiles=['profile'+str(i) for i in range(len(glob.glob('profile*.stl')))]
 U0 = 5.0
 p0 = 0.0
 nuTilda0 = 4.5e-5#nu*4.349*(turbl)**0.25
-CL_target = 2.5
+CL_target = 3.5
 aoa0 = 0
 #A0 = 1*(1+0.5+0.5)
-A0 = .1*2.15#(len(profiles))
+A0 = .1*(len(profiles))
 # rho is used for normalizing CD and CL
 rho0 = 1.0
 
@@ -77,31 +77,7 @@ daOptions = {
                 "alphaName": "aoa",
                 "scale": 1.0 / (0.5 * U0 * U0 * A0 * rho0),
                 "addToAdjoint": True,
-        	},
-        },
-        "skewness": {
-            "part1": {
-                "type": "meshQualityKS",
-                "source": "boxToCell",
-                "min": [-100.0, -100.0, -100.0],
-                "max": [100.0, 100.0, 100.0],
-                "coeffKS": 20.0,
-                "metric": "faceSkewness",
-                "scale": 1.0,
-                "addToAdjoint": True,
-            },
-        },
-        "nonOrtho": {
-            "part1": {
-                "type": "meshQualityKS",
-                "source": "boxToCell",
-                "min": [-100.0, -100.0, -100.0],
-                "max": [100.0, 100.0, 100.0],
-                "coeffKS": 1.0,
-                "metric": "nonOrthoAngle",
-                "scale": 1.0,
-                "addToAdjoint": True,
-            },
+            }
         },
     },
     "adjEqnOption": {
@@ -118,19 +94,16 @@ daOptions = {
         "nuTilda": nuTilda0 * 10.0,
         "phi": 1.0,
     },
-    "checkMeshThreshold": {"maxAspectRatio": 2000.0, "maxNonOrth": 75.0, "maxSkewness": 8.0},
     "designVar": {
         "aoa": {"designVarType": "AOA", "patches": ["inout"], "flowAxis": "x", "normalAxis": "y"},
     },
 "checkMeshThreshold": {"maxAspectRatio": 500000.0, "maxNonOrth": 89.9, "maxSkewness": 30.0},
 }
 
-daOptions['designVar']["translate0"]= {"designVarType": "FFD"}
-daOptions['designVar']["twist0"]= {"designVarType": "FFD"}
-daOptions['designVar']["translate2"]= {"designVarType": "FFD"}
-daOptions['designVar']["twist2"]= {"designVarType": "FFD"}
-
 for ii in range(len(profiles)):
+    if ii==1:
+        daOptions['designVar']["translate"+str(ii)]= {"designVarType": "FFD"}
+        daOptions['designVar']["twist"+str(ii)]= {"designVarType": "FFD"}
     daOptions['designVar']["shape"+str(ii)]= {"designVarType": "FFD"}
 
 # Mesh deformation setup
@@ -256,10 +229,8 @@ class Top(Multipoint):
             # select the FFD points to move
             pts.append(self.geometry.DVGeo.getLocalIndex(ii))
             if ii==0:
-        	    nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='y', pointSelect=geo_utils.PointSelect("list", pts[ii][:, :, :].flatten())))
-            elif ii==1:
                 nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='y', pointSelect=geo_utils.PointSelect("list", pts[ii][:, :, :].flatten())))
-            elif ii==2:
+            elif ii==1:
                 nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='y', pointSelect=geo_utils.PointSelect("list", pts[ii][:-1, :, :].flatten())))
             else:
                 nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='x', pointSelect=geo_utils.PointSelect("list", pts[ii][:, :, :].flatten())))
@@ -270,7 +241,7 @@ class Top(Multipoint):
             # setup the symmetry constraint to link the y displacement between k=0 and k=1
             indSetA.append([])
             indSetB.append([])
-            if ii==1:
+            if ii==0:
                 for i in range(pts[ii].shape[0]):
                     for j in range(pts[ii].shape[1]):
                         indSetA[ii].append(pts[ii][i, j, 0])
@@ -285,7 +256,7 @@ class Top(Multipoint):
             # setup the symmetry constraint to link the y displacement between j=0 and j=1 (constant thickness)
             indSetA2.append([])
             indSetB2.append([])
-            if ii==1:
+            if ii==0:
                 for i in range(pts[ii].shape[0]):
                     indSetA2[ii].append(pts[ii][i, 0, 0])
                     indSetB2[ii].append(pts[ii][i, 1, 0])
@@ -295,14 +266,14 @@ class Top(Multipoint):
                     indSetA2[ii].append(pts[ii][i, 0, 0])
                     indSetB2[ii].append(pts[ii][i, 1, 0])
                 self.geometry.nom_addLinearConstraintsShape("linearcon2"+str(ii), indSetA2[ii], indSetB2[ii], factorA=1.0, factorB=-1.0)
-        # setup the symmetry for main foil
+        # setup the symmetry for forward foil
         indSetA3.append([])
         indSetB3.append([])
-        for i in range(int(pts[1].shape[0]/2)):
-            for j in range(pts[1].shape[1]):
-                indSetA3[0].append(pts[1][i, j, 0])
-                indSetB3[0].append(pts[1][-i-1, j, 0])
-        self.geometry.nom_addLinearConstraintsShape("linearcon3"+str(1), indSetA3[0], indSetB3[0], factorA=1.0, factorB=-1.0)
+        for i in range(int(pts[0].shape[0]/2)):
+            for j in range(pts[0].shape[1]):
+                indSetA3[0].append(pts[0][i, j, 0])
+                indSetB3[0].append(pts[0][-i-1, j, 0])
+        self.geometry.nom_addLinearConstraintsShape("linearcon3"+str(0), indSetA3[0], indSetB3[0], factorA=1.0, factorB=-1.0)
     ###         setup the thickness constraints
 #            leList.append(np.loadtxt('LEconsProfile'+str(ii)))
 #            leList[ii] = np.vstack((leList[ii],leList[ii]))
@@ -321,24 +292,20 @@ class Top(Multipoint):
         # define the design variables to the top level
         self.add_design_var("aoa", lower=-5, upper=5, scaler=1.0)
         for ii in range(len(profiles)):
-            self.add_design_var("shape"+str(ii), lower=-.01, upper=.01, scaler=3.0)
+            self.add_design_var("shape"+str(ii), lower=-.01, upper=.01, scaler=1.0)
 #            self.add_constraint("geometry.thickcon"+str(ii), lower=1, upper=1, scaler=1.0)
             self.add_constraint("geometry.linearcon"+str(ii), equals=0.0, scaler=1.0, linear=True)
             self.add_constraint("geometry.linearcon2"+str(ii), equals=0.0, scaler=1.0, linear=True)
         
-        self.add_design_var("translate0", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
-        self.add_design_var("twist0", lower=-10.0, upper=10.0, scaler=1.0)
-        self.add_design_var("translate2", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
-        self.add_design_var("twist2", lower=-10.0, upper=10.0, scaler=1.0)
-        self.add_constraint("geometry.linearcon31", equals=0.0, scaler=1.0, linear=True)
+        self.add_design_var("translate1", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
+        self.add_design_var("twist1", lower=-1.0, upper=1.0, scaler=1.0)
+        self.add_constraint("geometry.linearcon30", equals=0.0, scaler=1.0, linear=True)
 #            self.add_constraint("geometry.volcon"+str(ii), lower=1.0, scaler=1.0)
         
         # add objective and constraints to the top level
-        self.add_objective("cruise.aero_post.CL", scaler=-1.0)
-#        self.add_objective("cruise.aero_post.CD", scaler=1.0)
-#        self.add_constraint("cruise.aero_post.CL", equals=CL_target, scaler=3.0)
-        self.add_constraint("cruise.aero_post.skewness", upper=6.0, scaler=1.0)
-        self.add_constraint("cruise.aero_post.nonOrtho", upper=70.0, scaler=1.0)
+#        self.add_objective("cruise.aero_post.CL", scaler=-1.0)
+        self.add_objective("cruise.aero_post.CD", scaler=1.0)
+        self.add_constraint("cruise.aero_post.CL", equals=CL_target, scaler=1)
 
 
 # OpenMDAO setup

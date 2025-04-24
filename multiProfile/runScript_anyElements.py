@@ -24,7 +24,7 @@ parser = argparse.ArgumentParser()
 # which optimizer to use. Options are: IPOPT (default), SLSQP, and SNOPT
 parser.add_argument("-optimizer", help="optimizer to use", type=str, default="IPOPT")
 # which task to run. Options are: opt (default), runPrimal, runAdjoint, checkTotals
-parser.add_argument("-task", help="type of run to do", type=str, default="opt")
+parser.add_argument("-task", help="type of run to do", type=str, default="run_driver")
 args = parser.parse_args()
 
 
@@ -56,28 +56,36 @@ daOptions = {
         "nuTilda0": {"variable": "nuTilda", "patches": ["inout"], "value": [nuTilda0]},
         "useWallFunction": True,
     },
-    "objFunc": {
+    "function": {
         "CD": {
-            "part1": {
-                "type": "force",
-                "source": "patchToFace",
-                "patches": profiles,
-                "directionMode": "parallelToFlow",
-                "alphaName": "aoa",
-                "scale": 1.0 / (0.5 * U0 * U0 * A0 * rho0),
-                "addToAdjoint": True,
-            }
+            "type": "force",
+            "source": "patchToFace",
+            "patches": profiles,
+            "directionMode": "parallelToFlow",
+            "patchVelocityInputName": "patchV",
+            "scale": 1.0 / (0.5 * U0 * U0 * A0 * rho0),
         },
         "CL": {
-            "part1": {
-                "type": "force",
-                "source": "patchToFace",
-                "patches": profiles,
-                "directionMode": "normalToFlow",
-                "alphaName": "aoa",
-                "scale": 1.0 / (0.5 * U0 * U0 * A0 * rho0),
-                "addToAdjoint": True,
-            }
+            "type": "force",
+            "source": "patchToFace",
+            "patches": profiles,
+            "directionMode": "normalToFlow",
+            "patchVelocityInputName": "patchV",
+            "scale": 1.0 / (0.5 * U0 * U0 * A0 * rho0),
+        },
+        "skewness": {
+            "type": "meshQualityKS",
+            "source": "allCells",
+            "coeffKS": 20.0,
+            "metric": "faceSkewness",
+            "scale": 1.0,
+        },
+        "nonOrtho": {
+            "type": "meshQualityKS",
+            "source": "allCells",
+            "coeffKS": 1.0,
+            "metric": "nonOrthoAngle",
+            "scale": 1.0,
         },
     },
     "adjEqnOption": {
@@ -94,17 +102,18 @@ daOptions = {
         "nuTilda": nuTilda0 * 10.0,
         "phi": 1.0,
     },
-    "designVar": {
-        "aoa": {"designVarType": "AOA", "patches": ["inout"], "flowAxis": "x", "normalAxis": "y"},
+    "checkMeshThreshold": {"maxAspectRatio": 500000.0, "maxNonOrth": 89.9, "maxSkewness": 30.0},
+    "inputInfo": {
+        "aero_vol_coords": {"type": "volCoord", "components": ["solver", "function"]},
+        "patchV": {
+            "type": "patchVelocity",
+            "patches": ["inout"],
+            "flowAxis": "x",
+            "normalAxis": "y",
+            "components": ["solver", "function"],
+        },
     },
-"checkMeshThreshold": {"maxAspectRatio": 500000.0, "maxNonOrth": 89.9, "maxSkewness": 30.0},
 }
-
-for ii in range(len(profiles)):
-    if ii==1:
-        daOptions['designVar']["translate"+str(ii)]= {"designVarType": "FFD"}
-        daOptions['designVar']["twist"+str(ii)]= {"designVarType": "FFD"}
-    daOptions['designVar']["shape"+str(ii)]= {"designVarType": "FFD"}
 
 # Mesh deformation setup
 meshOptions = {
@@ -113,6 +122,7 @@ meshOptions = {
     # point and normal for the symmetry plane
     "symmetryPlanes": [[[0, 0, 0], [0, 0, .1]], [[0, 0, .1], [0, 0, .1]]],
 }
+
 
 # Top class to setup the optimization problem
 class Top(Multipoint):
@@ -133,21 +143,16 @@ class Top(Multipoint):
 
         # add a scenario (flow condition) for optimization, we pass the builder
         # to the scenario to actually run the flow and adjoint
-        self.mphys_add_scenario("cruise", ScenarioAerodynamic(aero_builder=dafoam_builder))
+        self.mphys_add_scenario("scenario1", ScenarioAerodynamic(aero_builder=dafoam_builder))
 
         # need to manually connect the x_aero0 between the mesh and geometry components
         # here x_aero0 means the surface coordinates of structurally undeformed mesh
         self.connect("mesh.x_aero0", "geometry.x_aero_in")
-        # need to manually connect the x_aero0 between the geometry component and the cruise
+        # need to manually connect the x_aero0 between the geometry component and the scenario1
         # scenario group
-        self.connect("geometry.x_aero0", "cruise.x_aero")
+        self.connect("geometry.x_aero0", "scenario1.x_aero")
 
     def configure(self):
-        # configure and setup perform a similar function, i.e., initialize the optimization.
-        # But configure will be run after setup
-
-        # add the objective function to the cruise scenario
-        self.cruise.aero_post.mphys_add_funcs()
 
         # get the surface coordinates from the mesh component
         points = self.mesh.mphys_get_surface_mesh()
@@ -159,21 +164,6 @@ class Top(Multipoint):
         tri_points = self.mesh.mphys_get_triangulated_surface()
         self.geometry.nom_setConstraintSurface(tri_points)
 
-        # define an angle of attack function to change the U direction at the far field
-        def aoa(val, DASolver):
-            print('TRYING AOA = '+str(val))
-            aoa = val[0] * np.pi / 180.0
-            U = [float(U0 * np.cos(aoa)), float(U0 * np.sin(aoa)), 0]
-            # we need to update the U value only
-            DASolver.setOption("primalBC", {"U0": {"value": U}})
-            DASolver.updateDAOption()
-
-        # pass this aoa function to the cruise group
-        self.cruise.coupling.solver.add_dv_func("aoa", aoa)
-        self.cruise.aero_post.add_dv_func("aoa", aoa)
-        self.dvs.add_output("aoa", val=np.array([aoa0]))
-        self.connect("aoa", "cruise.aoa")
-        
         # Create reference axis for the twist variables
         for ii in range(len(profiles)):
             leListFlap = np.loadtxt('LEconsProfile'+str(ii))
@@ -213,67 +203,54 @@ class Top(Multipoint):
 
             self.connect("twist"+str(ii), "geometry.twist"+str(ii))
         
-        pts=[]
-        nShapes=[]
-        indSetA = []
-        indSetB = []
-        indSetA2 = []
-        indSetB2 = []
-        indSetA3 = []
-        indSetB3 = []
-        indSetA4 = []
-        indSetB4 = []
-        leList=[]
-        teList=[]
+        pts = []
+        shapes=[[]]*len(profiles)
+        
+        # use the shape function to define shape variables for 2D airfoil
+#        pts.append(self.geometry.DVGeo.getLocalIndex(0))
+#        dir_y = np.array([0.0, 1.0, 0.0])
+#        for i in range(pts[0].shape[0]):
+#            for j in range(pts[0].shape[1]):
+#                # k=0 and k=1 move together to ensure symmetry
+#                shapes[0].append({pts[0][i, j, 0]: dir_y, pts[0][i, j, 1]: dir_y})
+#    
+#        self.geometry.nom_addShapeFunctionDV(dvName="shape"+str(0), shapes=shapes[0])
+#        
         for ii in range(len(profiles)):
-            # select the FFD points to move
+            # use the shape function to define shape variables for 2D airfoil
             pts.append(self.geometry.DVGeo.getLocalIndex(ii))
-            if ii==0:
-                nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='y', pointSelect=geo_utils.PointSelect("list", pts[ii][:, :, :].flatten())))
-            elif ii==1:
-                nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='y', pointSelect=geo_utils.PointSelect("list", pts[ii][:-1, :, :].flatten())))
-            else:
-                nShapes.append(self.geometry.nom_addLocalDV(dvName="shape"+str(ii), axis='x', pointSelect=geo_utils.PointSelect("list", pts[ii][:, :, :].flatten())))
-            #            # add the design variables to the dvs component's output
-            self.dvs.add_output("shape"+str(ii), val=np.array([0] * nShapes[ii]))
-            # manually connect the dvs output to the geometry and cruise
-            self.connect("shape"+str(ii), "geometry.shape"+str(ii))
-            # setup the symmetry constraint to link the y displacement between k=0 and k=1
-            indSetA.append([])
-            indSetB.append([])
-            if ii==0:
-                for i in range(pts[ii].shape[0]):
-                    for j in range(pts[ii].shape[1]):
-                        indSetA[ii].append(pts[ii][i, j, 0])
-                        indSetB[ii].append(pts[ii][i, j, 1])
-                self.geometry.nom_addLinearConstraintsShape("linearcon"+str(ii), indSetA[ii], indSetB[ii], factorA=1.0, factorB=-1.0)
-            else:
-                for i in range(pts[ii].shape[0]-1):
-                    for j in range(pts[ii].shape[1]):
-                        indSetA[ii].append(pts[ii][i, j, 0])
-                        indSetB[ii].append(pts[ii][i, j, 1])
-                self.geometry.nom_addLinearConstraintsShape("linearcon"+str(ii), indSetA[ii], indSetB[ii], factorA=1.0, factorB=-1.0)
+            dir_y = np.array([0.0, 1.0, 0.0])
+            for i in range(pts[ii].shape[0]):
+                for j in range(pts[ii].shape[1]):
+                    # k=0 and k=1 move together to ensure symmetry
+                    shapes[ii].append({pts[ii][i, j, 0]: dir_y, pts[ii][i, j, 1]: dir_y})
+#            # LE/TE shape, the j=0 and j=1 move in opposite directions so that
+#            # the LE/TE are fixed
+#            for i in [0, pts[ii].shape[0] - 1]:
+#                shapes[ii].append({pts[ii][i, 0, 0]: dir_y, pts[ii][i, 0, 1]: dir_y, pts[ii][i, 1, 0]: -dir_y, pts[ii][i, 1, 1]: -dir_y})
+#            self.geometry.nom_addShapeFunctionDV(dvName="shape"+str(ii), shapes=shapes[ii])
+            
             # setup the symmetry constraint to link the y displacement between j=0 and j=1 (constant thickness)
-            indSetA2.append([])
-            indSetB2.append([])
-            if ii==0:
-                for i in range(pts[ii].shape[0]):
-                    indSetA2[ii].append(pts[ii][i, 0, 0])
-                    indSetB2[ii].append(pts[ii][i, 1, 0])
-                self.geometry.nom_addLinearConstraintsShape("linearcon2"+str(ii), indSetA2[ii], indSetB2[ii], factorA=1.0, factorB=-1.0)
-            else:
-                for i in range(pts[ii].shape[0]-1):
-                    indSetA2[ii].append(pts[ii][i, 0, 0])
-                    indSetB2[ii].append(pts[ii][i, 1, 0])
-                self.geometry.nom_addLinearConstraintsShape("linearcon2"+str(ii), indSetA2[ii], indSetB2[ii], factorA=1.0, factorB=-1.0)
+            for i in range(pts[ii].shape[0]):
+                for j in range(pts[ii].shape[1]):
+                    # k=0 and k=1 move together to ensure symmetry
+                    shapes[ii].append({pts[ii][i, 0, 0]: dir_y, pts[ii][i, 1, 0]: dir_y})
+            
         # setup the symmetry for forward foil
-        indSetA3.append([])
-        indSetB3.append([])
         for i in range(int(pts[0].shape[0]/2)):
             for j in range(pts[0].shape[1]):
-                indSetA3[0].append(pts[0][i, j, 0])
-                indSetB3[0].append(pts[0][-i-1, j, 0])
-        self.geometry.nom_addLinearConstraintsShape("linearcon3"+str(0), indSetA3[0], indSetB3[0], factorA=1.0, factorB=-1.0)
+                # k=0 and k=1 move together to ensure symmetry
+                shapes[0].append({pts[0][i, j, 0]: dir_y, pts[ii][-i-1, j, 0]: dir_y})
+        
+        for ii in range(len(profiles)):    
+            self.geometry.nom_addShapeFunctionDV(dvName="shape"+str(ii), shapes=shapes[ii])
+            self.dvs.add_output("shape"+str(ii), val=np.array([0] * len(shapes[ii])))
+            self.connect("shape"+str(ii), "geometry.shape"+str(ii))
+            
+        self.dvs.add_output("patchV", val=np.array([U0, aoa0]))
+        # manually connect the dvs output to the geometry and scenario1
+        self.connect("patchV", "scenario1.patchV")
+
     ###         setup the thickness constraints
 #            leList.append(np.loadtxt('LEconsProfile'+str(ii)))
 #            leList[ii] = np.vstack((leList[ii],leList[ii]))
@@ -290,22 +267,27 @@ class Top(Multipoint):
 ########################
 
         # define the design variables to the top level
-        self.add_design_var("aoa", lower=-5, upper=5, scaler=1.0)
         for ii in range(len(profiles)):
             self.add_design_var("shape"+str(ii), lower=-.01, upper=.01, scaler=1.0)
 #            self.add_constraint("geometry.thickcon"+str(ii), lower=1, upper=1, scaler=1.0)
-            self.add_constraint("geometry.linearcon"+str(ii), equals=0.0, scaler=1.0, linear=True)
-            self.add_constraint("geometry.linearcon2"+str(ii), equals=0.0, scaler=1.0, linear=True)
+#            self.add_constraint("geometry.linearcon"+str(ii), equals=0.0, scaler=1.0, linear=True)
+#            self.add_constraint("geometry.linearcon2"+str(ii), equals=0.0, scaler=1.0, linear=True)
         
         self.add_design_var("translate1", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
         self.add_design_var("twist1", lower=-1.0, upper=1.0, scaler=1.0)
-        self.add_constraint("geometry.linearcon30", equals=0.0, scaler=1.0, linear=True)
+#        self.add_constraint("geometry.linearcon30", equals=0.0, scaler=1.0, linear=True)
 #            self.add_constraint("geometry.volcon"+str(ii), lower=1.0, scaler=1.0)
         
+        # here we fix the U0 magnitude and allows the aoa to change
+        self.add_design_var("patchV", lower=[U0, 0.0], upper=[U0, 10.0], scaler=0.1)
+
         # add objective and constraints to the top level
-#        self.add_objective("cruise.aero_post.CL", scaler=-1.0)
-        self.add_objective("cruise.aero_post.CD", scaler=1.0)
-        self.add_constraint("cruise.aero_post.CL", equals=CL_target, scaler=1)
+#        self.add_objective("scenario1.aero_post.CL", scaler=-1.0)
+        self.add_objective("scenario1.aero_post.CD", scaler=1.0)
+        self.add_constraint("scenario1.aero_post.CL", equals=CL_target, scaler=1.0)
+#        self.add_constraint("scenario1.aero_post.CL", lower=CL_target, scaler=1.0)
+        self.add_constraint("scenario1.aero_post.skewness", upper=6.0, scaler=1.0)
+        self.add_constraint("scenario1.aero_post.nonOrtho", upper=70.0, scaler=1.0)
 
 
 # OpenMDAO setup
@@ -360,9 +342,9 @@ prob.driver.options["debug_print"] = ["nl_cons", "objs", "desvars"]
 prob.driver.options["print_opt_prob"] = True
 prob.driver.hist_file = "OptView.hst"
 
-if args.task == "opt":
+if args.task == "run_driver":
     # solve CL
-#    optFuncs.findFeasibleDesign(["cruise.aero_post.CL"], ["aoa"], targets=[2.358723274428963])
+#    optFuncs.findFeasibleDesign(["scenario1.aero_post.CL"], ["patchV"], targets=[CL_target], designVarsComp=[1])
     # run the optimization
     prob.run_driver()
     prob.model.geometry.DVGeo.writeTecplot("deformedFFD.dat")
@@ -371,21 +353,19 @@ if args.task == "opt":
     OptDesignVars = {var: val.tolist() for var, val in prob.model.geometry.DVGeo.getValues().items()}
     with open('OptDesignVars.json', 'w') as f:
         json.dump(OptDesignVars, f, indent=4)
-elif args.task == "runPrimal":
+elif args.task == "run_model":
     # just run the primal once
     prob.run_model()
-elif args.task == "runAdjoint":
+elif args.task == "compute_totals":
     # just run the primal and adjoint once
     prob.run_model()
     totals = prob.compute_totals()
     if MPI.COMM_WORLD.rank == 0:
         print(totals)
-elif args.task == "checkTotals":
+elif args.task == "check_totals":
     # verify the total derivatives against the finite-difference
     prob.run_model()
-    prob.check_totals(
-        of=["cruise.aero_post.CD", "cruise.aero_post.CL"], wrt=["shape", "aoa"], compact_print=True, step=1e-3, form="central", step_calc="abs"
-    )
+    prob.check_totals(compact_print=False, step=1e-3, form="central", step_calc="abs")
 else:
     print("task arg not found!")
     exit(1)

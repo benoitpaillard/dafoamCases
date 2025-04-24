@@ -1,0 +1,40 @@
+
+List of user-set options:
+
+                                    Name   Value                used
+                             alpha_for_y = full                  yes
+                         constr_viol_tol = 1e-05                 yes
+                        file_print_level = 5                     yes
+                   hessian_approximation = limited-memory        yes
+              limited_memory_max_history = 10                    yes
+                           linear_solver = mumps                 yes
+                                max_iter = 10                    yes
+                             mu_strategy = adaptive              yes
+                      nlp_scaling_method = none                  yes
+                             output_file = opt_IPOPT.txt         yes
+                             print_level = 5                     yes
+                      print_user_options = yes                   yes
+                                recalc_y = yes                   yes
+                                      sb = yes                   yes
+                                     tol = 1e-05                 yes
+This is Ipopt version 3.13.5, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:      184
+Number of nonzeros in inequality constraint Jacobian.:      368
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+
+Number of Iterations....: 0
+
+Number of objective function evaluations             = 0
+Number of objective gradient evaluations             = 0
+Number of equality constraint evaluations            = 0
+Number of inequality constraint evaluations          = 1
+Number of equality constraint Jacobian evaluations   = 0
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 0
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.000
+Total CPU secs in NLP function evaluations           =      0.094
+
+EXIT: Invalid number in NLP function or derivative detected.

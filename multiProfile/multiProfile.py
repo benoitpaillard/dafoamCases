@@ -88,8 +88,8 @@ os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 
 
 box0=numpy.loadtxt('box0')
 ## build symmetrical box
-box0[int(len(box0)/2)-1]=[0,0.005]
-box0[int(len(box0)/2)]=[0,-0.005]
+box0[int(len(box0)/2)-1]=[-.01,0.02]
+box0[int(len(box0)/2)]=[-.01,-0.02]
 box0=box0[int(nPointFFD*0.5):int(nPointFFD*1.5)]
 box0[:,0]-=0.5
 box0_2=copy.deepcopy(box0)
@@ -116,8 +116,8 @@ boxes=[box0,numpy.loadtxt('box1')]
 #boxes[0][int(len(boxes[0])/2)]=[0.01,-0.01]
 
 ## for airfoils
-boxes[0][int(len(boxes[0])/2)-1]=[0,0.005]
-boxes[0][int(len(boxes[0])/2)]=[0,-0.005]
+#boxes[0][int(len(boxes[0])/2)-1]=[-.01,0.02]
+#boxes[0][int(len(boxes[0])/2)]=[-.01,-0.02]
 boxes[1][int(len(boxes[1])/2)-1]=[0,0.005]
 boxes[1][int(len(boxes[1])/2)]=[0,-0.005]
 

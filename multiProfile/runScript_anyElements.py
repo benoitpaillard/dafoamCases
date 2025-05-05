@@ -319,7 +319,7 @@ if args.optimizer == "IPOPT":
     prob.driver.opt_settings = {
         "tol": 1.0e-5,
         "constr_viol_tol": 1.0e-5,
-        "max_iter": 10,# for cl opt 3
+        "max_iter": 30,#10,# for cl opt 3
         "print_level": 5,
         "output_file": "opt_IPOPT.txt",
         "mu_strategy": "adaptive",

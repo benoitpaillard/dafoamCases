@@ -8,7 +8,7 @@ List of user-set options:
                    hessian_approximation = limited-memory        yes
               limited_memory_max_history = 10                    yes
                            linear_solver = mumps                 yes
-                                max_iter = 10                    yes
+                                max_iter = 30                    yes
                              mu_strategy = adaptive              yes
                       nlp_scaling_method = none                  yes
                              output_file = opt_IPOPT.txt         yes
@@ -35,6 +35,6 @@ Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 0
 Total CPU secs in IPOPT (w/o function evaluations)   =      0.000
-Total CPU secs in NLP function evaluations           =      0.094
+Total CPU secs in NLP function evaluations           =      0.281
 
 EXIT: Invalid number in NLP function or derivative detected.

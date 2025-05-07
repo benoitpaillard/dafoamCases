@@ -208,7 +208,8 @@ class Top(Multipoint):
         
         # use the shape function to define shape variables for 2D airfoil
 #        pts.append(self.geometry.DVGeo.getLocalIndex(0))
-#        dir_y = np.array([0.0, 1.0, 0.0])
+        dir_x = np.array([1.0, 0.0, 0.0])
+        dir_y = np.array([0.0, 1.0, 0.0])
 #        for i in range(pts[0].shape[0]):
 #            for j in range(pts[0].shape[1]):
 #                # k=0 and k=1 move together to ensure symmetry
@@ -216,14 +217,14 @@ class Top(Multipoint):
 #    
 #        self.geometry.nom_addShapeFunctionDV(dvName="shape"+str(0), shapes=shapes[0])
 #        
-        for ii in range(len(profiles)):
+#        for ii in range(len(profiles)):
             # use the shape function to define shape variables for 2D airfoil
-            pts.append(self.geometry.DVGeo.getLocalIndex(ii))
-            dir_y = np.array([0.0, 1.0, 0.0])
-            for i in range(pts[ii].shape[0]):
-                for j in range(pts[ii].shape[1]):
-                    # k=0 and k=1 move together to ensure symmetry
-                    shapes[ii].append({pts[ii][i, j, 0]: dir_y, pts[ii][i, j, 1]: dir_y})
+#            pts.append(self.geometry.DVGeo.getLocalIndex(ii))
+#            dir_y = np.array([0.0, 1.0, 0.0])
+#            for i in range(pts[ii].shape[0]):
+#                for j in range(pts[ii].shape[1]):
+#                    # k=0 and k=1 move together to ensure symmetry
+#                    shapes[ii].append({pts[ii][i, j, 0]: dir_y, pts[ii][i, j, 1]: dir_y})
 #            # LE/TE shape, the j=0 and j=1 move in opposite directions so that
 #            # the LE/TE are fixed
 #            for i in [0, pts[ii].shape[0] - 1]:
@@ -231,21 +232,38 @@ class Top(Multipoint):
 #            self.geometry.nom_addShapeFunctionDV(dvName="shape"+str(ii), shapes=shapes[ii])
             
             # setup the symmetry constraint to link the y displacement between j=0 and j=1 (constant thickness)
-            for i in range(pts[ii].shape[0]):
-                for j in range(pts[ii].shape[1]):
-                    # k=0 and k=1 move together to ensure symmetry
-                    shapes[ii].append({pts[ii][i, 0, 0]: dir_y, pts[ii][i, 1, 0]: dir_y})
+#            for i in range(pts[ii].shape[0]):
+#                for j in range(pts[ii].shape[1]):
+#                    # k=0 and k=1 move together to ensure symmetry
+#                    shapes[ii].append({pts[ii][i, 0, 0]: dir_y, pts[ii][i, 1, 0]: dir_y})
             
-        # setup the symmetry for forward foil
-        for i in range(int(pts[0].shape[0]/2)):
-            for j in range(pts[0].shape[1]):
+#####         setup the symmetry for forward foil
+        pts0=self.geometry.DVGeo.getLocalIndex(0)
+        shapes0 = []
+        for i in range(int(pts0.shape[0]/2)):
+            for j in range(pts0.shape[1]):
                 # k=0 and k=1 move together to ensure symmetry
-                shapes[0].append({pts[0][i, j, 0]: dir_y, pts[ii][-i-1, j, 0]: dir_y})
+                shapes0.append({pts0[i, j, 0]: dir_y, pts0[-i-1, j, 0]: dir_y, pts0[i, j, 1]: dir_y, pts0[-i-1, j, 1]: dir_y})
+                
+        pts1=self.geometry.DVGeo.getLocalIndex(1)
+        shapes1 = []
+        for i in range(1,pts1.shape[0]-1):
+#            for j in range(pts1.shape[1]):
+                # k=0 and k=1 move together to ensure symmetry
+#                shapes1.append({pts1[i, j, 0]: dir_x, pts1[i, j, 1]: dir_x})
+                shapes1.append({pts1[i, 0, 0]: dir_x, pts1[i, 0, 1]: dir_x, pts1[i, 1, 0]: dir_x, pts1[i, 1, 1]: dir_x})
         
-        for ii in range(len(profiles)):    
-            self.geometry.nom_addShapeFunctionDV(dvName="shape"+str(ii), shapes=shapes[ii])
-            self.dvs.add_output("shape"+str(ii), val=np.array([0] * len(shapes[ii])))
-            self.connect("shape"+str(ii), "geometry.shape"+str(ii))
+        print(shapes0)
+        print(shapes1)
+        
+#        for ii in range(len(profiles)):    
+        self.geometry.nom_addShapeFunctionDV(dvName="shape0", shapes=shapes0)
+        self.dvs.add_output("shape0", val=np.array([0] * len(shapes0)))
+        self.connect("shape0", "geometry.shape0")
+        
+        self.geometry.nom_addShapeFunctionDV(dvName="shape1", shapes=shapes1)
+        self.dvs.add_output("shape1", val=np.array([0] * len(shapes1)))
+        self.connect("shape1", "geometry.shape1")
             
         self.dvs.add_output("patchV", val=np.array([U0, aoa0]))
         # manually connect the dvs output to the geometry and scenario1
@@ -268,7 +286,7 @@ class Top(Multipoint):
 
         # define the design variables to the top level
         for ii in range(len(profiles)):
-            self.add_design_var("shape"+str(ii), lower=-.01, upper=.01, scaler=1.0)
+            self.add_design_var("shape"+str(ii), lower=-.05, upper=.05, scaler=1)
 #            self.add_constraint("geometry.thickcon"+str(ii), lower=1, upper=1, scaler=1.0)
 #            self.add_constraint("geometry.linearcon"+str(ii), equals=0.0, scaler=1.0, linear=True)
 #            self.add_constraint("geometry.linearcon2"+str(ii), equals=0.0, scaler=1.0, linear=True)
@@ -279,12 +297,12 @@ class Top(Multipoint):
 #            self.add_constraint("geometry.volcon"+str(ii), lower=1.0, scaler=1.0)
         
         # here we fix the U0 magnitude and allows the aoa to change
-        self.add_design_var("patchV", lower=[U0, 0.0], upper=[U0, 10.0], scaler=0.1)
+        self.add_design_var("patchV", lower=[U0, 0.0], upper=[U0, 10.0], scaler=1)
 
         # add objective and constraints to the top level
-#        self.add_objective("scenario1.aero_post.CL", scaler=-1.0)
-        self.add_objective("scenario1.aero_post.CD", scaler=1.0)
-        self.add_constraint("scenario1.aero_post.CL", equals=CL_target, scaler=1.0)
+        self.add_objective("scenario1.aero_post.CL", scaler=-1.0)
+#        self.add_objective("scenario1.aero_post.CD", scaler=1.0)
+#        self.add_constraint("scenario1.aero_post.CL", equals=CL_target, scaler=1.0)
 #        self.add_constraint("scenario1.aero_post.CL", lower=CL_target, scaler=1.0)
         self.add_constraint("scenario1.aero_post.skewness", upper=6.0, scaler=1.0)
         self.add_constraint("scenario1.aero_post.nonOrtho", upper=70.0, scaler=1.0)

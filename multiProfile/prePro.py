@@ -6,6 +6,7 @@ os.system('surfaceGenerateBoundingBox mep.stl box.stl 10 10 10 10 0 0')
 os.system('head -n -32 box.stl > temp.stl && mv temp.stl box.stl')
 
 os.system('cp system/meshDict.org system/meshDict')
+#os.system('cp system/meshDictDebug.org system/meshDict')
 
 nElements=len(glob.glob('profile*.stl'))
 

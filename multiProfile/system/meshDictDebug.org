@@ -24,7 +24,7 @@ localRefinement
 {
     "(profile.*)"
     {
-                cellSize 0.05;
+        cellSize 0.2;
         refinementThickness 0.6;
     }
 }
@@ -34,15 +34,15 @@ surfaceMeshRefinement
     hull
     {
         surfaceFile "mep.stl";
-                cellSize 0.01;
+        cellSize 0.05;
         refinementThickness 0.2;
     }
 }
 
-refFine		0.001;
+refFine		0.002;
 widthFine	0.012;
 
-refNormal		0.005;
+refNormal		0.01;
 widthNormal		0.05;
 
 objectRefinements

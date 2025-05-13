@@ -21,3 +21,8 @@ for ii in range(nElements):
 
 	numpy.savetxt('LEconsProfile'+str(ii),[boxLEx,boxLEy,0])
 	numpy.savetxt('TEconsProfile'+str(ii),[boxTEx,boxTEy,0])
+	
+##debug
+
+numpy.savetxt('LEconsProfile0',[1e-3,1e-3,0])
+numpy.savetxt('TEconsProfile0',[1-1e-3,1e-3,0])

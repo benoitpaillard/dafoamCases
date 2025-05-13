@@ -202,7 +202,7 @@ class Top(Multipoint):
             self.dvs.add_output("twist"+str(ii), val=np.array([0.0]))
 
             self.connect("twist"+str(ii), "geometry.twist"+str(ii))
-        
+            
         pts = []
         shapes=[[]]*len(profiles)
         
@@ -240,10 +240,13 @@ class Top(Multipoint):
 #####         setup the symmetry for forward foil
         pts0=self.geometry.DVGeo.getLocalIndex(0)
         shapes0 = []
-        for i in range(int(pts0.shape[0]/2)):
+        for i in range(1,int(pts0.shape[0]/2)):
             for j in range(pts0.shape[1]):
                 # k=0 and k=1 move together to ensure symmetry
                 shapes0.append({pts0[i, j, 0]: dir_y, pts0[-i-1, j, 0]: dir_y, pts0[i, j, 1]: dir_y, pts0[-i-1, j, 1]: dir_y})
+                
+        for i in [0]:
+            shapes0.append({pts0[i, 0, 0]: dir_y, pts0[-i-1, 0, 0]: dir_y, pts0[i, 0, 1]: dir_y, pts0[-i-1, 0, 1]: dir_y, pts0[i, 1, 0]: dir_y, pts0[-i-1, 1, 0]: dir_y, pts0[i, 1, 1]: dir_y, pts0[-i-1, 1, 1]: dir_y})
                 
         pts1=self.geometry.DVGeo.getLocalIndex(1)
         shapes1 = []
@@ -251,7 +254,7 @@ class Top(Multipoint):
 #            for j in range(pts1.shape[1]):
                 # k=0 and k=1 move together to ensure symmetry
 #                shapes1.append({pts1[i, j, 0]: dir_x, pts1[i, j, 1]: dir_x})
-                shapes1.append({pts1[i, 0, 0]: dir_x, pts1[i, 0, 1]: dir_x, pts1[i, 1, 0]: dir_x, pts1[i, 1, 1]: dir_x})
+                shapes1.append({pts1[i, 0, 0]: dir_y, pts1[i, 0, 1]: dir_y, pts1[i, 1, 0]: dir_y, pts1[i, 1, 1]: dir_y})
         
         print(shapes0)
         print(shapes1)
@@ -264,22 +267,25 @@ class Top(Multipoint):
         self.geometry.nom_addShapeFunctionDV(dvName="shape1", shapes=shapes1)
         self.dvs.add_output("shape1", val=np.array([0] * len(shapes1)))
         self.connect("shape1", "geometry.shape1")
-            
+        
         self.dvs.add_output("patchV", val=np.array([U0, aoa0]))
         # manually connect the dvs output to the geometry and scenario1
         self.connect("patchV", "scenario1.patchV")
 
-    ###         setup the thickness constraints
-#            leList.append(np.loadtxt('LEconsProfile'+str(ii)))
-#            leList[ii] = np.vstack((leList[ii],leList[ii]))
-#            leList[ii][0,-1]=1e-4
-#            leList[ii][1,-1]=.1-1e-4
-#            teList.append(np.loadtxt('TEconsProfile'+str(ii)))
-#            teList[ii] = np.vstack((teList[ii],teList[ii]))
-#            teList[ii][0,-1]=1e-4
-#            teList[ii][1,-1]=.1-1e-4
-#            self.geometry.nom_addThicknessConstraints2D("thickcon"+str(ii), leList[ii], teList[ii], nSpan=2, nChord=10)
-#                            ###         setup the volume constraints
+    ##         setup the thickness constraints
+        leList=[]
+        teList=[]
+        for ii in [0]:
+            leList.append(np.loadtxt('LEconsProfile'+str(ii)))
+            leList[ii] = np.vstack((leList[ii],leList[ii]))
+            leList[ii][0,-1]=1e-4
+            leList[ii][1,-1]=.1-1e-4
+            teList.append(np.loadtxt('TEconsProfile'+str(ii)))
+            teList[ii] = np.vstack((teList[ii],teList[ii]))
+            teList[ii][0,-1]=1e-4
+            teList[ii][1,-1]=.1-1e-4
+            self.geometry.nom_addThicknessConstraints2D("thickcon"+str(ii), leList[ii], teList[ii], nSpan=2, nChord=10)
+                            ###         setup the volume constraints
 #            self.geometry.nom_addVolumeConstraint("volcon"+str(ii), leList[ii], teList[ii], nSpan=2, nChord=10)
 
 ########################
@@ -290,7 +296,8 @@ class Top(Multipoint):
 #            self.add_constraint("geometry.thickcon"+str(ii), lower=1, upper=1, scaler=1.0)
 #            self.add_constraint("geometry.linearcon"+str(ii), equals=0.0, scaler=1.0, linear=True)
 #            self.add_constraint("geometry.linearcon2"+str(ii), equals=0.0, scaler=1.0, linear=True)
-        
+
+        self.add_constraint("geometry.thickcon0", lower=0.5, upper=3.0, scaler=1.0)
         self.add_design_var("translate1", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
         self.add_design_var("twist1", lower=-1.0, upper=1.0, scaler=1.0)
 #        self.add_constraint("geometry.linearcon30", equals=0.0, scaler=1.0, linear=True)
@@ -337,7 +344,7 @@ if args.optimizer == "IPOPT":
     prob.driver.opt_settings = {
         "tol": 1.0e-5,
         "constr_viol_tol": 1.0e-5,
-        "max_iter": 30,#10,# for cl opt 3
+        "max_iter": 10,# for cl opt 3
         "print_level": 5,
         "output_file": "opt_IPOPT.txt",
         "mu_strategy": "adaptive",

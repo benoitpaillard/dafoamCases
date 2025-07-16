@@ -7,8 +7,11 @@ if os.path.exists('profile'):os.remove('profile')
 
 if os.path.exists('box'):os.remove('box')
 
-rotations=[0,-35]
-translations=[[0,0],[1.02,-.08]]
+#rotations=[0,-35]
+rotations=[0,-20]
+#translations=[[0,0],[1.02,-.08]]
+translations=[[0,0],[1.02-0.5,-.08]]
+scales=[0.8,1.2]
 #rotations=[0,-15,-30]
 #translations=[[0,0],[1,-.1],[1.95,-.5]]
 #rotations=[5,-10,-20,-30]
@@ -30,7 +33,8 @@ translations=[[0,0],[1.02,-.08]]
 ##Generating profile
 if os.path.exists('profile0'):os.remove('profile0')
 
-os.system('xfoil << EOF\n naca9509\n gdes \ntset\n\n0.3\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
+#os.system('xfoil << EOF\n naca9509\n gdes \ntset\n\n0.3\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
+os.system('xfoil << EOF\n naca9509\n gdes \n tgap 0.005\n0.3\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 
 ##wing sail
@@ -63,7 +67,7 @@ profiles=[list(profile0),list(numpy.loadtxt('profile1'))]
 
 profileWires=[Part.makePolygon([Base.Vector(*x) for x in profile+[profile[0]]]) for profile in profiles]
 
-profileWire=[profileWires[ii].copy().rotate(Base.Vector(0,0,0),Base.Vector(0,0,1), rotations[ii]).scale(1).translate(Base.Vector(*translations[ii])) for ii in range(len(rotations))]
+profileWire=[profileWires[ii].copy().rotate(Base.Vector(0,0,0),Base.Vector(0,0,1), rotations[ii]).scale(scales[ii]).translate(Base.Vector(*translations[ii])) for ii in range(len(rotations))]
 profileExtrude=[xx.extrude(Base.Vector(0,0,.1)) for xx in profileWire]
 [profileExtrude[ii].exportStl('profile'+str(ii)+'.stl') for ii in range(len(rotations))]
 [os.system('sed -i -e \'s#solid#solid profile'+str(ii)+'#g\' profile'+str(ii)+'.stl') for ii in range(len(rotations))]
@@ -81,7 +85,8 @@ nPointFFD=10
 if os.path.exists('box0'):os.remove('box0')
 
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
-os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
+#os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
+os.system('xfoil << EOF\n naca9512\n gdes \n tgap 0.015\n0.3\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
 
 ##wing sail
 #os.system('xfoil << EOF\n naca0015\n gdes \n tgap 0.015\n0.3\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
@@ -124,7 +129,7 @@ boxes[1][int(len(boxes[1])/2)]=[0,-0.005]
 boxWires=[Part.makePolygon([Base.Vector(*x) for x in box]) for box in boxes]
 
 ##translating scaling and rotating box
-boxWireFlap=[boxWires[ii].copy().rotate(Base.Vector(0,0,0),Base.Vector(0,0,1), rotations[ii]).scale(1).translate(Base.Vector(*translations[ii])) for ii in range(len(rotations))]
+boxWireFlap=[boxWires[ii].copy().rotate(Base.Vector(0,0,0),Base.Vector(0,0,1), rotations[ii]).scale(scales[ii]).translate(Base.Vector(*translations[ii])) for ii in range(len(rotations))]
 ####### SHITTY HACK TO REORDER POINTS FOR PLOT3D FORMAT
 for ii in range(len(boxWireFlap)):
     boxCoords=numpy.array([[x.X,x.Y,x.Z] for x in boxWireFlap[ii].Vertexes])

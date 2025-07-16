@@ -35,7 +35,7 @@ profiles=['profile'+str(i) for i in range(len(glob.glob('profile*.stl')))]
 U0 = 5.0
 p0 = 0.0
 nuTilda0 = 4.5e-5#nu*4.349*(turbl)**0.25
-CL_target = 3.5
+CL_target = 3.
 aoa0 = 0
 #A0 = 1*(1+0.5+0.5)
 A0 = .1*(len(profiles))
@@ -307,10 +307,10 @@ class Top(Multipoint):
         self.add_design_var("patchV", lower=[U0, 0.0], upper=[U0, 10.0], scaler=1)
 
         # add objective and constraints to the top level
-        self.add_objective("scenario1.aero_post.CL", scaler=-1.0)
-#        self.add_objective("scenario1.aero_post.CD", scaler=1.0)
+#        self.add_objective("scenario1.aero_post.CL", scaler=-1.0)
+        self.add_objective("scenario1.aero_post.CD", scaler=1.0)
 #        self.add_constraint("scenario1.aero_post.CL", equals=CL_target, scaler=1.0)
-#        self.add_constraint("scenario1.aero_post.CL", lower=CL_target, scaler=1.0)
+        self.add_constraint("scenario1.aero_post.CL", lower=CL_target, scaler=1.0)
         self.add_constraint("scenario1.aero_post.skewness", upper=6.0, scaler=1.0)
         self.add_constraint("scenario1.aero_post.nonOrtho", upper=70.0, scaler=1.0)
 

@@ -11,7 +11,7 @@ for ii in range(nElements):
 	boxExtrados=box[:int(len(box)/2)]
 	boxIntrados=box[int(len(box)/2):]
 
-	weightTip=0.95
+	weightTip=0.9
 
 	boxTEx=weightTip*(boxExtrados[0,0]+boxIntrados[0,0])/2 +(1-weightTip)*(boxExtrados[1,0]+boxIntrados[1,0])/2
 	boxTEy=weightTip*(boxExtrados[0,1]+boxIntrados[0,1])/2 +(1-weightTip)*(boxExtrados[1,1]+boxIntrados[1,1])/2
@@ -24,5 +24,5 @@ for ii in range(nElements):
 	
 ##debug
 
-numpy.savetxt('LEconsProfile0',[1e-3,1e-3,0])
-numpy.savetxt('TEconsProfile0',[1-1e-3,1e-3,0])
+#numpy.savetxt('LEconsProfile0',[1e-3,1e-3,0])
+#numpy.savetxt('TEconsProfile0',[1-1e-3,1e-3,0])

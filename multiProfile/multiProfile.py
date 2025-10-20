@@ -9,9 +9,9 @@ if os.path.exists('box'):os.remove('box')
 
 #rotations=[0,-35]
 rotations=[0,-20]
-#translations=[[0,0],[1.02,-.08]]
-translations=[[0,0],[1.02-0.5,-.08]]
-scales=[0.8,1.2]
+translations=[[0,0],[1.02,-.08]]
+#translations=[[0,0],[1.02-0.5,-.08]]
+scales=[1,1]
 #rotations=[0,-15,-30]
 #translations=[[0,0],[1,-.1],[1.95,-.5]]
 #rotations=[5,-10,-20,-30]
@@ -33,25 +33,29 @@ scales=[0.8,1.2]
 ##Generating profile
 if os.path.exists('profile0'):os.remove('profile0')
 
+### from xfoil generator
 #os.system('xfoil << EOF\n naca9509\n gdes \ntset\n\n0.3\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
-os.system('xfoil << EOF\n naca9509\n gdes \n tgap 0.005\n0.3\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 
 ##wing sail
 #os.system('xfoil << EOF\n naca0015\n gdes \n tgap 0.005\n0.3\n\npcop\n psav profile0 \n quit \n EOF')#before tgap 0.015
 
+#profile0=numpy.loadtxt('profile0')
+### build symmetrical profile
+#profile0=profile0[profile0[:,0]<0.5]
+#profile0[:,0]-=0.5
+#profile0_2=copy.deepcopy(profile0)
+#profile0_2[:,0]*=-1
+#profile0=numpy.vstack([profile0,profile0_2[::-1]])
+#profile0[:,0]+=0.5
+#profile0=numpy.roll(profile0,int(len(profile0)*0.25),axis=0)
+##from pylab import *
+##plot(*profile0.T)
+##show()
+
+### from splines
+os.system('python spline.py')
 profile0=numpy.loadtxt('profile0')
-## build symmetrical profile
-profile0=profile0[profile0[:,0]<0.5]
-profile0[:,0]-=0.5
-profile0_2=copy.deepcopy(profile0)
-profile0_2[:,0]*=-1
-profile0=numpy.vstack([profile0,profile0_2[::-1]])
-profile0[:,0]+=0.5
-profile0=numpy.roll(profile0,int(len(profile0)*0.25),axis=0)
-#from pylab import *
-#plot(*profile0.T)
-#show()
 
 if os.path.exists('profile1'):os.remove('profile1')
 
@@ -75,7 +79,7 @@ profileExtrude=[xx.extrude(Base.Vector(0,0,.1)) for xx in profileWire]
 os.system('cat '+(' ').join(['profile'+str(i)+'.stl' for i in range(len(rotations))])+' > mep.stl')
 
 ###Generating box
-nPointFFD=10
+nPointFFD=9
 
 #circleIntra=0.5*numpy.array([[numpy.cos(t)+1,numpy.sin(t)] for t in numpy.linspace(0,0.7*numpy.pi,100)])
 #circleExtra=0.5*numpy.array([[numpy.cos(t)*1.01+1,numpy.sin(t)*1.01] for t in numpy.linspace(0,0.7*numpy.pi,100)])
@@ -86,25 +90,28 @@ if os.path.exists('box0'):os.remove('box0')
 
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
 #os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
-os.system('xfoil << EOF\n naca9512\n gdes \n tgap 0.015\n0.3\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
 
 ##wing sail
 #os.system('xfoil << EOF\n naca0015\n gdes \n tgap 0.015\n0.3\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
 
-box0=numpy.loadtxt('box0')
-## build symmetrical box
-box0[int(len(box0)/2)-1]=[-.01,0.02]
-box0[int(len(box0)/2)]=[-.01,-0.02]
-box0=box0[int(nPointFFD*0.5):int(nPointFFD*1.5)]
-box0[:,0]-=0.5
-box0_2=copy.deepcopy(box0)
-box0_2[:,0]*=-1
-box0=numpy.vstack([box0,box0_2[::-1]])
-box0[:,0]+=0.5
-box0=numpy.roll(box0,int(nPointFFD*0.5),axis=0)
+#box0=numpy.loadtxt('box0')
+### build symmetrical box
+#box0[int(len(box0)/2)-1]=[-.01,0.02]
+#box0[int(len(box0)/2)]=[-.01,-0.02]
+#box0=box0[int(nPointFFD*0.5):int(nPointFFD*1.5)]
+#box0[:,0]-=0.5
+#box0_2=copy.deepcopy(box0)
+#box0_2[:,0]*=-1
+#box0=numpy.vstack([box0,box0_2[::-1]])
+#box0[:,0]+=0.5
+#box0=numpy.roll(box0,int(nPointFFD*0.5),axis=0)
 #from pylab import *
 #plot(*box0.T)
 #show()
+
+### from splines
+os.system('python box.py')
+box0=numpy.loadtxt('box0')
 
 if os.path.exists('box1'):os.remove('box1')
 

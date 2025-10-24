@@ -1,0 +1,46 @@
+environment,
+#===========
+	tabular_data
+
+method,
+#======
+#	convergence_tolerance 1e-5
+	max_function_evaluations 50
+	moga
+#	initialization_type flat_file 'init_file.dat'
+	initialization_type unique_random
+	seed 1
+	population_size 10
+#	output debug
+
+variables,
+#=========					
+	continuous_design = 10
+initial_point  	0.2	0.01	0.8	0.7	0.5	0.35	-35	0.98	-0.12	0.25
+lower_bounds	0.01	0.01	0.7	0.6	0.1	0.3	-40	0.95	-0.15	0.2
+upper_bounds	0.3	0.2	1.	0.9	0.9	0.4	-30	1.	-0.1	0.3
+descriptor  	'xtop' 'xbot' 	'ytop2' 'ybot1' 'ybot2' 'ytop1Thick' 'flapRotation' 'flapX' 'flapY' 'flapCamber'
+scale_types = 'auto'
+
+interface,
+#=========							
+	fork
+	analysis_drivers = 'simulator_script'
+	parameters_file = 'params.in'
+	results_file = 'results.out'
+	work_directory directory_tag
+	copy_files = 'templateDir/*'#can be removed because nothing to copy
+	named 'workdirs/workdir'
+	file_save directory_save#comment to not save dirs
+	asynchronous evaluation_concurrency 2
+#	failure_capture continuation
+	failure_capture recover 100
+
+responses,
+#=========			
+	num_objective_functions = 2
+#	nonlinear_inequality_constraints = 2
+#		lower_bounds = -2.0 2.6e-4#for Cpmins Ixx & J
+#		upper_bounds = 0 1
+	no_gradients
+	no_hessians

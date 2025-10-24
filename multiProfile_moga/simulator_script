@@ -1,0 +1,32 @@
+#!/bin/sh
+# Sample simulator to Dakota system call script
+# See Advanced Simulation Code Interfaces chapter in Users Manual
+
+# $1 is params.in FROM Dakota
+# $2 is results.out returned to Dakota
+
+# --------------
+# PRE-PROCESSING
+# --------------
+# Incorporate the parameters from DAKOTA into the template, writing ros.in
+# Use the following line if SNL's APREPRO utility is used instead of DPrePro.
+# ../aprepro -c '*' -q --nowarning ros.template ros.in
+
+dprepro $1 spline.py spline2.py
+mv spline2.py spline.py
+dprepro $1 multiProfile.py multiProfile2.py
+mv multiProfile2.py multiProfile.py
+
+# --------
+# ANALYSIS
+# --------
+
+python remesh.py
+
+# ---------------
+# POST-PROCESSING
+# ---------------
+
+python post.py
+
+mv results.tmp $2

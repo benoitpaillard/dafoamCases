@@ -217,7 +217,7 @@ class Top(Multipoint):
         for i in range(1,int(pts0.shape[0]/2)):
             for j in range(pts0.shape[1]):
                 # k=0 and k=1 move together to ensure symmetry
-#                shapes0.append({pts0[i, j, 0]: dir_x, pts0[-i-1, j, 0]: -dir_x, pts0[i, j, 1]: dir_x, pts0[-i-1, j, 1]: -dir_x})
+                shapes0.append({pts0[i, j, 0]: dir_x, pts0[-i-1, j, 0]: -dir_x, pts0[i, j, 1]: dir_x, pts0[-i-1, j, 1]: -dir_x})
                 shapes0.append({pts0[i, j, 0]: dir_y, pts0[-i-1, j, 0]: dir_y, pts0[i, j, 1]: dir_y, pts0[-i-1, j, 1]: dir_y})
         ############################
         ##### center
@@ -290,8 +290,9 @@ class Top(Multipoint):
 #        self.add_objective("scenario1.aero_post.CD", scaler=1.0)
 #        self.add_constraint("scenario1.aero_post.CL", equals=CL_target, scaler=1.0)
 #        self.add_constraint("scenario1.aero_post.CL", lower=CL_target, scaler=1.0)
-        self.add_constraint("scenario1.aero_post.skewness", upper=6.0, scaler=1.0)
-        self.add_constraint("scenario1.aero_post.nonOrtho", upper=70.0, scaler=1.0)
+#        self.add_constraint("scenario1.aero_post.CD", upper=10, scaler=1.0)
+#        self.add_constraint("scenario1.aero_post.skewness", upper=6.0, scaler=1.0)
+#        self.add_constraint("scenario1.aero_post.nonOrtho", upper=70.0, scaler=1.0)
 
 
 # OpenMDAO setup

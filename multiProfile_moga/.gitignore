@@ -1,0 +1,10 @@
+processor*
+__pycache__
+*.bin
+*.info
+constant/polyMesh/*
+FFD/*
+iter*
+*.stl
+log*
+xx*

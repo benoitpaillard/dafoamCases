@@ -7,9 +7,9 @@ if os.path.exists('profile'):os.remove('profile')
 
 if os.path.exists('box'):os.remove('box')
 
-#rotations=[0,-35]
-rotations=[0,-20]
-translations=[[0,0],[1.02,-.08]]
+rotations=[0,-40]
+#rotations=[0,-30]
+translations=[[0,0],[0.98,-.12]]
 #translations=[[0,0],[1.02-0.5,-.08]]
 scales=[1,1]
 #rotations=[0,-15,-30]
@@ -55,11 +55,12 @@ if os.path.exists('profile0'):os.remove('profile0')
 
 ### from splines
 os.system('python spline.py')
+#os.system('python splineTest.py')
 profile0=numpy.loadtxt('profile0')
 
 if os.path.exists('profile1'):os.remove('profile1')
 
-os.system('xfoil << EOF\n naca9401\n gdes \ntset\n\n0.15\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile1 \n quit \n EOF')#before tgap 0.015
+os.system('xfoil << EOF\n naca9401\n gdes \ntset\n\n0.25\n tgap 0.005\n0.3\nlera 5 0.1\n\npcop\n psav profile1 \n quit \n EOF')#before tgap 0.015
 
 ##wing sail
 #os.system('xfoil << EOF\n naca0015\n gdes \n tgap 0.005\n0.3\n\npcop\n psav profile1 \n quit \n EOF')#before tgap 0.015
@@ -79,14 +80,19 @@ profileExtrude=[xx.extrude(Base.Vector(0,0,.1)) for xx in profileWire]
 os.system('cat '+(' ').join(['profile'+str(i)+'.stl' for i in range(len(rotations))])+' > mep.stl')
 
 ###Generating box
-nPointFFD=9
+### from splines
+os.system('python box.py')
+box0=numpy.loadtxt('box0')
+
+
+nPointFFD=int(len(box0)/2)
 
 #circleIntra=0.5*numpy.array([[numpy.cos(t)+1,numpy.sin(t)] for t in numpy.linspace(0,0.7*numpy.pi,100)])
 #circleExtra=0.5*numpy.array([[numpy.cos(t)*1.01+1,numpy.sin(t)*1.01] for t in numpy.linspace(0,0.7*numpy.pi,100)])
 #circle=numpy.vstack((circleExtra,circleIntra[::-1]))
 #numpy.savetxt('circle.dat',circle)
 
-if os.path.exists('box0'):os.remove('box0')
+#if os.path.exists('box0'):os.remove('box0')
 
 #os.system('xfoil << EOF\n load circle.dat\n\ngdes\ndero\nunit\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box0 \n quit \n EOF')
 #os.system('xfoil << EOF\n naca9512\n gdes \ntset\n\n0.3\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 0.5\np 1\n \n \n psav box0 \n quit \n EOF')
@@ -109,13 +115,9 @@ if os.path.exists('box0'):os.remove('box0')
 #plot(*box0.T)
 #show()
 
-### from splines
-os.system('python box.py')
-box0=numpy.loadtxt('box0')
-
 if os.path.exists('box1'):os.remove('box1')
 
-os.system('xfoil << EOF\n naca9403\n gdes \ntset\n\n0.15\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box1 \n quit \n EOF')
+os.system('xfoil << EOF\n naca9403\n gdes \ntset\n\n0.25\n tgap 0.015\n0.3\nlera 5 0.1\n\nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box1 \n quit \n EOF')
 #os.system('xfoil << EOF\n load profilCl2\n gdes \ntset\n0.05\n\n tgap 0.015\n1\n \nppar\nn '+str(2*nPointFFD)+'\nt 1\np 0.1\n \n \n psav box \n quit \n EOF')
 
 ##wing sail

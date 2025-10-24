@@ -6,30 +6,23 @@ os.environ['OPENBLAS_NUM_THREADS'] = '1'
 TEGap=0.01
 #####thickness
 
-thicknessx2=0.2050091764
-thicknessxOffset3=0.3029833948
+thicknessx2=0.2
+thicknessxOffset3=0.3
 thicknessx3=thicknessx2+(1-thicknessx2)*thicknessxOffset3
-thicknessxOffset4=0.3664161831
-thicknessx4=thicknessx3+(1-thicknessx3)*thicknessxOffset4
-
-#thicknessList = numpy.array([[ 0.,  0],
-#[ 0.,  0.0581612997],
-#   [ thicknessx2,  0.0270721757],
-#   [ thicknessx3,  0.03409493902],
-#   [ thicknessx4,  0.1923609404],
-#   [ 1,   TEGap/2.]])
+#thicknessxOffset4=0.3664161831
+#thicknessx4=thicknessx3+(1-thicknessx3)*thicknessxOffset4
 
 ## TE LE Symmetry
 thicknessList = numpy.array([[ 0.,  0],
-[ 0.,  0.0581612997],
-   [ thicknessx2/2,  0.0270721757],
-   [ thicknessx3/2,  0.03409493902],
-   [ thicknessx4/2,  0.1923609404],
-   [ 1-thicknessx4/2,  0.1923609404],
-   [ 1-thicknessx3/2,  0.03409493902],
-   [ 1-thicknessx2/2,  0.0270721757],
-[ 1.,  0.0581612997],
-   [ 1,   TEGap/2.]])
+[ 0.,  0.05],
+   [ thicknessx2/2,  0.03],
+   [ thicknessx3/2,  0.04],
+#   [ thicknessx4/2,  0.1923609404],
+#   [ 1-thicknessx4/2,  0.1923609404],
+   [ 1-thicknessx3/2,  0.04],
+   [ 1-thicknessx2/2,  0.03],
+[ 1.,  0.05],
+   [ 1,   0]])
 
 deg=len(thicknessList)-1###to reproduce bezier curve behavior
 
@@ -46,31 +39,24 @@ thicknessInterp = interp1d(*thickness)
 #show()
 
 ####camber
-camberx1=0.01002785608
-camberxOffset2=0.1897883398
+camberx1=0.01
+camberxOffset2=0.2
 camberx2=camberx1+(1-camberx1)*camberxOffset2
-camberxOffset3=0.4894257887
+camberxOffset3=0.5
 camberx3=camberx2+(1-camberx2)*camberxOffset3
-camberxOffset4=0.09246983033
-camberx4=camberx3+(1-camberx3)*camberxOffset4
-
-#camberList = numpy.array([[ 0.,  0],
-#   [ camberx1,  0.02481887589],
-#   [ camberx2,  0.1891368349],
-#   [ camberx3,  0.2247985243],
-#   [ camberx4,  0.2543729741],
-#   [ 1,   0]])
+#camberxOffset4=0.09246983033
+#camberx4=camberx3+(1-camberx3)*camberxOffset4
 
 ## TE LE Symmetry
 camberList = numpy.array([[ 0.,  0],
-   [ camberx1/2,  0.02481887589],
-   [ camberx2/2,  0.1891368349],
-   [ camberx3/2,  0.2247985243],
-   [ camberx4/2,  0.2543729741],
-   [ 1-camberx4/2,  0.2543729741],
-   [ 1-camberx3/2,  0.2247985243],
-   [ 1-camberx2/2,  0.1891368349],
-   [ 1-camberx1/2,  0.02481887589],
+   [ camberx1/2,  0.05],
+   [ camberx2/2,  0.3],
+   [ camberx3/2,  0.4],
+#   [ camberx4/2,  0.2543729741],
+#   [ 1-camberx4/2,  0.2543729741],
+   [ 1-camberx3/2,  0.4],
+   [ 1-camberx2/2,  0.3],
+   [ 1-camberx1/2,  0.05],
    [ 1,   0]])
 
 camber = splev(xRange,[t,[camberList[:,0],camberList[:,1]],deg])

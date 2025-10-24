@@ -1,0 +1,3 @@
+increase number of FFD control points to improve performance
+
+mpirun -np 4 surfaceMeshTriangulate -latestTime -patches 'wall' -parallel optShape.stl

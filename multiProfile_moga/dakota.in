@@ -5,12 +5,12 @@ environment,
 method,
 #======
 #	convergence_tolerance 1e-5
-	max_function_evaluations 50
+	max_function_evaluations 1e6
 	moga
 #	initialization_type flat_file 'init_file.dat'
 	initialization_type unique_random
 	seed 1
-	population_size 10
+#	population_size 10
 #	output debug
 
 variables,
@@ -32,7 +32,7 @@ interface,
 	copy_files = 'templateDir/*'#can be removed because nothing to copy
 	named 'workdirs/workdir'
 	file_save directory_save#comment to not save dirs
-	asynchronous evaluation_concurrency 2
+	asynchronous evaluation_concurrency 4
 #	failure_capture continuation
 	failure_capture recover 100
 

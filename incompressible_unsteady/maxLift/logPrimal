@@ -1,0 +1,585 @@
+2025-12-17 00:15:23.297019: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-17 00:15:23.297023: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-17 00:15:23.297020: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-17 00:15:23.297019: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+ 
+-------------------------------------------------------------------------------
+|                               DAFoam v4.0.3                                 |
+-------------------------------------------------------------------------------
+ 
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : v1812 OPENFOAM=1812
+Arch   : "LSB;label=32;scalar=64"
+Exec   : decomposePar
+Date   : Dec 17 2025
+Time   : 00:15:25
+Host   : 300c0780a7dd
+PID    : 695
+I/O    : uncollated
+Case   : /home/dafoamuser/mount
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+
+Decomposing mesh region0
+
+Create mesh
+
+Calculating distribution of cells
+Selecting decompositionMethod scotch [4]
+
+Finished decomposition in 0.05 s
+
+Calculating original mesh data
+
+Distributing cells to processors
+
+Distributing faces to processors
+
+Distributing points to processors
+
+Constructing processor meshes
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 0
+    Number of cells = 9729
+    Number of faces shared with processor 1 = 101
+    Number of faces shared with processor 2 = 12
+    Number of faces shared with processor 3 = 82
+    Number of processor patches = 3
+    Number of processor faces = 195
+    Number of boundary faces = 19743
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 1
+    Number of cells = 9734
+    Number of faces shared with processor 0 = 101
+    Number of faces shared with processor 2 = 58
+    Number of faces shared with processor 3 = 61
+    Number of processor patches = 3
+    Number of processor faces = 220
+    Number of boundary faces = 19753
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 2
+    Number of cells = 9614
+    Number of faces shared with processor 0 = 12
+    Number of faces shared with processor 1 = 58
+    Number of faces shared with processor 3 = 112
+    Number of processor patches = 3
+    Number of processor faces = 182
+    Number of boundary faces = 19510
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 3
+    Number of cells = 9715
+    Number of faces shared with processor 0 = 82
+    Number of faces shared with processor 1 = 61
+    Number of faces shared with processor 2 = 112
+    Number of processor patches = 3
+    Number of processor faces = 255
+    Number of boundary faces = 19731
+
+Number of processor faces = 426
+Max number of cells = 9734 (0.3712105588781192% above average 9698)
+Max number of processor patches = 3 (0% above average 3)
+Max number of faces between processors = 255 (19.71830985915493% above average 213)
+
+Time = 0
+
+Processor 0: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 1: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 2: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 3: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+End
+
+I/O    : uncollated
+Case   : /home/dafoamuser/mount
+nProcs : 4
+Hosts  :
+(
+    (300c0780a7dd 4)
+)
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+Initializing mesh and runtime for DASolver
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Create mesh for time = 0
+Replacing wallDist.method meshWave -> meshWaveFrozen
+DAOpton initialized 
+I/O    : uncollated
+Case   : /home/dafoamuser/mount
+nProcs : 4
+Hosts  :
+(
+    (300c0780a7dd 4)
+)
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+Initializing mesh and runtime for DASolver
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Create mesh for time = 0
+Replacing wallDist.method meshWave -> meshWaveFrozen
+DAOpton initialized 
+Initializing fields for DASimpleFoam
+Create simpleControl.
+
+SIMPLE: no convergence criteria found. Calculations will run for 500 steps.
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+Creating source term. 
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type RAS
+Selecting RAS turbulence model SpalartAllmaras
+Selecting patchDistMethod meshWaveFrozen
+No MRF models present
+
+Turbulence model is incompressible
+Adjoint States: 
+4
+(
+U volVectorState
+nuTilda modelState
+phi surfaceScalarState
+p volScalarState
+)
+Global Cells: 38792
+Global Faces: 156992
+Global Xv: 243720
+Undecomposed points: 80378
+Global Adjoint States: 350952
+
+SIMPLE: no convergence criteria found. Calculations will run for 500 steps.
+
+DACheckMesh Thresholds: 
+maxNonOrth: 70
+maxSkewness: 4
+maxAspectRatio: 5000
+maxIncorrectlyOrientedFaces: 0
+Initializing fields for DASimpleFoam
+Create simpleControl.
+
+SIMPLE: no convergence criteria found. Calculations will run for 500 steps.
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+Creating source term. 
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type RAS
+Selecting RAS turbulence model SpalartAllmaras
+Selecting patchDistMethod meshWaveFrozen
+No MRF models present
+
+Turbulence model is incompressible
+Adjoint States: 
+4
+(
+U volVectorState
+nuTilda modelState
+phi surfaceScalarState
+p volScalarState
+)
+Global Cells: 38792
+Global Faces: 156992
+Global Xv: 243720
+Undecomposed points: 80378
+Global Adjoint States: 350952
+
+SIMPLE: no convergence criteria found. Calculations will run for 500 steps.
+
+DACheckMesh Thresholds: 
+maxNonOrth: 70
+maxSkewness: 4
+maxAspectRatio: 5000
+maxIncorrectlyOrientedFaces: 0
+Init solver done! ElapsedClockTime 1.000000 s
+Init solver done! ElapsedCpuTime 0.820000 s
+initState: 
+6
+(
+nuTilda 4.500000000000508e-05
+phi 0
+U1 0
+U2 0
+p 0
+U0 4.999999999999222
+)
+Setting up primal boundary conditions based on pyOptions: 
+Setting primal boundary conditions...
+Setting U = (18.79385241571817 6.840402866513374 0) at inout
+Setting nut wall BC for profile0. BCType=nutLowReWallFunction
+Setting nut wall BC for profile1. BCType=nutLowReWallFunction
+Reading OpenFOAM mesh information...
+I/O    : uncollated
+Case   : /home/dafoamuser/mount
+nProcs : 4
+Hosts  :
+(
+    (300c0780a7dd 4)
+)
+Pstream initialized with:
+    floatTransfer      : 0
+    nProcsSimpleSum    : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+Reading the OpenFOAM mesh..
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Checking if we need to compress the mesh files
+Checking if we need to compress the mesh files
+Finalising parallel run
+I/O    : uncollated
+DAFoam option dictionary: 
+{
+    solverName      DASimpleFoam;
+    primalMinResTol 1e-16;
+    primalBC
+    {
+        U0
+        {
+            variable        U;
+            patches         1 ( inout );
+            value           3 ( 18.79385241571817 6.840402866513374 0 );
+        }
+        useWallFunction 0;
+    }
+    primalInitCondition
+    {
+    }
+    normalizeStates
+    {
+    }
+    function
+    {
+    }
+    inputInfo
+    {
+    }
+    outputInfo
+    {
+    }
+    designSurfaces  2 ( profile0 profile1 );
+    fvSource
+    {
+    }
+    adjEqnSolMethod Krylov;
+    dynamicMesh
+    {
+        active          0;
+        mode            rotation;
+        center          3 ( 0.25 0 0 );
+        axis            z;
+        omega           0.1;
+    }
+    primalVarBounds
+    {
+        UMax            1000;
+        UMin            -1000;
+        pMax            50000;
+        pMin            -50000;
+        p_rghMax        50000;
+        p_rghMin        -50000;
+        eMax            500000;
+        eMin            100000;
+        TMax            1000;
+        TMin            100;
+        hMax            500000;
+        hMin            100000;
+        DMax            1e+16;
+        DMin            -1e+16;
+        rhoMax          5;
+        rhoMin          0.2;
+        nuTildaMax      1e+16;
+        nuTildaMin      1e-16;
+        kMax            1e+16;
+        kMin            1e-16;
+        omegaMax        1e+16;
+        omegaMin        1e-16;
+        epsilonMax      1e+16;
+        epsilonMin      1e-16;
+        ReThetatMax     1e+16;
+        ReThetatMin     1e-16;
+        gammaIntMax     1e+16;
+        gammaIntMin     1e-16;
+    }
+    discipline      aero;
+    adjPartDerivFDStep
+    {
+        State           1e-06;
+    }
+    transonicPCOption -1;
+    unsteadyAdjoint
+    {
+        mode            None;
+        PCMatPrecomputeInterval 100;
+        PCMatUpdateInterval 1;
+        reduceIO        1;
+        additionalOutput 1 ( None );
+        additionalOldTime 1 ( None );
+        readZeroFields  1;
+    }
+    adjPCLag        10000;
+    useAD
+    {
+        mode            reverse;
+        dvName          None;
+        seedIndex       -9999;
+    }
+    useConstrainHbyA 1;
+    forceMeshWaveFrozen 1;
+    useDdtCorr      0;
+    regressionModel
+    {
+        active          0;
+    }
+    useMeanStates   0;
+    solveLinearFunctionName None;
+    printDAOptions  1;
+    debug           0;
+    writeJacobians  1 ( None );
+    printInterval   100;
+    printIntervalUnsteady 1;
+    primalMinResTolDiff 1e+16;
+    adjUseColoring  1;
+    adjEqnOption
+    {
+        globalPCIters   0;
+        asmOverlap      1;
+        localPCIters    1;
+        jacMatReOrdering rcm;
+        pcFillLevel     1;
+        gmresMaxIters   1000;
+        gmresRestart    1000;
+        gmresRelTol     1e-06;
+        gmresAbsTol     1e-14;
+        gmresTolDiff    100;
+        useNonZeroInitGuess 0;
+        useMGSO         0;
+        printInfo       1;
+        fpMaxIters      1000;
+        fpRelTol        1e-06;
+        fpMinResTolDiff 100;
+        fpPCUpwind      0;
+        dynAdjustTol    0;
+        KSPCalcEigen    0;
+        KSPCalcSingularVal 0;
+        readPCMat       0;
+    }
+    normalizeResiduals 11 ( URes pRes p_rghRes nuTildaRes phiRes TRes DRes kRes omegaRes epsilonRes alpha.waterRes );
+    maxResConLv4JacPCMat
+    {
+        pRes            2;
+        phiRes          1;
+        URes            2;
+        TRes            2;
+        nuTildaRes      2;
+        kRes            2;
+        epsilonRes      2;
+        omegaRes        2;
+        p_rghRes        2;
+        DRes            2;
+        gammaIntRes     2;
+        ReThetatRes     2;
+        alpha.waterRes  2;
+    }
+    jacLowerBounds
+    {
+        dRdW            1e-30;
+        dRdWPC          1e-30;
+    }
+    maxTractionBCIters 100;
+    decomposeParDict
+    {
+        method          scotch;
+        simpleCoeffs
+        {
+            n               3 ( 2 2 1 );
+            delta           0.001;
+        }
+        preservePatches 1 ( None );
+        singleProcessorFaceSets 1 ( None );
+        args            1 ( None );
+    }
+    adjStateOrdering state;
+    checkMeshThreshold
+    {
+        maxAspectRatio  5000;
+        maxNonOrth      70;
+        maxSkewness     4;
+        maxIncorrectlyOrientedFaces 0;
+    }
+    writeDeformedFFDs 0;
+    writeDeformedConstraints 0;
+    writeAdjointFields 0;
+    maxCorrectBCCalls 2;
+    writeMinorIterations 0;
+    primalMinIters  1;
+    tensorflow
+    {
+        active          0;
+    }
+    wallDistanceMethod default;
+    unsteadyCompOutput
+    {
+    }
+}
+
+pyDAFoam initialization done!
+Running Primal Solver 001
+Previous solution time -1e+10 not found and nothing deleted.
+No finite volume options present
+
+Starting time loop
+
+Time = 1
+
+U0 initRes: 0.9999999999999996 finalRes: 0.02585028466826622 nIters: 1
+U1 initRes: 1 finalRes: 0.02284495719452987 nIters: 1
+U2 initRes: 0.9980644763315644 finalRes: 0.0668307323500209 nIters: 4
+p initRes: 1 finalRes: 0.04146829078647776 nIters: 4
+Time step continuity errors : sum local = 0.01950533642066263
+                                 global = -0.0001959279422206894
+                             cumulative = -0.0001959279422206894
+nuTilda initRes: 0.9999999999963662 finalRes: 0.0436933325864758 nIters: 2
+Bounding nuTilda>1e-16
+yPlus min: 1.802795784150538 max: 12.84474635975871 mean: 8.040716688010953
+ExecutionTime = 1.28 s  ClockTime = 1 s
+
+Time = 100
+
+U0 initRes: 0.003246135468674644 finalRes: 0.0002780131329018815 nIters: 4
+U1 initRes: 0.00475660131382967 finalRes: 0.0003491921868086995 nIters: 4
+U2 initRes: 0.05804758727453646 finalRes: 0.004259924652328275 nIters: 2
+p initRes: 0.05586471932094327 finalRes: 0.003955556349767707 nIters: 2
+Time step continuity errors : sum local = 0.003356273259277739
+                                 global = -4.954506328315089e-05
+                             cumulative = -0.0002454730055038402
+nuTilda initRes: 0.03012805918146378 finalRes: 0.002091978514344569 nIters: 3
+Bounding nuTilda>1e-16
+yPlus min: 0.1742003823940883 max: 24.57969913250977 mean: 7.637393524580228
+ExecutionTime = 10.32 s  ClockTime = 10 s
+
+Time = 200
+
+U0 initRes: 0.003181448161537203 finalRes: 0.0002469045509731368 nIters: 3
+U1 initRes: 0.005086244836197489 finalRes: 0.0003569057051945749 nIters: 3
+U2 initRes: 0.03238247616026196 finalRes: 0.002495131975906006 nIters: 2
+p initRes: 0.0215018504669967 finalRes: 0.002045719012634551 nIters: 2
+Time step continuity errors : sum local = 0.001475883992868607
+                                 global = 0.0002127193264233895
+                             cumulative = -3.275367908045073e-05
+nuTilda initRes: 0.007313119597327403 finalRes: 0.0004545239032378745 nIters: 4
+Bounding nuTilda>1e-16
+yPlus min: 0.2582911007469745 max: 28.26088199886344 mean: 9.18549429857835
+ExecutionTime = 19.45 s  ClockTime = 19 s
+
+Time = 300
+
+U0 initRes: 0.003147722045258207 finalRes: 0.0001999713262679657 nIters: 3
+U1 initRes: 0.008512155787340455 finalRes: 0.0008451981550761802 nIters: 2
+U2 initRes: 0.03387519387660505 finalRes: 0.002563149043519943 nIters: 2
+p initRes: 0.01936534908272585 finalRes: 0.001651688576979502 nIters: 2
+Time step continuity errors : sum local = 0.001108810831185043
+                                 global = 0.0001972849877112024
+                             cumulative = 0.0001645313086307517
+nuTilda initRes: 0.008347075523782799 finalRes: 0.000561886055591165 nIters: 4
+Bounding nuTilda>1e-16
+yPlus min: 0.1732738069588741 max: 27.90204382298239 mean: 9.00497889365665
+ExecutionTime = 28.59 s  ClockTime = 29 s
+
+Time = 400
+
+U0 initRes: 0.005547718563020023 finalRes: 0.0003678851900831848 nIters: 3
+U1 initRes: 0.01394586145991083 finalRes: 0.0006893138151858634 nIters: 3
+U2 initRes: 0.0614833407136019 finalRes: 0.004180948296084233 nIters: 2
+p initRes: 0.01267316110099247 finalRes: 0.001044236726237774 nIters: 2
+Time step continuity errors : sum local = 0.00209444176385532
+                                 global = 0.0001101243431768463
+                             cumulative = 0.000274655651807598
+nuTilda initRes: 0.01510273299013637 finalRes: 0.001300769776031813 nIters: 4
+Bounding nuTilda>1e-16
+yPlus min: 0.1101145137069621 max: 30.7995840721853 mean: 9.540396916288074
+ExecutionTime = 37.78 s  ClockTime = 38 s
+
+Time = 500
+
+U0 initRes: 0.008625402095931673 finalRes: 0.0004733122145039148 nIters: 4
+U1 initRes: 0.01316598595496983 finalRes: 0.001013808245647845 nIters: 3
+U2 initRes: 0.09512666113254022 finalRes: 0.009159238613110389 nIters: 2
+p initRes: 0.01691222865128186 finalRes: 0.001401504131018839 nIters: 2
+Time step continuity errors : sum local = 0.003073230060339641
+                                 global = 0.0003059955921155812
+                             cumulative = 0.0005806512439231791
+nuTilda initRes: 0.01294406015516537 finalRes: 0.001231383925449619 nIters: 4
+Bounding nuTilda>1e-16
+yPlus min: 0.2006460441902186 max: 33.08437588902594 mean: 11.40858401224616
+ExecutionTime = 46.94 s  ClockTime = 47 s
+
+End
+
+Finalising parallel run
+Finalising parallel run

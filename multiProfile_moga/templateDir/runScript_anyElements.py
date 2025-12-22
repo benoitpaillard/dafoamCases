@@ -277,13 +277,13 @@ class Top(Multipoint):
 #            self.add_constraint("geometry.linearcon"+str(ii), equals=0.0, scaler=1.0, linear=True)
 #            self.add_constraint("geometry.linearcon2"+str(ii), equals=0.0, scaler=1.0, linear=True)
 
-        self.add_design_var("shape0", lower=-.05, upper=.05, scaler=1)
-        self.add_constraint("geometry.thickcon0", lower=0.5, upper=3.0, scaler=1.0)
-        self.add_design_var("translate1", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=1.0)
-        self.add_design_var("twist1", lower=-3.0, upper=3.0, scaler=1.0)
+        self.add_design_var("shape0", lower=-.05, upper=.05, scaler=10)
+        self.add_constraint("geometry.thickcon0", lower=0.5, upper=3.0, scaler=1)
+        self.add_design_var("translate1", lower=[-0.05, -0.05], upper=[0.05, 0.05], scaler=10)
+        self.add_design_var("twist1", lower=-3.0, upper=3.0, scaler=0.2)
         
         # here we fix the U0 magnitude and allows the aoa to change
-        self.add_design_var("patchV", lower=[U0, 0.0], upper=[U0, 10.0], scaler=1)
+        self.add_design_var("patchV", lower=[U0, 0.0], upper=[U0, 10.0], scaler=0.1)
 
         # add objective and constraints to the top level
         self.add_objective("scenario1.aero_post.CL", scaler=-1.0)

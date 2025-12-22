@@ -1,10 +1,10 @@
-2025-12-17 00:15:23.297019: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-12-17 15:46:10.012138: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-12-17 00:15:23.297023: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-12-17 15:46:10.012138: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-12-17 00:15:23.297020: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-12-17 15:46:10.037174: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-12-17 00:15:23.297019: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2025-12-17 15:46:10.037152: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
  
 -------------------------------------------------------------------------------
@@ -22,9 +22,9 @@ Build  : v1812 OPENFOAM=1812
 Arch   : "LSB;label=32;scalar=64"
 Exec   : decomposePar
 Date   : Dec 17 2025
-Time   : 00:15:25
-Host   : 300c0780a7dd
-PID    : 695
+Time   : 15:46:12
+Host   : 9a7fc72f6920
+PID    : 759
 I/O    : uncollated
 Case   : /home/dafoamuser/mount
 nProcs : 1
@@ -138,7 +138,7 @@ Case   : /home/dafoamuser/mount
 nProcs : 4
 Hosts  :
 (
-    (300c0780a7dd 4)
+    (9a7fc72f6920 4)
 )
 Pstream initialized with:
     floatTransfer      : 0
@@ -159,7 +159,7 @@ Case   : /home/dafoamuser/mount
 nProcs : 4
 Hosts  :
 (
-    (300c0780a7dd 4)
+    (9a7fc72f6920 4)
 )
 Pstream initialized with:
     floatTransfer      : 0
@@ -256,7 +256,7 @@ maxSkewness: 4
 maxAspectRatio: 5000
 maxIncorrectlyOrientedFaces: 0
 Init solver done! ElapsedClockTime 1.000000 s
-Init solver done! ElapsedCpuTime 0.820000 s
+Init solver done! ElapsedCpuTime 0.770000 s
 initState: 
 6
 (
@@ -278,7 +278,7 @@ Case   : /home/dafoamuser/mount
 nProcs : 4
 Hosts  :
 (
-    (300c0780a7dd 4)
+    (9a7fc72f6920 4)
 )
 Pstream initialized with:
     floatTransfer      : 0
@@ -497,87 +497,87 @@ Starting time loop
 
 Time = 1
 
-U0 initRes: 0.9999999999999996 finalRes: 0.02585028466826622 nIters: 1
-U1 initRes: 1 finalRes: 0.02284495719452987 nIters: 1
-U2 initRes: 0.9980644763315644 finalRes: 0.0668307323500209 nIters: 4
-p initRes: 1 finalRes: 0.04146829078647776 nIters: 4
-Time step continuity errors : sum local = 0.01950533642066263
-                                 global = -0.0001959279422206894
-                             cumulative = -0.0001959279422206894
-nuTilda initRes: 0.9999999999963662 finalRes: 0.0436933325864758 nIters: 2
+U0 initRes: 0.9999999999999994 finalRes: 0.02585027030039449 nIters: 1
+U1 initRes: 1 finalRes: 0.02284494281368229 nIters: 1
+U2 initRes: 0.9980736430646485 finalRes: 0.09847760240324926 nIters: 3
+p initRes: 1 finalRes: 0.04139672229391322 nIters: 4
+Time step continuity errors : sum local = 0.01947167312490034
+                                 global = -0.0003387579619373145
+                             cumulative = -0.0003387579619373145
+nuTilda initRes: 0.9999999999963658 finalRes: 0.04372409995124008 nIters: 2
 Bounding nuTilda>1e-16
-yPlus min: 1.802795784150538 max: 12.84474635975871 mean: 8.040716688010953
-ExecutionTime = 1.28 s  ClockTime = 1 s
+yPlus min: 1.803226547420592 max: 12.84241159838573 mean: 8.041183969972346
+ExecutionTime = 1.17 s  ClockTime = 1 s
 
 Time = 100
 
-U0 initRes: 0.003246135468674644 finalRes: 0.0002780131329018815 nIters: 4
-U1 initRes: 0.00475660131382967 finalRes: 0.0003491921868086995 nIters: 4
-U2 initRes: 0.05804758727453646 finalRes: 0.004259924652328275 nIters: 2
-p initRes: 0.05586471932094327 finalRes: 0.003955556349767707 nIters: 2
-Time step continuity errors : sum local = 0.003356273259277739
-                                 global = -4.954506328315089e-05
-                             cumulative = -0.0002454730055038402
-nuTilda initRes: 0.03012805918146378 finalRes: 0.002091978514344569 nIters: 3
+U0 initRes: 0.003464004278295523 finalRes: 0.0002963577320713783 nIters: 4
+U1 initRes: 0.005437423030430814 finalRes: 0.000364521719314099 nIters: 4
+U2 initRes: 0.01551922279426861 finalRes: 0.0009336409830778453 nIters: 3
+p initRes: 0.08285349286918367 finalRes: 0.004966472570395101 nIters: 2
+Time step continuity errors : sum local = 0.004541029333455792
+                                 global = -0.0002555059756986802
+                             cumulative = -0.0005942639376359947
+nuTilda initRes: 0.02941756567437478 finalRes: 0.002271988481996145 nIters: 3
 Bounding nuTilda>1e-16
-yPlus min: 0.1742003823940883 max: 24.57969913250977 mean: 7.637393524580228
-ExecutionTime = 10.32 s  ClockTime = 10 s
+yPlus min: 0.1607112491363204 max: 24.475680008155 mean: 7.473959520520216
+ExecutionTime = 5.64 s  ClockTime = 6 s
 
 Time = 200
 
-U0 initRes: 0.003181448161537203 finalRes: 0.0002469045509731368 nIters: 3
-U1 initRes: 0.005086244836197489 finalRes: 0.0003569057051945749 nIters: 3
-U2 initRes: 0.03238247616026196 finalRes: 0.002495131975906006 nIters: 2
-p initRes: 0.0215018504669967 finalRes: 0.002045719012634551 nIters: 2
-Time step continuity errors : sum local = 0.001475883992868607
-                                 global = 0.0002127193264233895
-                             cumulative = -3.275367908045073e-05
-nuTilda initRes: 0.007313119597327403 finalRes: 0.0004545239032378745 nIters: 4
+U0 initRes: 0.006723328197647067 finalRes: 0.0004066907001048747 nIters: 3
+U1 initRes: 0.009814899287242673 finalRes: 0.0009672688338522637 nIters: 2
+U2 initRes: 0.01441404260414004 finalRes: 0.001290453156607438 nIters: 2
+p initRes: 0.08978881521766742 finalRes: 0.007198934329484027 nIters: 2
+Time step continuity errors : sum local = 0.003362261577634688
+                                 global = 0.0008541117977842812
+                             cumulative = 0.0002598478601482865
+nuTilda initRes: 0.01987522664605519 finalRes: 0.001907474011331331 nIters: 3
 Bounding nuTilda>1e-16
-yPlus min: 0.2582911007469745 max: 28.26088199886344 mean: 9.18549429857835
-ExecutionTime = 19.45 s  ClockTime = 19 s
+yPlus min: 0.1933423329606044 max: 28.90240366181267 mean: 9.077234691878136
+ExecutionTime = 10.11 s  ClockTime = 10 s
 
 Time = 300
 
-U0 initRes: 0.003147722045258207 finalRes: 0.0001999713262679657 nIters: 3
-U1 initRes: 0.008512155787340455 finalRes: 0.0008451981550761802 nIters: 2
-U2 initRes: 0.03387519387660505 finalRes: 0.002563149043519943 nIters: 2
-p initRes: 0.01936534908272585 finalRes: 0.001651688576979502 nIters: 2
-Time step continuity errors : sum local = 0.001108810831185043
-                                 global = 0.0001972849877112024
-                             cumulative = 0.0001645313086307517
-nuTilda initRes: 0.008347075523782799 finalRes: 0.000561886055591165 nIters: 4
+U0 initRes: 0.006242033791178275 finalRes: 0.0003947934276422741 nIters: 4
+U1 initRes: 0.009514170762976577 finalRes: 0.000617221472299278 nIters: 4
+U2 initRes: 0.03750142849557696 finalRes: 0.00203291287164355 nIters: 3
+p initRes: 0.01503044721294648 finalRes: 0.001043210319442199 nIters: 2
+Time step continuity errors : sum local = 0.002500752739527071
+                                 global = -0.0001830882299136773
+                             cumulative = 7.675963023460921e-05
+nuTilda initRes: 0.009519755476646543 finalRes: 0.0007645499064319497 nIters: 4
 Bounding nuTilda>1e-16
-yPlus min: 0.1732738069588741 max: 27.90204382298239 mean: 9.00497889365665
-ExecutionTime = 28.59 s  ClockTime = 29 s
+yPlus min: 0.1566591632770911 max: 31.03282528181406 mean: 9.951323378181755
+ExecutionTime = 14.56 s  ClockTime = 15 s
 
 Time = 400
 
-U0 initRes: 0.005547718563020023 finalRes: 0.0003678851900831848 nIters: 3
-U1 initRes: 0.01394586145991083 finalRes: 0.0006893138151858634 nIters: 3
-U2 initRes: 0.0614833407136019 finalRes: 0.004180948296084233 nIters: 2
-p initRes: 0.01267316110099247 finalRes: 0.001044236726237774 nIters: 2
-Time step continuity errors : sum local = 0.00209444176385532
-                                 global = 0.0001101243431768463
-                             cumulative = 0.000274655651807598
-nuTilda initRes: 0.01510273299013637 finalRes: 0.001300769776031813 nIters: 4
+U0 initRes: 0.009103246543437096 finalRes: 0.0007890401866784546 nIters: 3
+U1 initRes: 0.0167331690841171 finalRes: 0.001010319538726199 nIters: 3
+U2 initRes: 0.04570632791240015 finalRes: 0.004296679809898749 nIters: 2
+p initRes: 0.02376971942130078 finalRes: 0.002344293352065005 nIters: 2
+Time step continuity errors : sum local = 0.00505552003879474
+                                 global = 0.0005687932879793276
+                             cumulative = 0.0006455529182139368
+nuTilda initRes: 0.02249034734907047 finalRes: 0.001805372964249043 nIters: 4
 Bounding nuTilda>1e-16
-yPlus min: 0.1101145137069621 max: 30.7995840721853 mean: 9.540396916288074
-ExecutionTime = 37.78 s  ClockTime = 38 s
+yPlus min: 0.1004229700328854 max: 31.93367316888163 mean: 9.622731145256646
+ExecutionTime = 19.03 s  ClockTime = 19 s
 
 Time = 500
 
-U0 initRes: 0.008625402095931673 finalRes: 0.0004733122145039148 nIters: 4
-U1 initRes: 0.01316598595496983 finalRes: 0.001013808245647845 nIters: 3
-U2 initRes: 0.09512666113254022 finalRes: 0.009159238613110389 nIters: 2
-p initRes: 0.01691222865128186 finalRes: 0.001401504131018839 nIters: 2
-Time step continuity errors : sum local = 0.003073230060339641
-                                 global = 0.0003059955921155812
-                             cumulative = 0.0005806512439231791
-nuTilda initRes: 0.01294406015516537 finalRes: 0.001231383925449619 nIters: 4
+U0 initRes: 0.008601738700430139 finalRes: 0.0005226051896148801 nIters: 4
+U1 initRes: 0.01633156142691978 finalRes: 0.0008973703322182203 nIters: 4
+U2 initRes: 0.05717346936287693 finalRes: 0.005217598978329866 nIters: 2
+p initRes: 0.01428021719002473 finalRes: 0.001004463122330187 nIters: 2
+Time step continuity errors : sum local = 0.002852360596826752
+                                 global = 0.0001140871333091043
+                             cumulative = 0.0007596400515230411
+nuTilda initRes: 0.01270108253867773 finalRes: 0.0009673025224780371 nIters: 4
 Bounding nuTilda>1e-16
-yPlus min: 0.2006460441902186 max: 33.08437588902594 mean: 11.40858401224616
-ExecutionTime = 46.94 s  ClockTime = 47 s
+yPlus min: 0.1701521695098888 max: 34.38945199724392 mean: 11.1800592260358
+ExecutionTime = 23.51 s  ClockTime = 24 s
 
 End
 

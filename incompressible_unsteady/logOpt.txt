@@ -1,0 +1,151 @@
+ 
+-------------------------------------------------------------------------------
+|                               DAFoam v4.0.3                                 |
+-------------------------------------------------------------------------------
+ 
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : v1812 OPENFOAM=1812
+Arch   : "LSB;label=32;scalar=64"
+Exec   : decomposePar
+Date   : Dec 17 2025
+Time   : 16:46:41
+Host   : 3e1cc84ea068
+PID    : 484
+--> FOAM Warning : 
+    From function Foam::fileName Foam::cwd_L()
+    in file POSIX.C at line 380
+    PWD is not the cwd() - reverting to physical description
+I/O    : uncollated
+--> FOAM Warning : 
+    From function Foam::fileName Foam::cwd_L()
+    in file POSIX.C at line 380
+    PWD is not the cwd() - reverting to physical description
+Case   : /home/dafoamuser/mount/cruise
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+
+Decomposing mesh region0
+
+Create mesh
+
+Calculating distribution of cells
+Selecting decompositionMethod scotch [4]
+
+Finished decomposition in 0.13 s
+
+Calculating original mesh data
+
+Distributing cells to processors
+
+Distributing faces to processors
+
+Distributing points to processors
+
+Constructing processor meshes
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 0
+    Number of cells = 9729
+    Number of faces shared with processor 1 = 101
+    Number of faces shared with processor 2 = 12
+    Number of faces shared with processor 3 = 82
+    Number of processor patches = 3
+    Number of processor faces = 195
+    Number of boundary faces = 19743
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 1
+    Number of cells = 9734
+    Number of faces shared with processor 0 = 101
+    Number of faces shared with processor 2 = 58
+    Number of faces shared with processor 3 = 61
+    Number of processor patches = 3
+    Number of processor faces = 220
+    Number of boundary faces = 19753
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 2
+    Number of cells = 9614
+    Number of faces shared with processor 0 = 12
+    Number of faces shared with processor 1 = 58
+    Number of faces shared with processor 3 = 112
+    Number of processor patches = 3
+    Number of processor faces = 182
+    Number of boundary faces = 19510
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+Processor 3
+    Number of cells = 9715
+    Number of faces shared with processor 0 = 82
+    Number of faces shared with processor 1 = 61
+    Number of faces shared with processor 2 = 112
+    Number of processor patches = 3
+    Number of processor faces = 255
+    Number of boundary faces = 19731
+
+Number of processor faces = 426
+Max number of cells = 9734 (0.3712105588781192% above average 9698)
+Max number of processor patches = 3 (0% above average 3)
+Max number of faces between processors = 255 (19.71830985915493% above average 213)
+
+Time = 0
+
+Processor 0: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 1: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 2: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+Processor 3: field transfer
+Overriding DebugSwitches according to controlDict
+    SolverPerformance 0;
+
+
+End
+
+[1]PETSC ERROR: ------------------------------------------------------------------------
+[1]PETSC ERROR: Caught signal number 11 SEGV: Segmentation Violation, probably memory access out of range
+[1]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[1]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind
+[1]PETSC ERROR: or try http://valgrind.org on GNU/linux and Apple Mac OS X to find memory corruption errors
+[1]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[1]PETSC ERROR: to get more information on the crash.
+[1]PETSC ERROR: Run with -malloc_debug to check if memory corruption is causing the crash.
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 1 in communicator MPI_COMM_WORLD
+with errorcode 59.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------

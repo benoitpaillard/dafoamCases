@@ -16,9 +16,9 @@ method,
 variables,
 #=========					
 	continuous_design = 10
-initial_point  	0.2	0.01	0.8	0.7	0.5	0.35	-35	0.98	-0.12	0.25
-lower_bounds	0.01	0.01	0.7	0.6	0.1	0.3	-40	0.95	-0.15	0.2
-upper_bounds	0.3	0.2	1.	0.9	0.9	0.4	-30	1.	-0.1	0.3
+initial_point  	0.2	0.01	0.8	0.7	0.5	0.35	-35	0.98	-0.12	0.1#0.25
+lower_bounds	0.01	0.01	0.7	0.6	0.1	0.3	-40	0.95	-0.15	0.05#0.2
+upper_bounds	0.3	0.2	1.	0.9	0.9	0.4	-30	1.	-0.1	0.15#0.3
 descriptor  	'xtop' 'xbot' 	'ytop2' 'ybot1' 'ybot2' 'ytop1Thick' 'flapRotation' 'flapX' 'flapY' 'flapCamber'
 scale_types = 'auto'
 

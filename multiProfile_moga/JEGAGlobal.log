@@ -259,3 +259,126 @@ Global Log logging to console window
 19:22:27: quiet- duplicate_free: 89 evaluations so far.
 04:05:07: quiet- duplicate_free: 3 generations so far.
 04:05:07: quiet- duplicate_free: 121 evaluations so far.
+14:25:12: quiet- duplicate_free: 4 generations so far.
+14:25:12: quiet- duplicate_free: 159 evaluations so far.
+06:18:44: quiet- duplicate_free: 5 generations so far.
+06:18:44: quiet- duplicate_free: 207 evaluations so far.
+19:19:05: quiet- duplicate_free: 6 generations so far.
+19:19:05: quiet- duplicate_free: 246 evaluations so far.
+08:07:32: quiet- duplicate_free: 7 generations so far.
+08:07:32: quiet- duplicate_free: 283 evaluations so far.
+21:42:53: quiet- duplicate_free: 8 generations so far.
+21:42:53: quiet- duplicate_free: 323 evaluations so far.
+11:42:11: quiet- duplicate_free: 9 generations so far.
+11:42:11: quiet- duplicate_free: 371 evaluations so far.
+02:02:47: quiet- duplicate_free: 10 generations so far.
+02:02:47: quiet- duplicate_free: 417 evaluations so far.
+18:04:32: quiet- duplicate_free: 11 generations so far.
+18:04:32: quiet- duplicate_free: 465 evaluations so far.
+08:21:29: quiet- duplicate_free: 12 generations so far.
+08:21:29: quiet- duplicate_free: 513 evaluations so far.
+01:22:07: quiet- duplicate_free: 13 generations so far.
+01:22:07: quiet- duplicate_free: 558 evaluations so far.
+16:23:01: quiet- duplicate_free: 14 generations so far.
+16:23:01: quiet- duplicate_free: 610 evaluations so far.
+08:56:21: quiet- duplicate_free: 15 generations so far.
+08:56:21: quiet- duplicate_free: 660 evaluations so far.
+01:01:09: quiet- duplicate_free: 16 generations so far.
+01:01:09: quiet- duplicate_free: 711 evaluations so far.
+16:20:59: quiet- duplicate_free: 17 generations so far.
+16:20:59: quiet- duplicate_free: 760 evaluations so far.
+08:50:13: quiet- duplicate_free: 18 generations so far.
+08:50:13: quiet- duplicate_free: 810 evaluations so far.
+01:56:51: quiet- duplicate_free: 19 generations so far.
+01:56:51: quiet- duplicate_free: 864 evaluations so far.
+17:34:52: quiet- duplicate_free: 20 generations so far.
+17:34:52: quiet- duplicate_free: 921 evaluations so far.
+12:25:29: quiet- duplicate_free: 21 generations so far.
+12:25:29: quiet- duplicate_free: 972 evaluations so far.
+08:15:39: quiet- duplicate_free: 22 generations so far.
+08:15:39: quiet- duplicate_free: 1024 evaluations so far.
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Fri Nov  7 19:11:37 2025
+
+Global Log initialized using "normal" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+19:11:37: quiet- JEGA Front End: Random seed = 1
+19:11:37: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+19:11:37: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+13:12:02: quiet- duplicate_free: 1 generation so far.
+13:12:02: quiet- duplicate_free: 50 evaluations so far.
+02:09:02: quiet- duplicate_free: 2 generations so far.
+02:09:02: quiet- duplicate_free: 89 evaluations so far.
+16:35:09: quiet- duplicate_free: 3 generations so far.
+16:35:09: quiet- duplicate_free: 130 evaluations so far.
+08:49:13: quiet- duplicate_free: 4 generations so far.
+08:49:13: quiet- duplicate_free: 186 evaluations so far.
+08:00:32: quiet- duplicate_free: 5 generations so far.
+08:00:32: quiet- duplicate_free: 247 evaluations so far.
+03:02:19: quiet- duplicate_free: 6 generations so far.
+03:02:19: quiet- duplicate_free: 313 evaluations so far.
+06:19:05: quiet- duplicate_free: 7 generations so far.
+06:19:05: quiet- duplicate_free: 397 evaluations so far.
+08:28:08: quiet- duplicate_free: 8 generations so far.
+08:28:08: quiet- duplicate_free: 494 evaluations so far.
+14:03:00: quiet- duplicate_free: 9 generations so far.
+14:03:00: quiet- duplicate_free: 603 evaluations so far.
+02:53:16: quiet- duplicate_free: 10 generations so far.
+02:53:16: quiet- duplicate_free: 730 evaluations so far.
+16:21:56: quiet- duplicate_free: 11 generations so far.
+16:21:56: quiet- duplicate_free: 870 evaluations so far.
+08:05:03: quiet- duplicate_free: 12 generations so far.
+08:05:03: quiet- duplicate_free: 1028 evaluations so far.
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Fri Nov 21 10:22:18 2025
+
+Global Log initialized using "normal" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+10:22:18: quiet- JEGA Front End: Random seed = 1
+10:22:18: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+10:22:18: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Fri Nov 21 11:06:41 2025
+
+Global Log initialized using "normal" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+11:06:41: quiet- JEGA Front End: Random seed = 1
+11:06:41: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+11:06:41: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+08:08:10: quiet- duplicate_free: 1 generation so far.
+08:08:10: quiet- duplicate_free: 50 evaluations so far.
+00:30:25: quiet- duplicate_free: 2 generations so far.
+00:30:25: quiet- duplicate_free: 89 evaluations so far.
+10:16:41: quiet- duplicate_free: 3 generations so far.
+10:16:41: quiet- duplicate_free: 121 evaluations so far.
+21:19:56: quiet- duplicate_free: 4 generations so far.
+21:19:56: quiet- duplicate_free: 151 evaluations so far.
+06:55:42: quiet- duplicate_free: 5 generations so far.
+06:55:42: quiet- duplicate_free: 179 evaluations so far.
+20:57:18: quiet- duplicate_free: 6 generations so far.
+20:57:18: quiet- duplicate_free: 213 evaluations so far.
+08:06:58: quiet- duplicate_free: 7 generations so far.
+08:06:58: quiet- duplicate_free: 253 evaluations so far.
+23:22:02: quiet- duplicate_free: 8 generations so far.
+23:22:02: quiet- duplicate_free: 300 evaluations so far.
+16:58:51: quiet- duplicate_free: 9 generations so far.
+16:58:51: quiet- duplicate_free: 353 evaluations so far.
+21:00:57: quiet- duplicate_free: 10 generations so far.
+21:00:57: quiet- duplicate_free: 427 evaluations so far.
+01:59:36: quiet- duplicate_free: 11 generations so far.
+01:59:36: quiet- duplicate_free: 511 evaluations so far.
+09:31:00: quiet- duplicate_free: 12 generations so far.
+09:31:00: quiet- duplicate_free: 601 evaluations so far.
+18:47:34: quiet- duplicate_free: 13 generations so far.
+18:47:34: quiet- duplicate_free: 699 evaluations so far.
+04:10:41: quiet- duplicate_free: 14 generations so far.
+04:10:41: quiet- duplicate_free: 799 evaluations so far.
+20:39:22: quiet- duplicate_free: 15 generations so far.
+20:39:22: quiet- duplicate_free: 911 evaluations so far.
+11:24:14: quiet- duplicate_free: 16 generations so far.
+11:24:14: quiet- duplicate_free: 1028 evaluations so far.
+08:24:51: quiet- duplicate_free: 17 generations so far.
+08:24:51: quiet- duplicate_free: 1153 evaluations so far.

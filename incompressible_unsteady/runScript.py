@@ -6,6 +6,7 @@ DAFoam run script for the NACA0012 airfoil at low-speed (unsteady)
 # =============================================================================
 # Imports
 # =============================================================================
+import glob
 import argparse, os
 import numpy as np
 from mpi4py import MPI
@@ -40,10 +41,11 @@ CLMaxLift = 1.0
 A0 = 0.1
 rho0 = 1.0
 
+profiles=['profile'+str(i) for i in range(len(glob.glob('profile*.stl')))]
 
 # Set the parameters for optimization
 daOptionsCruise = {
-    "designSurfaces": ["wing"],
+    "designSurfaces": profiles,
     "solverName": "DASimpleFoam",
     "primalMinResTol": 1.0e-8,
     "primalBC": {
@@ -56,7 +58,7 @@ daOptionsCruise = {
         "CD": {
             "type": "force",
             "source": "patchToFace",
-            "patches": ["wing"],
+            "patches": profiles,
             "directionMode": "parallelToFlow",
             "patchVelocityInputName": "patchV",
             "scale": 1.0 / (0.5 * U0Cruise * U0Cruise * A0 * rho0),
@@ -64,7 +66,7 @@ daOptionsCruise = {
         "CL": {
             "type": "force",
             "source": "patchToFace",
-            "patches": ["wing"],
+            "patches": profiles,
             "directionMode": "normalToFlow",
             "patchVelocityInputName": "patchV",
             "scale": 1.0 / (0.5 * U0Cruise * U0Cruise * A0 * rho0),
@@ -90,7 +92,7 @@ daOptionsCruise = {
 }
 
 daOptionsMaxLift = {
-    "designSurfaces": ["wing"],
+    "designSurfaces": profiles,
     "solverName": "DAPimpleFoam",
     "primalBC": {
         "U0": {"variable": "U", "patches": ["inout"], "value": [U0MaxLift, 0.0, 0.0]},
@@ -110,7 +112,7 @@ daOptionsMaxLift = {
         "CD": {
             "type": "force",
             "source": "patchToFace",
-            "patches": ["wing"],
+            "patches": profiles,
             "directionMode": "parallelToFlow",
             "patchVelocityInputName": "patchV",
             "scale": 1.0 / (0.5 * U0MaxLift * U0MaxLift * A0 * rho0),
@@ -118,7 +120,7 @@ daOptionsMaxLift = {
         "CL": {
             "type": "force",
             "source": "patchToFace",
-            "patches": ["wing"],
+            "patches": profiles,
             "directionMode": "normalToFlow",
             "patchVelocityInputName": "patchV",
             "scale": 1.0 / (0.5 * U0MaxLift * U0MaxLift * A0 * rho0),
@@ -172,7 +174,7 @@ class Top(Multipoint):
         self.add_subsystem("dvs", om.IndepVarComp(), promotes=["*"])
 
         # add the max_lift scenario (unsteady)
-        self.add_subsystem("geometry_max_lift", OM_DVGEOCOMP(file="cruise/FFD/wingFFD.xyz", type="ffd"))
+        self.add_subsystem("geometry_max_lift", OM_DVGEOCOMP(file="cruise/FFD/profile0.xyz", type="ffd"))
 
         self.add_subsystem(
             "scenario_max_lift",
@@ -185,7 +187,7 @@ class Top(Multipoint):
         cruise_builder.initialize(self.comm)
 
         self.add_subsystem("mesh_cruise", cruise_builder.get_mesh_coordinate_subsystem())
-        self.add_subsystem("geometry_cruise", OM_DVGEOCOMP(file="cruise/FFD/wingFFD.xyz", type="ffd"))
+        self.add_subsystem("geometry_cruise", OM_DVGEOCOMP(file="cruise/FFD/profile0.xyz", type="ffd"))
         self.mphys_add_scenario("scenario_cruise", ScenarioAerodynamic(aero_builder=cruise_builder))
         self.connect("mesh_cruise.x_aero0", "geometry_cruise.x_aero_in")
         self.connect("geometry_cruise.x_aero0", "scenario_cruise.x_aero")

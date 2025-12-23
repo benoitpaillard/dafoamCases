@@ -24,5 +24,5 @@ for ii in range(nElements):
 	
 ##debug
 
-numpy.savetxt('LEconsProfile0',[1e-3,1e-3,0])
-numpy.savetxt('TEconsProfile0',[1-1e-3,1e-3,0])
+#numpy.savetxt('LEconsProfile0',[1e-3,1e-3,0])
+#numpy.savetxt('TEconsProfile0',[1-1e-3,1e-3,0])

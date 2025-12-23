@@ -16,6 +16,7 @@ from pyspline import Curve
 from mphys.multipoint import Multipoint
 from dafoam.mphys import DAFoamBuilder, OptFuncs
 from mphys.scenario_aerodynamic import ScenarioAerodynamic
+from dafoam.mphys.mphys_dafoam import DAFoamBuilderUnsteady
 from pygeo.mphys import OM_DVGEOCOMP
 from pygeo import geo_utils
 
@@ -56,6 +57,14 @@ daOptions = {
         "nuTilda0": {"variable": "nuTilda", "patches": ["inout"], "value": [nuTilda0]},
         "useWallFunction": True,
     },
+    "unsteadyAdjoint": {
+        "mode": "timeAccurate",
+        "PCMatPrecomputeInterval": 100,
+        "PCMatUpdateInterval": 1,
+        "reduceIO": True,
+        "zeroInitFields": False,
+    },
+    "printIntervalUnsteady": 1,
     "function": {
         "CD": {
             "type": "force",

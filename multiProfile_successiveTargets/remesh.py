@@ -6,13 +6,13 @@ os.system("./Allclean.sh; rm -rf *.stl iter*;~/FreeCAD*.AppImage -c multiProfile
 
 os.system('rm -rf results;mkdir results')
 
-Cls=numpy.arange(3,5,0.1)
+Cls=numpy.arange(3,3.6,0.05)
 
 for ii in range(len(Cls)):
 
 	os.system("sed -i 's/^CL_target =.*/CL_target = "+str(Cls[ii])+"/' runScript_anyElements.py")
 
-	os.system("docker run --rm -u dafoamuser --mount \"type=bind,src=$(pwd),target=/home/dafoamuser/mount\" -w /home/dafoamuser/mount dafoam/opt-packages:v4.0.1 bash -c '. /home/dafoamuser/dafoam/OpenFOAM/OpenFOAM-v1812/etc/bashrc && . /home/dafoamuser/dafoam/loadDAFoam.sh && mpirun -np 16 /home/dafoamuser/dafoam/packages/miniconda3/bin/python runScript_anyElements.py 2>&1 | tee logOpt"+str(ii)+".txt'")
+	os.system("docker run --rm -u dafoamuser --mount \"type=bind,src=$(pwd),target=/home/dafoamuser/mount\" -w /home/dafoamuser/mount dafoam/opt-packages:v4.0.1 bash -c '. /home/dafoamuser/dafoam/OpenFOAM/OpenFOAM-v1812/etc/bashrc && . /home/dafoamuser/dafoam/loadDAFoam.sh && mpirun -np 32 /home/dafoamuser/dafoam/packages/miniconda3/bin/python runScript_anyElements.py 2>&1 | tee logOpt"+str(ii)+".txt'")
 
 	os.system('reconstructPar')
 

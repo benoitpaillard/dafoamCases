@@ -7,8 +7,8 @@ if os.path.exists('profile'):os.remove('profile')
 if os.path.exists('box'):os.remove('box')
 
 rotations=[0,-38.01979412]#[0,-40]
-translations=[[0,0],[0.9664187219,-0.1465122362]]#[[0,0],[0.98,-.12]]
-scales=[1,1]
+translations=[[0,0],[0.9664187219-.2,-0.1465122362]]#[[0,0],[0.98,-.12]]
+scales=[0.8,1.2]#[1,1]
 
 
 ##Generating profile

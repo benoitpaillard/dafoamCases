@@ -35,7 +35,7 @@ profiles=['profile'+str(i) for i in range(len(glob.glob('profile*.stl')))]
 U0 = 5.0
 p0 = 0.0
 nuTilda0 = 4.5e-5#nu*4.349*(turbl)**0.25
-CL_target = 3.
+CL_target = 3.0
 aoa0 = 0
 #A0 = 1*(1+0.5+0.5)
 A0 = .1*(len(profiles))
@@ -333,9 +333,15 @@ if args.optimizer == "IPOPT":
         "nlp_scaling_method": "none",
         "alpha_for_y": "full",
         "recalc_y": "yes",
-        'acceptable_tol': 1.0e-4,            # loosen acceptable KKT threshold
+        'acceptable_tol': 1.0e-2,            # loosen acceptable KKT threshold
         'acceptable_iter': 1,                # stop after 1 acceptable iterate
-        'acceptable_obj_change_tol': 1.0e-3, # objective change threshold
+        'acceptable_obj_change_tol': 1.0e-2, # objective change threshold
+        # optional: if you *still* want feasibility reasonably tight before early-stop
+"acceptable_constr_viol_tol": 1e-2,     # or 1e-4 if 1e-5 is too strict for your run
+# optional: if complementarity matters for your inequality constraints/bounds
+#"acceptable_compl_inf_tol": 1e-3,       # default is 1e-2
+        "print_info_string": "yes",
+	"print_level": 7,
     }
 #elif args.optimizer == "SLSQP":
 #    prob.driver.opt_settings = {

@@ -1,0 +1,14 @@
+processor*
+__pycache__
+*.bin
+*.info
+constant/polyMesh/*
+FFD/*
+iter*
+*.stl
+log*
+xx*
+workdirs
+*.obj
+*.vtp
+0

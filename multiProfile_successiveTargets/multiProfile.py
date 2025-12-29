@@ -6,7 +6,7 @@ doc=FreeCAD.newDocument()
 if os.path.exists('profile'):os.remove('profile')
 if os.path.exists('box'):os.remove('box')
 
-mainJibRatio=3
+mainJibRatio=2
 jibL=2/(1+mainJibRatio)
 mainL=mainJibRatio*jibL
 

@@ -1,6 +1,8 @@
 import os, subprocess,glob,numpy
 
-for jj in numpy.arange(.5,1.6,.1):
+for jj in [2]:#numpy.arange(.5,3,.25):
+
+	os.system("sed -i 's/^mainJibRatio=.*/mainJibRatio="+str(jj)+"/' multiProfile.py")
 
 	os.system("./Allclean.sh; rm -rf *.stl iter*;~/FreeCAD*.AppImage -c multiProfile.py; python3 ffdRead.py; python3 prePro.py")
 

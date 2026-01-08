@@ -1,14 +1,12 @@
 import os, subprocess,glob
 
-#os.system('sleep '+str(10*(float(os.getcwd().split('.')[-1])-1)))
-
 os.system("./Allclean.sh; rm -rf *.stl iter*;~/FreeCAD*.AppImage -c multiProfile.py; python3 ffdRead.py; python3 prePro.py")
 
 os.system('rm -rf results;mkdir results')
 
 for ii in range(1):
 
-	os.system("docker run --rm -u dafoamuser --cpus='8' --mount \"type=bind,src=$(pwd),target=/home/dafoamuser/mount\" -w /home/dafoamuser/mount dafoam/opt-packages:v4.0.1 bash -c '. /home/dafoamuser/dafoam/OpenFOAM/OpenFOAM-v1812/etc/bashrc && . /home/dafoamuser/dafoam/loadDAFoam.sh && mpirun -np 8 /home/dafoamuser/dafoam/packages/miniconda3/bin/python runScript_anyElements.py 2>&1 | tee logOpt"+str(ii)+".txt'")
+	os.system("docker run --rm -u dafoamuser --mount \"type=bind,src=$(pwd),target=/home/dafoamuser/mount\" -w /home/dafoamuser/mount dafoam/opt-packages:v4.0.3 bash -c '. /home/dafoamuser/dafoam/OpenFOAM/OpenFOAM-v1812/etc/bashrc && . /home/dafoamuser/dafoam/loadDAFoam.sh && mpirun -np 8 /home/dafoamuser/dafoam/packages/miniconda3/bin/python runScript_anyElements.py 2>&1 | tee logOpt"+str(ii)+".txt'")
 
 #	os.system('reconstructPar')
 

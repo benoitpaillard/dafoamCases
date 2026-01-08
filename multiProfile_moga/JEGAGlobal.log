@@ -382,3 +382,59 @@ Global Log logging to console window
 11:24:14: quiet- duplicate_free: 1028 evaluations so far.
 08:24:51: quiet- duplicate_free: 17 generations so far.
 08:24:51: quiet- duplicate_free: 1153 evaluations so far.
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Fri Jan  2 20:55:53 2026
+
+Global Log initialized using "normal" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+20:55:53: quiet- JEGA Front End: Random seed = 1
+20:55:53: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+20:55:53: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Fri Jan  2 20:56:59 2026
+
+Global Log initialized using "normal" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+20:56:59: quiet- JEGA Front End: Random seed = 1
+20:56:59: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+20:56:59: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Sun Jan  4 17:42:27 2026
+
+Global Log initialized using "normal" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+17:42:27: quiet- JEGA Front End: Random seed = 1
+17:42:27: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+17:42:27: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+19:58:37: quiet- duplicate_free: 1 generation so far.
+19:58:37: quiet- duplicate_free: 50 evaluations so far.
+11:47:27: quiet- duplicate_free: 2 generations so far.
+11:47:27: quiet- duplicate_free: 89 evaluations so far.
+00:22:25: quiet- duplicate_free: 3 generations so far.
+00:22:25: quiet- duplicate_free: 121 evaluations so far.
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Tue Jan  6 10:40:01 2026
+
+Global Log initialized using "normal" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+10:40:01: quiet- JEGA Front End: Random seed = 1
+10:40:01: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+10:40:01: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+10:40:01: quiet- duplicate_free: 1 generation so far.
+10:40:01: quiet- duplicate_free: 50 evaluations so far.
+10:40:01: quiet- duplicate_free: 2 generations so far.
+10:40:01: quiet- duplicate_free: 89 evaluations so far.
+10:40:01: quiet- duplicate_free: 3 generations so far.
+10:40:01: quiet- duplicate_free: 121 evaluations so far.
+12:52:35: quiet- duplicate_free: 4 generations so far.
+12:52:35: quiet- duplicate_free: 151 evaluations so far.
+23:27:16: quiet- duplicate_free: 5 generations so far.
+23:27:16: quiet- duplicate_free: 177 evaluations so far.
+08:10:59: quiet- duplicate_free: 6 generations so far.
+08:10:59: quiet- duplicate_free: 199 evaluations so far.
+20:26:22: quiet- duplicate_free: 7 generations so far.
+20:26:22: quiet- duplicate_free: 228 evaluations so far.

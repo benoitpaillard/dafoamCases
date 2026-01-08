@@ -6,9 +6,13 @@ doc=FreeCAD.newDocument()
 if os.path.exists('profile'):os.remove('profile')
 if os.path.exists('box'):os.remove('box')
 
+mainJibRatio=2
+jibL=2/(1+mainJibRatio)
+mainL=mainJibRatio*jibL
+
 rotations=[0,{flapRotation}]#[0,-40]
-translations=[[0,0],[{flapX},{flapY}]]#[[0,0],[0.98,-.12]]
-scales=[1,1]
+translations=[[0,0],[mainL+{flapX},{flapY}]]#[[0,0],[0.98,-.12]]
+scales=[mainL,jibL]#[1,1]
 
 
 ##Generating profile
